@@ -136,12 +136,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function mostrarCliente() {
+            var inputCliente = document.getElementById('buscarCliente').value.trim(); // Obtiene el valor del input y elimina espacios en blanco
             var clienteInfo = document.querySelector('.cliente-info');
-            if (clienteInfo.classList.contains('hidden')) {
-                clienteInfo.classList.remove('hidden');
+    
+            if (inputCliente === "") { // Comprueba si el campo está vacío
+                alert("Por favor, llenar el campo de Cédula del Cliente antes de buscar."); // Muestra un mensaje de alerta
+            } else {
+                // Si el campo no está vacío, muestra la información del cliente
+                if (clienteInfo.classList.contains('hidden')) {
+                    clienteInfo.classList.remove('hidden');
+                }
             }
         }
-    </script>  
+    </script>
+     
     <footer>
     <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
   </footer> 
