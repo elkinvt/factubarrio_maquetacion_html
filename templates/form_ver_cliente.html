@@ -45,6 +45,7 @@
             display: none;
         }
     </style>
+
 </head>
 <body>
     <div class="mx-auto" style="font-size: 100px; font-weight: bold; text-align: center; margin-top: -20px;">
@@ -86,27 +87,40 @@
   </ul>
   <script>
     function buscarCliente() {
-        var cedula = document.getElementById('cedulaBuscar').value;
-        var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-        var clienteEncontrado = clientes.find(cliente => cliente.cedula === cedula);
-    
-        var divResultado = document.getElementById('resultadoBusqueda');
-        divResultado.innerHTML = ''; // Limpiar resultados anteriores
-    
-        if (clienteEncontrado) {
-            var infoCliente = `<div>
-                <h4>Información del Cliente:</h4>
-                <p>Nombre: ${clienteEncontrado.nombre} ${clienteEncontrado.apellido}</p>
-                <p>Cédula: ${clienteEncontrado.cedula}</p>
-                <p>Teléfono: ${clienteEncontrado.telefono}</p>
-                <p>Dirección: ${clienteEncontrado.direccion}</p>
-                <p>Email: ${clienteEncontrado.email}</p>
-            </div>`;
-            divResultado.innerHTML = infoCliente;
-        } else {
-            divResultado.innerHTML = '<p>No se encontró un cliente con esa cédula.</p>';
-        }
+    var cedula = document.getElementById('cedulaBuscar').value;
+    var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    var clienteEncontrado = clientes.find(cliente => cliente.cedula === cedula);
+
+    var divResultado = document.getElementById('resultadoBusqueda');
+    divResultado.innerHTML = ''; // Limpiar resultados anteriores
+
+    if (clienteEncontrado) {
+        var infoCliente = `
+            <h4>Información del Cliente:</h4>
+            <div class="cliente-datos px-5">  <!-- Añadido padding con Bootstrap -->
+                <label>Nombre:</label>
+                <input type="text" class="form-control mb-2" value="${clienteEncontrado.nombre}" readonly>
+                <label>Apellidos:</label>
+                <input type="text" class="form-control mb-2" value="${clienteEncontrado.apellido}" readonly>
+                <label>Cédula:</label>
+                <input type="text" class="form-control mb-2" value="${clienteEncontrado.cedula}" readonly>
+                <label>Teléfono:</label>
+                <input type="text" class="form-control mb-2" value="${clienteEncontrado.telefono}" readonly>
+                <label>Dirección:</label>
+                <input type="text" class="form-control mb-2" value="${clienteEncontrado.direccion}" readonly>
+                <label>Email:</label>
+                <input type="email" class="form-control mb-2" value="${clienteEncontrado.email}" readonly>
+            </div>
+        `;
+        divResultado.innerHTML = infoCliente;
+    } else {
+        divResultado.innerHTML = '<p>No se encontró un cliente con esa cédula.</p>';
     }
+}
+
+
+
+
     </script>
     
   <script>
