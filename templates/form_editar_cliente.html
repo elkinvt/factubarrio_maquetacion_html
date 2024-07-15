@@ -126,10 +126,24 @@
                 <input type="email" class="form-control" id="emailCliente" name="emailCliente" required>
             </div>
             <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+
+          
         </form>
+        <form>
+             <div class="mb-3">
+            <label for="cedulaEliminar" class="form-label mt-2">Cédula del Cliente a Eliminar:</label>
+            <input type="text" class="form-control" id="cedulaEliminar" name="cedulaEliminar" required> 
+            <button class="btn btn-danger mt-2" onclick="eliminarUsuario()">Eliminar Usuario </button>
+        </div>
+        
+        </form>
+       
+
+        
         <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
             Cambios guardados correctamente.
         </div>
+
     </div>
     <script>
         function guardarCambios() {
