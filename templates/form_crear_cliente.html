@@ -53,7 +53,7 @@
         <a class="nav-link dropdown-toggle" id="dropdownClientes" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Clientes</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownClientes">
             <li><a class="dropdown-item" href="form_ver_cliente.html">Ver Clientes</a></li>
-            <li><a class="dropdown-item" href="crear_cliente.html">crear Cliente</a></li>
+            <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
             <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
         </ul>
     </li>
@@ -83,32 +83,33 @@
   </ul>
   <script>
     function guardarCliente() {
-        var nombre = document.getElementById('nombreCliente').value;
-        var apellido = document.getElementById('apellidoCliente').value;
-        var cedula = document.getElementById('cedulaCliente').value;
-        var telefono = document.getElementById('telefonoCliente').value;
-        var direccion = document.getElementById('direccionCliente').value;
-        var email = document.getElementById('emailCliente').value;
+    var nombre = document.getElementById('nombreCliente').value;
+    var apellido = document.getElementById('apellidoCliente').value;
+    var cedula = document.getElementById('cedulaCliente').value;
+    var telefono = document.getElementById('telefonoCliente').value;
+    var direccion = document.getElementById('direccionCliente').value;
+    var email = document.getElementById('emailCliente').value;
 
-        var cliente = {
-            nombre: nombre,
-            apellido: apellido,
-            cedula: cedula,
-            telefono: telefono,
-            direccion: direccion,
-            email: email
-        };
-
-        // Recupera la lista de clientes del localStorage y la convierte de JSON a un objeto de JavaScript
-        var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-        
-        // Agrega el nuevo cliente al array de clientes
-        clientes.push(cliente);
-
-        // Guarda el array de clientes actualizado en localStorage
-        localStorage.setItem('clientes', JSON.stringify(clientes));
-        alert('Cliente guardado con éxito!');
+    if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
+        alert('Por favor, complete todos los campos antes de guardar.');
+        return; // Detiene la función si algún campo está vacío
     }
+
+    var cliente = {
+        nombre: nombre,
+        apellido: apellido,
+        cedula: cedula,
+        telefono: telefono,
+        direccion: direccion,
+        email: email
+    };
+
+    var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    clientes.push(cliente);
+    localStorage.setItem('clientes', JSON.stringify(clientes));
+    alert('Cliente guardado con éxito!');
+}
+
 </script>
   <script>
         function cerrarSesion() {
