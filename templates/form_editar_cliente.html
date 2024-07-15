@@ -90,30 +90,7 @@
     <input type="text" class="form-control" id="buscarCedula">
     <button onclick="buscarYEditarCliente()" class="btn btn-primary mt-2">Buscar</button>
 </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-    const params = new URLSearchParams(window.location.search);
-    const cedula = params.get('cedula');  // Obtener la cédula desde la URL
-    cargarDatosCliente(cedula);
-});
 
-function cargarDatosCliente(cedula) {
-    var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    var clienteEncontrado = clientes.find(cliente => cliente.cedula === cedula);
-
-    if (clienteEncontrado) {
-        document.getElementById('nombreCliente').value = clienteEncontrado.nombre;
-        document.getElementById('apellidoCliente').value = clienteEncontrado.apellido;
-        document.getElementById('cedulaCliente').value = clienteEncontrado.cedula;
-        document.getElementById('telefonoCliente').value = clienteEncontrado.telefono;
-        document.getElementById('direccionCliente').value = clienteEncontrado.direccion;
-        document.getElementById('emailCliente').value = clienteEncontrado.email;
-    } else {
-        alert('Cliente no encontrado');
-    }
-}
-
-  </script>
   <script>
         function cerrarSesion() {
             localStorage.clear();  
@@ -134,7 +111,7 @@ function cargarDatosCliente(cedula) {
             </div>
             <div class="mb-3">
                 <label for="cedulaCliente" class="form-label">Cédula</label>
-                <input type="text" class="form-control" id="cedulaCliente" name="cedulaCliente" required>
+                <input type="text" class="form-control" id="cedulaCliente" name="cedulaCliente" readonly>
             </div>
             <div class="mb-3">
                 <label for="telefonoCliente" class="form-label">Teléfono</label>
@@ -170,7 +147,46 @@ function cargarDatosCliente(cedula) {
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-     
+    <script>
+        function buscarYEditarCliente() {
+        var cedula = document.getElementById('buscarCedula').value;
+        var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+        var cliente = clientes.find(cliente => cliente.cedula === cedula);
+    
+        if (cliente) {
+            document.getElementById('nombreCliente').value = cliente.nombre;
+            document.getElementById('apellidoCliente').value = cliente.apellido;
+            document.getElementById('cedulaCliente').value = cliente.cedula;
+            document.getElementById('telefonoCliente').value = cliente.telefono;
+            document.getElementById('direccionCliente').value = cliente.direccion;
+            document.getElementById('emailCliente').value = cliente.email;
+            document.getElementById('datosCliente').style.display = 'block';
+        } else {
+            alert('Cliente no encontrado');
+            document.getElementById('datosCliente').style.display = 'none';
+        }
+    }
+    
+    function guardarCambios() {
+        var cedula = document.getElementById('buscarCedula').value;
+        var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+        var cliente = clientes.find(cliente => cliente.cedula === cedula);
+    
+        if (cliente) {
+            cliente.nombre = document.getElementById('nombreCliente').value;
+            cliente.apellido = document.getElementById('apellidoCliente').value;
+            cliente.telefono = document.getElementById('telefonoCliente').value;
+            cliente.direccion = document.getElementById('direccionCliente').value;
+            cliente.email = document.getElementById('emailCliente').value;
+            
+            localStorage.setItem('clientes', JSON.stringify(clientes));
+            alert('Cambios guardados correctamente');
+        } else {
+            alert('Error al guardar los cambios');
+        }
+    }
+    
+      </script>
     <footer>
     <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
   </footer> 
