@@ -90,17 +90,18 @@
     </li>
   </ul>
   <script>
-    function guardarCliente() {
+   function guardarCliente() {
     var nombre = document.getElementById('nombreCliente').value;
     var apellido = document.getElementById('apellidoCliente').value;
     var cedula = document.getElementById('cedulaCliente').value;
     var telefono = document.getElementById('telefonoCliente').value;
     var direccion = document.getElementById('direccionCliente').value;
     var email = document.getElementById('emailCliente').value;
+    var isActive = true; // Valor predeterminado al crear un nuevo cliente
 
     if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
         alert('Por favor, complete todos los campos antes de guardar.');
-        return; 
+        return; // Detiene la función si algún campo está vacío
     }
 
     var cliente = {
@@ -109,19 +110,18 @@
         cedula: cedula,
         telefono: telefono,
         direccion: direccion,
-        email: email
+        email: email,
+        isActive: isActive  // Asegúrate de que esta línea está correctamente separada con una coma
     };
 
     var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
     clientes.push(cliente);
     localStorage.setItem('clientes', JSON.stringify(clientes));
-
     
-    limpiarFormulario();
+    limpiarFormulario();  // Función que limpia el formulario después de guardar
 
     alert('Cliente guardado con éxito!');
 }
-
 
 function limpiarFormulario() {
     document.getElementById('nombreCliente').value = '';

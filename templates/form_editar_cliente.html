@@ -134,6 +134,8 @@
                 <label for="emailCliente" class="form-label">Email</label>
                 <input type="email" class="form-control" id="emailCliente" name="emailCliente" required>
             </div>
+            </form>
+            
 
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
@@ -187,6 +189,7 @@
             document.getElementById('telefonoCliente').value = cliente.telefono;
             document.getElementById('direccionCliente').value = cliente.direccion;
             document.getElementById('emailCliente').value = cliente.email;
+            document.getElementById('clienteActivo').checked = cliente.isActive;
             document.getElementById('datosCliente').style.display = 'block';
         } else {
             alert('Cliente no encontrado');
@@ -216,28 +219,37 @@
       </script>
       <script>
         function limpiarCampos() {
-    // Asumiendo que todos los campos de entrada están dentro de un div con clase 'container'
+    
     var inputs = document.querySelectorAll('.container input');
     inputs.forEach(input => {
-        input.value = '';  // Limpia el valor de cada campo
+        input.value = '';  
     });
 }
 
       </script>
       <script>
         function toggleEstadoCliente() {
-    var cedula = document.getElementById('buscarCedula').value;
+    var cedula = document.getElementById('buscarCedula').value; // Asegúrate de tener un campo para ingresar la cédula.
     var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
     var cliente = clientes.find(cliente => cliente.cedula === cedula);
 
     if (cliente) {
-        cliente.isBlocked = !cliente.isBlocked;  // Toggle the blocked state
+        cliente.isActive = !cliente.isActive;  // Cambia el estado de activo a inactivo y viceversa.
         localStorage.setItem('clientes', JSON.stringify(clientes));
-        alert(cliente.isBlocked ? 'Cliente bloqueado.' : 'Cliente desbloqueado.');
+        alert(cliente.isActive ? 'Cliente activado.' : 'Cliente bloqueado.');
+        actualizarEstadoVisual(cliente.isActive); // Actualiza la interfaz para reflejar el cambio de estado.
     } else {
         alert('Cliente no encontrado.');
     }
 }
+
+function actualizarEstadoVisual(isActive) {
+    var checkbox = document.getElementById('clienteActivo');
+    if (checkbox) {
+        checkbox.checked = isActive;
+    }
+}
+
     
       </script>
       <script>
@@ -245,7 +257,7 @@
     var cedula = document.getElementById('buscarCedula').value;
     if (!cedula) {
         alert("Por favor ingrese la cédula del cliente que desea eliminar.");
-        return;  // Detiene la ejecución si no se ha ingresado la cédula
+        return; 
     }
 
     var confirmacion = confirm("¿Estás seguro de que deseas eliminar este cliente? Esta acción no se puede deshacer.");
@@ -255,7 +267,7 @@
 
         if (clientes.length !== nuevosClientes.length) {
             localStorage.setItem('clientes', JSON.stringify(nuevosClientes));
-            limpiarCampos();  // Limpia los campos después de eliminar el cliente
+            limpiarCampos();  
             alert('Cliente eliminado.');
         } else {
             alert('No se encontró un cliente con esa cédula.');

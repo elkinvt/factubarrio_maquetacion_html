@@ -106,7 +106,7 @@
     if (clienteEncontrado) {
         var infoCliente = `
             <h4>Información del Cliente:</h4>
-            <div class="cliente-datos px-5">  <!-- Añadido padding con Bootstrap -->
+            <div class="cliente-datos px-5">
                 <label>Nombre:</label>
                 <input type="text" class="form-control mb-2" value="${clienteEncontrado.nombre}" readonly>
                 <label>Apellidos:</label>
@@ -119,13 +119,15 @@
                 <input type="text" class="form-control mb-2" value="${clienteEncontrado.direccion}" readonly>
                 <label>Email:</label>
                 <input type="email" class="form-control mb-2" value="${clienteEncontrado.email}" readonly>
+                <label>Estado:</label>
+                <input type="text" class="form-control mb-2" value="${clienteEncontrado.isActive ? 'Activo' : 'Bloqueado'}" readonly>
             </div>
         `;
-         divResultado.innerHTML = infoCliente;
-         } else {
-             divResultado.innerHTML = '<p>No se encontró un cliente con esa cédula.</p>';
-         }
-     }
+        divResultado.innerHTML = infoCliente;
+    } else {
+        divResultado.innerHTML = '<p>No se encontró un cliente con esa cédula.</p>';
+    }
+}
 
     </script>
     
