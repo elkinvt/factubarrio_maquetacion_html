@@ -92,7 +92,7 @@
     var clienteEncontrado = clientes.find(cliente => cliente.cedula === cedula);
 
     var divResultado = document.getElementById('resultadoBusqueda');
-    divResultado.innerHTML = ''; // Limpiar resultados anteriores
+    divResultado.innerHTML = ''; 
 
     if (clienteEncontrado) {
         var infoCliente = `
@@ -112,14 +112,11 @@
                 <input type="email" class="form-control mb-2" value="${clienteEncontrado.email}" readonly>
             </div>
         `;
-        divResultado.innerHTML = infoCliente;
-    } else {
-        divResultado.innerHTML = '<p>No se encontró un cliente con esa cédula.</p>';
-    }
-}
-
-
-
+         divResultado.innerHTML = infoCliente;
+         } else {
+             divResultado.innerHTML = '<p>No se encontró un cliente con esa cédula.</p>';
+         }
+     }
 
     </script>
     
@@ -130,14 +127,13 @@
             window.location.href = 'index.html';
         }
   </script>
-   <div class="container mt-5">
-    <h2>Buscar Cliente por Cédula</h2>
-    <input type="text" id="cedulaBuscar" placeholder="Ingrese cédula del cliente" class="form-control">
-    <button type="button" class="btn btn-primary mt-3" onclick="buscarCliente()">Buscar</button>
-</div>
-<div id="resultadoBusqueda" class="container mt-5"></div>
+        <div class="container mt-5">
+             <h2>Buscar Cliente por Cédula</h2>
+            <input type="text" id="cedulaBuscar" placeholder="Ingrese cédula del cliente" class="form-control">
+             <button type="button" class="btn btn-primary mt-3" onclick="buscarCliente()">Buscar</button>
+        </div>
+        <div id="resultadoBusqueda" class="container mt-5"></div>
 
-       
         <div class="cliente-info mt-5 hidden">
             <h3>Información del Cliente</h3>
             <form>
@@ -172,13 +168,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function mostrarCliente() {
-            var inputCliente = document.getElementById('buscarCliente').value.trim(); // Obtiene el valor del input y elimina espacios en blanco
+            var inputCliente = document.getElementById('buscarCliente').value.trim(); 
             var clienteInfo = document.querySelector('.cliente-info');
     
-            if (inputCliente === "") { // Comprueba si el campo está vacío
-                alert("Por favor, llenar el campo de Cédula del Cliente antes de buscar."); // Muestra un mensaje de alerta
+            if (inputCliente === "") {
+                alert("Por favor, llenar el campo de Cédula del Cliente antes de buscar."); 
             } else {
-                // Si el campo no está vacío, muestra la información del cliente
+                
                 if (clienteInfo.classList.contains('hidden')) {
                     clienteInfo.classList.remove('hidden');
                 }
@@ -187,7 +183,7 @@
     </script>
      
     <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer> 
+     <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </footer> 
 </body>
 </html>

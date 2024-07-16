@@ -92,7 +92,7 @@
 
     if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
         alert('Por favor, complete todos los campos antes de guardar.');
-        return; // Detiene la función si algún campo está vacío
+        return; 
     }
 
     var cliente = {
@@ -108,13 +108,13 @@
     clientes.push(cliente);
     localStorage.setItem('clientes', JSON.stringify(clientes));
 
-    // Limpiar campos del formulario después de guardar
+    
     limpiarFormulario();
 
     alert('Cliente guardado con éxito!');
 }
 
-// Función para limpiar los campos del formulario
+
 function limpiarFormulario() {
     document.getElementById('nombreCliente').value = '';
     document.getElementById('apellidoCliente').value = '';

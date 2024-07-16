@@ -210,7 +210,7 @@
     var cedula = document.getElementById('cedulaEliminar').value;
     var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
     
-    // Agregar confirmación antes de eliminar
+
     if (confirm('¿Estás seguro de que deseas eliminar al usuario con cédula: ' + cedula + '?')) {
         var nuevosClientes = clientes.filter(cliente => cliente.cedula !== cedula);
         localStorage.setItem('clientes', JSON.stringify(nuevosClientes));
