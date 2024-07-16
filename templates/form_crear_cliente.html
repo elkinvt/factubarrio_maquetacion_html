@@ -107,8 +107,23 @@
     var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
     clientes.push(cliente);
     localStorage.setItem('clientes', JSON.stringify(clientes));
+
+    // Limpiar campos del formulario después de guardar
+    limpiarFormulario();
+
     alert('Cliente guardado con éxito!');
 }
+
+// Función para limpiar los campos del formulario
+function limpiarFormulario() {
+    document.getElementById('nombreCliente').value = '';
+    document.getElementById('apellidoCliente').value = '';
+    document.getElementById('cedulaCliente').value = '';
+    document.getElementById('telefonoCliente').value = '';
+    document.getElementById('direccionCliente').value = '';
+    document.getElementById('emailCliente').value = '';
+}
+
 
 </script>
   <script>

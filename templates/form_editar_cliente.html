@@ -125,10 +125,13 @@
                 <label for="emailCliente" class="form-label">Email</label>
                 <input type="email" class="form-control" id="emailCliente" name="emailCliente" required>
             </div>
-            <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
 
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+            </div>
           
         </form>
+
         <form>
              <div class="mb-3">
             <label for="cedulaEliminar" class="form-label mt-2">Cédula del Cliente a Eliminar:</label>
@@ -200,6 +203,23 @@
         }
     }
     
+      </script>
+
+      <script>
+        function eliminarUsuario() {
+    var cedula = document.getElementById('cedulaEliminar').value;
+    var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    
+    // Agregar confirmación antes de eliminar
+    if (confirm('¿Estás seguro de que deseas eliminar al usuario con cédula: ' + cedula + '?')) {
+        var nuevosClientes = clientes.filter(cliente => cliente.cedula !== cedula);
+        localStorage.setItem('clientes', JSON.stringify(nuevosClientes));
+        alert('Usuario eliminado si existía.');
+    } else {
+        alert('Eliminación cancelada.');
+    }
+}
+
       </script>
     <footer>
     <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
