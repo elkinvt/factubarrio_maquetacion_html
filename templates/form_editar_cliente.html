@@ -64,7 +64,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
-            <li><a class="dropdown-item" href="#">Ver Vendedores</a></li>
+            <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
             <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
             <li><a class="dropdown-item" href="#">editar Vendedor</a></li>
         </ul>
@@ -179,6 +179,10 @@
     <script>
         function buscarYEditarCliente() {
         var cedula = document.getElementById('buscarCedula').value;
+        if (!cedula) {  // Verifica si el campo 'cedulaBuscar' está vacío
+        alert("Por favor, ingrese la cédula del Cliente antes de buscar.");
+        return;  // Detiene la ejecución de la función si el campo está vacío
+    }
         var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
         var cliente = clientes.find(cliente => cliente.cedula === cedula);
     
