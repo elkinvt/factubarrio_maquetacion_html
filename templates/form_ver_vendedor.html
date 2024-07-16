@@ -96,39 +96,7 @@
   </ul>
   
 </script>
-  <script>
-    function buscarVendedor() {
-    var cedula = document.getElementById('cedulaBuscar').value;
-    if (!cedula) {  // Verifica si el campo 'cedulaBuscar' está vacío
-        alert("Por favor, ingrese la cédula del vendedor antes de buscar.");
-        return;  // Detiene la ejecución de la función si el campo está vacío
-    }
 
-    var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-var cedula = document.getElementById('cedulaBuscar').value; // Asegúrate de que 'cedulaBuscar' es el ID correcto del input donde se ingresa la cédula.
-var VendedorEncontrado = Vendedores.find(vendedor => vendedor.cedula === cedula);
-var divResultado = document.getElementById('resultadoBusqueda');
-
-if (VendedorEncontrado) {
-    var infoVendedor = `
-        <h4>Información del Vendedor:</h4>
-        <div>
-            <p><strong>Nombre:</strong> ${VendedorEncontrado.nombre}</p>
-            <p><strong>Apellidos:</strong> ${VendedorEncontrado.apellido}</p>
-            <p><strong>Cédula:</strong> ${VendedorEncontrado.cedula}</p>
-            <p><strong>Teléfono:</strong> ${VendedorEncontrado.telefono}</p>
-            <p><strong>Dirección:</strong> ${VendedorEncontrado.direccion}</p>
-            <p><strong>Email:</strong> ${VendedorEncontrado.email}</p>
-        </div>
-    `;
-    divResultado.innerHTML = infoVendedor;
-} else {
-    divResultado.innerHTML = '<p>No se encontró un vendedor con esa cédula.</p>';
-}
-
-}
-
-    </script>
     
   <script>
         function cerrarSesion() {
@@ -144,36 +112,36 @@ if (VendedorEncontrado) {
         </div>
         <div id="resultadoBusqueda" class="container mt-5"></div>
 
-        <div class="Vendedor-info mt-5 hidden">
+        <div class="container mt-5">
             <h3>Información del Vendedor</h3>
             <form>
                 <div class="mb-3">
                     <label>Nombre</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="nombreVendedor" readonly> <!-- ID añadido aquí -->
                 </div>
                 <div class="mb-3">
                     <label>Apellidos</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="apellidoVendedor" readonly> <!-- ID añadido aquí -->
                 </div>
                 <div class="mb-3">
                     <label>Cédula</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="cedulaVendedor" readonly > <!-- ID añadido aquí -->
                 </div>
                 <div class="mb-3">
                     <label>Teléfono</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="telefonoVendedor" readonly> <!-- ID añadido aquí -->
                 </div>
                 <div class="mb-3">
                     <label>Dirección</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" id="direccionVendedor" readonly> <!-- ID añadido aquí -->
                 </div>
                 <div class="mb-3">
                     <label>Email</label>
-                    <input type="email" class="form-control">
+                    <input type="email" class="form-control" id="emailVendedor" readonly> <!-- ID añadido aquí -->
                 </div>
             </form>
         </div>
-    </div>
+        
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -191,6 +159,37 @@ if (VendedorEncontrado) {
             }
         }
     </script>
+      <script>
+        function buscarVendedor() {
+        var cedula = document.getElementById('cedulaBuscar').value;
+        if (!cedula) {
+            alert("Por favor, ingrese la cédula del vendedor antes de buscar.");
+            return;
+        }
+    
+        console.log("Cédula ingresada:", cedula); // Depurar cédula ingresada
+    
+        var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+        console.log("Vendedores cargados:", Vendedores); // Depurar vendedores cargados
+    
+        var VendedorEncontrado = Vendedores.find(vendedor => vendedor.cedula === cedula);
+        console.log("Vendedor encontrado:", VendedorEncontrado); // Depurar vendedor encontrado
+    
+        var divResultado = document.getElementById('resultadoBusqueda');
+    
+        if (VendedorEncontrado) {
+            document.getElementById('nombreVendedor').value = VendedorEncontrado.nombre;
+            document.getElementById('apellidoVendedor').value = VendedorEncontrado.apellido;
+            document.getElementById('cedulaVendedor').value = VendedorEncontrado.cedula;
+            document.getElementById('telefonoVendedor').value = VendedorEncontrado.telefono;
+            document.getElementById('direccionVendedor').value = VendedorEncontrado.direccion;
+            document.getElementById('emailVendedor').value = VendedorEncontrado.email;
+        } else {
+            divResultado.innerHTML = '<p>No se encontró un vendedor con esa cédula.</p>';
+        }
+    }
+    
+        </script>
      
     <footer>
      <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
