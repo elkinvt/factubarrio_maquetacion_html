@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>factubarrio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url('../imagenes/logo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 5px; 
+        }
+        .cerrar-sesion {
+            position: fixed;
+            top: 5px;
+            right: 10px;
+            z-index: 1000;
+        }
+        footer {
+            margin-top: auto;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.0);
+            color: white;
+            padding: 5px 0;
+            text-align: right;
+        }
+        .mx-auto {
+            font-size: 100px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: -20px;  
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="mx-auto" style="font-size: 100px; font-weight: bold; text-align: center; margin-top: -20px;">
+        factubarrio
+    </div>
+
+  <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
+     <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="dropdownClientes" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Clientes</a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownClientes">
+            <li><a class="dropdown-item" href="form_ver_cliente.html">Ver Clientes</a></li>
+            <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
+            <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
+            <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
+            <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
+            <li><a class="dropdown-item" href="form_editar_vendedor.html">editar Vendedor</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
+            <li><a class="dropdown-item" href="#">Ver Productos</a></li>
+            <li><a class="dropdown-item" href="#">Agregar Producto</a></li>
+            <li><a class="dropdown-item" href="#">editar producto</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
+            <li><a class="dropdown-item" href="#">Ver Facturas</a></li>
+            <li><a class="dropdown-item" href="#">generar Factura</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
+            <li><a class="dropdown-item" href="#">Ver usuarios</a></li>
+            <li><a class="dropdown-item" href="#">crear usuario</a></li>
+            <li><a class="dropdown-item" href="#">editar usuario</a></li>
+        </ul>
+    </li>
+    
+  </ul>
+  <div class="container mt-5">
+    <label for="buscarCedula" class="form-label">Cédula del Vendedor:</label>
+    <input type="text" class="form-control" id="buscarCedula">
+    <button onclick="buscarYEditarVendedor()" class="btn btn-primary mt-2">Buscar</button>
+</div>
+
+  <script>
+        function cerrarSesion() {
+            localStorage.clear();  
+            sessionStorage.clear(); 
+            window.location.href = 'index.html';
+        }
+  </script>
+    <div class="container mt-5">
+        <h2>Editar Vendedor</h2>
+        <form action="/update-Vendedor" method="post">
+            <div class="mb-3">
+                <label for="nombreVendedor" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombreVendedor" name="nombreVendedor" required>
+            </div>
+            <div class="mb-3">
+                <label for="apellidoVendedor" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidoVendedor" name="apellidoVendedor" required>
+            </div>
+            <div class="mb-3">
+                <label for="cedulaVendedor" class="form-label">Cédula</label>
+                <input type="text" class="form-control" id="cedulaVendedor" name="cedulaVendedor" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="telefonoVendedor" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" id="telefonoVendedor" name="telefonoVendedor">
+            </div>
+            <div class="mb-3">
+                <label for="direccionVendedor" class="form-label">Dirección</label>
+                <input type="text" class="form-control" id="direccionVendedor" name="direccionVendedor" required>
+            </div>
+            <div class="mb-3">
+                <label for="emailvendeor" class="form-label">Email</label>
+                <input type="email" class="form-control" id="emailVendedor" name="emailVendedor" required>
+            </div>
+            </form>
+            
+
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+            </div>
+          
+        </form>
+        <form>
+            <div class="container mt-5">
+                <h2>Detalles del Vendedor</h2>
+                <div id="vendedorDetalles" class="hidden">
+                    <!-- Campos existentes... -->
+                </div>
+                <!-- Botones para controlar el estado del Vendedor -->
+                <button type="button" class="btn btn-warning" onclick="toggleEstadoVendedor()">Bloquear/Desbloquear vendedor</button>
+                <button type="button" class="btn btn-danger" onclick="eliminarVendedor()">Eliminar Vendedor</button>
+            </div>
+            
+        </form>
+        
+        <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
+            Cambios guardados correctamente.
+        </div>
+
+    </div>
+    <script>
+        function guardarCambios() {
+           
+            console.log('Guardando cambios...');
+    
+           
+            document.getElementById('successMessage').style.display = 'block';
+    
+           
+            setTimeout(function() {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000); 
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function buscarYEditarVendedor() {
+        var cedula = document.getElementById('buscarCedula').value;
+        if (!cedula) {  // Verifica si el campo 'cedulaBuscar' está vacío
+        alert("Por favor, ingrese la cédula del Vendedor antes de buscar.");
+        return;  // Detiene la ejecución de la función si el campo está vacío
+    }
+        var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+        var vendedor = Vendedores.find(Vendedor => Vendedor.cedula === cedula);
+    
+        if (Vendedores) {
+            document.getElementById('nombreVendedor').value = Vendedor.nombre;
+            document.getElementById('apellidoVendedor').value = Vendedor.apellido;
+            document.getElementById('cedulaVendedor').value = Vendedor.cedula;
+            document.getElementById('telefonoVendedor').value = Vendedor.telefono;
+            document.getElementById('direccionVendedor').value = Vendedor.direccion;
+            document.getElementById('emailVendedor').value = Vendedor.email;
+            document.getElementById('VendedorActivo').checked = Vendedores.isActive;
+            document.getElementById('datosVendedor').style.display = 'block';
+        } else {
+            alert('Vendedor no encontrado');
+            document.getElementById('datosVendedor').style.display = 'none';
+        }
+    }
+    
+    function guardarCambios() {
+        var cedula = document.getElementById('buscarCedula').value;
+        var Vendedor = JSON.parse(localStorage.getItem('Vendedor')) || [];
+        var Vendedor = Vendedor.find(Vendedor => Vendedor.cedula === cedula);
+    
+        if (Vendedor) {
+            Vendedor.nombre = document.getElementById('nombrevendedor').value;
+            Vendedor.apellido = document.getElementById('apellidoVendedor').value;
+            Vendedor.telefono = document.getElementById('telefonoVendedor').value;
+            Vendedor.direccion = document.getElementById('direccionVendedor').value;
+            Vendedor.email = document.getElementById('emailVendedor').value;
+            
+            localStorage.setItem('Vendedor', JSON.stringify(Vendedor));
+            alert('Cambios guardados correctamente');
+        } else {
+            alert('Error al guardar los cambios');
+        }
+    }
+    
+      </script>
+      <script>
+        function limpiarCampos() {
+    
+    var inputs = document.querySelectorAll('.container input');
+    inputs.forEach(input => {
+        input.value = '';  
+    });
+}
+
+      </script>
+      <script>
+        function toggleEstadovendedor() {
+    var cedula = document.getElementById('buscarCedula').value; // Asegúrate de tener un campo para ingresar la cédula.
+    var Vendedor = JSON.parse(localStorage.getItem('Vendedor')) || [];
+    var Vendedor = Vendedor.find(Vendedor => Vendedor.cedula === cedula);
+
+    if (Vendedor) {
+        Vendedor.isActive = !Vendedor.isActive;  // Cambia el estado de activo a inactivo y viceversa.
+        localStorage.setItem('Vendedor', JSON.stringify(Vendedor));
+        alert(Vendedor.isActive ? 'Vendedor activado.' : 'Vendedor bloqueado.');
+        actualizarEstadoVisual(Vendedor.isActive); // Actualiza la interfaz para reflejar el cambio de estado.
+    } else {
+        alert('Vendedor no encontrado.');
+    }
+}
+
+function actualizarEstadoVisual(isActive) {
+    var checkbox = document.getElementById('VendedorActivo');
+    if (checkbox) {
+        checkbox.checked = isActive;
+    }
+}
+
+    
+      </script>
+      <script>
+        function eliminarVendedor() {
+    var cedula = document.getElementById('buscarCedula').value;
+    if (!cedula) {
+        alert("Por favor ingrese la cédula del Vendedor que desea eliminar.");
+        return; 
+    }
+
+    var confirmacion = confirm("¿Estás seguro de que deseas eliminar este Vendedor? Esta acción no se puede deshacer.");
+    if (confirmacion) {
+        var Vendedor = JSON.parse(localStorage.getItem('vendedores')) || [];
+        var nuevosVendedores = Vendedores.filter(Vendedor => Vendedor.cedula !== cedula);
+
+        if (Vendedores.length !== nuevosVendedores.length) {
+            localStorage.setItem('Vendedores', JSON.stringify(nuevosVendedores));
+            limpiarCampos();  
+            alert('Vendedor eliminado.');
+        } else {
+            alert('No se encontró un Vendedor con esa cédula.');
+        }
+    }
+}
+
+      </script>
+
+    <footer>
+    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+  </footer> 
+</body>
+</html>

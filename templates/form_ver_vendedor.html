@@ -104,33 +104,28 @@
         return;  // Detiene la ejecución de la función si el campo está vacío
     }
 
-    var Vendedor = JSON.parse(localStorage.getItem('Vendedor')) || [];
-    var VendedorEncontrado = Vendedor.find(Vendedor => Vendedor.cedula === cedula);
-    var divResultado = document.getElementById('resultadoBusqueda');
-    divResultado.innerHTML = ''; 
+    var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+var cedula = document.getElementById('cedulaBuscar').value; // Asegúrate de que 'cedulaBuscar' es el ID correcto del input donde se ingresa la cédula.
+var VendedorEncontrado = Vendedores.find(vendedor => vendedor.cedula === cedula);
+var divResultado = document.getElementById('resultadoBusqueda');
 
-    if (VendedorEncontrado) {
-        var infoVendedor = `
-            <h4>Información del Vendedor:</h4>
-            <div class="Vendedor-datos px-5">
-                <label>Nombre:</label>
-                <input type="text" class="form-control mb-2" value="${VendedorEncontrado.nombre}" readonly>
-                <label>Apellidos:</label>
-                <input type="text" class="form-control mb-2" value="${VendedorEncontrado.apellido}" readonly>
-                <label>Cédula:</label>
-                <input type="text" class="form-control mb-2" value="${VendedorEncontrado.cedula}" readonly>
-                <label>Teléfono:</label>
-                <input type="text" class="form-control mb-2" value="${VendedorEncontrado.telefono}" readonly>
-                <label>Dirección:</label>
-                <input type="text" class="form-control mb-2" value="${VendedorEncontrado.direccion}" readonly>
-                <label>Email:</label>
-                <input type="email" class="form-control mb-2" value="${VendedorEncontrado.email}" readonly>
-            </div>
-        `;
-        divResultado.innerHTML = infoVendedor;
-    } else {
-        divResultado.innerHTML = '<p>No se encontró un vendedor con esa cédula.</p>';
-    }
+if (VendedorEncontrado) {
+    var infoVendedor = `
+        <h4>Información del Vendedor:</h4>
+        <div>
+            <p><strong>Nombre:</strong> ${VendedorEncontrado.nombre}</p>
+            <p><strong>Apellidos:</strong> ${VendedorEncontrado.apellido}</p>
+            <p><strong>Cédula:</strong> ${VendedorEncontrado.cedula}</p>
+            <p><strong>Teléfono:</strong> ${VendedorEncontrado.telefono}</p>
+            <p><strong>Dirección:</strong> ${VendedorEncontrado.direccion}</p>
+            <p><strong>Email:</strong> ${VendedorEncontrado.email}</p>
+        </div>
+    `;
+    divResultado.innerHTML = infoVendedor;
+} else {
+    divResultado.innerHTML = '<p>No se encontró un vendedor con esa cédula.</p>';
+}
+
 }
 
     </script>

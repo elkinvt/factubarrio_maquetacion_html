@@ -92,6 +92,7 @@
   </ul>
   <script>
     function guardarVendedor() {
+    // Obtener los valores del formulario
     var nombre = document.getElementById('nombreVendedor').value;
     var apellido = document.getElementById('apellidoVendedor').value;
     var cedula = document.getElementById('cedulaVendedor').value;
@@ -99,12 +100,8 @@
     var direccion = document.getElementById('direccionVendedor').value;
     var email = document.getElementById('emailVendedor').value;
 
-    if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
-        alert('Por favor, complete todos los campos antes de guardar.');
-        return; 
-    }
-
-    var cliente = {
+    // Crear objeto vendedor
+    var vendedor = {
         nombre: nombre,
         apellido: apellido,
         cedula: cedula,
@@ -113,10 +110,12 @@
         email: email
     };
 
-    var Vendedor = JSON.parse(localStorage.getItem('Vendedor')) || [];
-    Vendedor.push(cliente);
-    localStorage.setItem('Vendedor', JSON.stringify(Vendedor));
+    // Obtener lista de vendedores existentes o inicializarla
+    var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+    vendedores.push(vendedor);
 
+    // Guardar la lista actualizada en localStorage
+    localStorage.setItem('Vendedores', JSON.stringify(vendedores));
     
     limpiarFormulario();
 
