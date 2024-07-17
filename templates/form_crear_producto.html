@@ -91,7 +91,7 @@
     
   </ul>
     <div class="container mt-5">
-        <h2>Crear Producto</h2>
+        <h2>Registrar Producto</h2>
         <form id="formCrearProducto">
             <div class="mb-3">
                 <label for="codigoProducto" class="form-label">Código</label>
@@ -137,7 +137,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
     <script>
         function guardarProducto() {
-            // Obtener valores del formulario
             var codigo = document.getElementById('codigoProducto').value.trim();
             var nombre = document.getElementById('nombreProducto').value.trim();
             var descripcion = document.getElementById('descripcionProducto').value.trim();
@@ -146,14 +145,19 @@
             var unidadMedida = document.getElementById('unidadMedidaProducto').value;
             var presentacion = document.getElementById('presentacionProducto').value.trim();
             var cantidadStock = parseInt(document.getElementById('cantidadStockProducto').value);
-        
-            // Validar que los campos no estén vacíos
+            var isActive = true;
+    
             if (!codigo || !nombre || !descripcion || !categoria || isNaN(precio) || !unidadMedida || !presentacion || isNaN(cantidadStock)) {
                 alert("Por favor complete todos los campos correctamente.");
                 return;
             }
-        
-            // Crear objeto producto
+    
+            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+            if (productos.some(p => p.codigo === codigo)) {
+                alert("Un producto con este código ya existe.");
+                return;
+            }
+    
             var producto = {
                 codigo: codigo,
                 nombre: nombre,
@@ -162,19 +166,19 @@
                 precio: precio,
                 unidadMedida: unidadMedida,
                 presentacion: presentacion,
-                cantidadStock: cantidadStock
+                cantidadStock: cantidadStock,
+                isActive: isActive
             };
-        
-            // Guardar en localStorage o enviar a un servidor
-            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+    
             productos.push(producto);
             localStorage.setItem('Productos', JSON.stringify(productos));
-        
+    
             alert("Producto guardado con éxito!");
-            // Opcional: limpiar el formulario
-            document.getElementById('formCrearProducto').reset();
+    
+            document.getElementById('formCrearProducto').reset(); // Asegura que el formulario se limpie después de guardar
         }
-        </script>
+    </script>
+    
         <script>
             function cerrarSesion() {
                 localStorage.clear();  

@@ -143,6 +143,12 @@
         <label for="cantidadStockProducto" class="form-label">Cantidad en Stock</label>
         <input type="number" class="form-control" id="cantidadStockProducto" required readonly>
     </div>
+    <div class="mb-3">
+        <label for="estadoProducto" class="form-label">Estado</label>
+        <input type="text" class="form-control" id="estadoProducto" required readonly>
+    </div>
+    
+    
 </form>
 
         </div>
@@ -152,62 +158,51 @@
    
     <script>
         function buscarProducto() {
-            var textoBusqueda = document.getElementById('buscarProductoInput').value.trim().toLowerCase();
-            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-            var productosFiltrados = productos.filter(producto => 
-                producto.codigo.toLowerCase().includes(textoBusqueda) || 
-                producto.nombre.toLowerCase().includes(textoBusqueda)
-            );
-    
-            var listaProductos = document.getElementById('listaProductos');
-            listaProductos.innerHTML = '';  // Limpia resultados anteriores
-    
-            if (productosFiltrados.length === 0) {
-                listaProductos.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
-            } else {
-                productosFiltrados.forEach(producto => {
-                    var item = document.createElement('button');
-                    item.classList.add('list-group-item', 'list-group-item-action');
-                    item.textContent = `${producto.nombre} - ${producto.codigo}`;
-                    item.onclick = () => cargarProducto(producto);
-                    listaProductos.appendChild(item);
+        var textoBusqueda = document.getElementById('buscarProductoInput').value.trim().toLowerCase();
+        var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+        var productosFiltrados = productos.filter(producto => 
+            producto.codigo.toLowerCase().includes(textoBusqueda) || 
+            producto.nombre.toLowerCase().includes(textoBusqueda)
+        );
+
+        var listaProductos = document.getElementById('listaProductos');
+        listaProductos.innerHTML = '';
+
+        if (productosFiltrados.length === 0) {
+            listaProductos.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
+        } else {
+            productosFiltrados.forEach(producto => {
+                var item = document.createElement('button');
+                item.classList.add('list-group-item', 'list-group-item-action');
+                item.textContent = `${producto.nombre} - ${producto.codigo}`;
+                item.onclick = () => cargarProducto(producto);
+                listaProductos.appendChild(item);
                 });
             }
+            document.getElementById('buscarProductoInput').value = '';
     
             // Limpiar el campo de búsqueda cada vez que se realiza una búsqueda
             document.getElementById('buscarProductoInput').value = '';
         }
-    
         function cargarProducto(producto) {
-            document.getElementById('codigoProducto').value = producto.codigo;
-            document.getElementById('nombreProducto').value = producto.nombre;
-            document.getElementById('descripcionProducto').value = producto.descripcion;
-            document.getElementById('categoriaProducto').value = producto.categoria;
-            document.getElementById('precioProducto').value = producto.precio;
-            document.getElementById('unidadMedidaProducto').value = producto.unidadMedida;
-            document.getElementById('presentacionProducto').value = producto.presentacion;
-            document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
+        document.getElementById('codigoProducto').value = producto.codigo;
+        document.getElementById('nombreProducto').value = producto.nombre;
+        document.getElementById('descripcionProducto').value = producto.descripcion;
+        document.getElementById('categoriaProducto').value = producto.categoria;
+        document.getElementById('precioProducto').value = producto.precio;
+        document.getElementById('unidadMedidaProducto').value = producto.unidadMedida;
+        document.getElementById('presentacionProducto').value = producto.presentacion;
+        document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
+        document.getElementById('estadoProducto').value = producto.isActive ? "Habilitado" : "Deshabilitado";
 
-            // Mostrar el formulario con los datos del producto
-            document.getElementById('infoProducto').style.display = 'block';
-            // Setea los nuevos detalles del producto
-        document.getElementById('detalleCodigoProducto').value = producto.codigo;
-        document.getElementById('detalleNombreProducto').value = producto.nombre;
-        document.getElementById('detalleDescripcionProducto').value = producto.descripcion;
-        document.getElementById('detalleCategoriaProducto').value = producto.categoria;
-        document.getElementById('detallePrecioProducto').value = producto.precio;
-        document.getElementById('detalleUnidadMedidaProducto').value = producto.unidadMedida;
-        document.getElementById('detallePresentacionProducto').value = producto.presentacion;
-        document.getElementById('detalleCantidadStockProducto').value = producto.cantidadStock;
-    
-            // Opcionalmente, ocultar la lista una vez seleccionado un producto
-            document.getElementById('listaProductos').style.display = 'none';
-        }
+        document.getElementById('infoProducto').style.display = 'block';
+        document.getElementById('listaProductos').style.display = 'none';
+
+        // Opcionalmente, ocultar la lista una vez seleccionado un producto
+        document.getElementById('listaProductos').style.display = 'none';
+    }
     </script>
-    
-        
-    
-        <script>
+    <script>
             function cerrarSesion() {
                 localStorage.clear();  
                 sessionStorage.clear(); 
