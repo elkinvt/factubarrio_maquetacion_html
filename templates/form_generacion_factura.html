@@ -90,10 +90,9 @@
     <h2>Generar Factura</h2>
     <form id="formFactura">
         <div class="mb-3">
-            <label for="productoFactura" class="form-label">Producto</label>
-            <select class="form-select" id="productoFactura" required>
-                <!-- Las opciones se cargarán dinámicamente -->
-            </select>
+            <input type="hidden" id="productoFacturaCodigo" value="">  <!-- Campo oculto para el código del producto -->
+            <input type="text" id="productoFactura" placeholder="Escribe el nombre del producto" class="form-control">
+            <div id="listaSugerenciasProducto" class="list-group" style="position: absolute; z-index: 1000;"></div>
         </div>
         <div class="mb-3">
             <label for="cantidadFactura" class="form-label">Cantidad</label>
@@ -105,27 +104,78 @@
         <!-- Aquí se mostrarán los detalles de la factura -->
     </div>
 </div>
+<div id="detallesFactura" class="container mb-3">
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody id="facturaBody">
+            <!-- Los productos agregados se mostrarán aquí -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3">Total</th>
+                <th id="facturaTotal"></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
 <script>
     function cargarProductosParaFactura() {
-    var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-    var selectProducto = document.getElementById('productoFactura');
-    selectProducto.innerHTML = '';
-    productos.forEach(producto => {
-        var option = document.createElement('option');
-        option.value = producto.codigo;
-        option.textContent = producto.nombre + ' - Precio: ' + producto.precio;
-        selectProducto.appendChild(option);
+    var inputProducto = document.getElementById('productoFactura');
+
+    inputProducto.addEventListener('input', function() {
+        var texto = inputProducto.value.toLowerCase();
+        var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+        var listaSugerencias = document.getElementById('listaSugerenciasProducto');
+
+        listaSugerencias.innerHTML = ''; // Limpia las sugerencias anteriores
+
+        if (texto.length > 0) {
+            productos.filter(producto => producto.nombre.toLowerCase().includes(texto))
+                     .forEach(producto => {
+                         var item = document.createElement('div');
+                         item.classList.add('list-group-item', 'list-group-item-action');
+                         item.textContent = producto.nombre + ' - Precio: ' + producto.precio;
+                         item.style.cursor = 'pointer';
+                         item.onclick = function() {
+                             inputProducto.value = producto.nombre; // Establece el nombre del producto
+                             document.getElementById('productoFacturaCodigo').value = producto.codigo; // Establece el código del producto
+                             listaSugerencias.innerHTML = ''; // Limpia las sugerencias
+                             listaSugerencias.style.display = 'none'; // Oculta la lista de sugerencias
+                         };
+                         listaSugerencias.appendChild(item);
+                     });
+            listaSugerencias.style.display = 'block'; // Muestra las sugerencias
+        } else {
+            listaSugerencias.style.display = 'none'; // Oculta las sugerencias si el campo está vacío
+        }
     });
 }
 
+document.addEventListener('DOMContentLoaded', cargarProductosParaFactura);
+
 </script>
+
 <script>
     var factura = [];
 
-function agregarProductoAFactura() {
-    var codigo = document.getElementById('productoFactura').value;
+    function agregarProductoAFactura() {
+    var codigo = document.getElementById('productoFacturaCodigo').value; // Asegúrate de usar el código
     var cantidad = parseInt(document.getElementById('cantidadFactura').value);
     var producto = JSON.parse(localStorage.getItem('Productos')).find(p => p.codigo === codigo);
+
+    if (!producto) {
+        alert("Por favor, seleccione un producto válido.");
+        return;
+    }
+
     var subtotal = producto.precio * cantidad;
 
     factura.push({
@@ -139,19 +189,28 @@ function agregarProductoAFactura() {
 }
 
 function mostrarDetallesFactura() {
-    var detalles = document.getElementById('detallesFactura');
-    detalles.innerHTML = '';
-    factura.forEach(item => {
-        detalles.innerHTML += `<div>${item.producto} - ${item.cantidad} unidades a $${item.precioUnitario} cada una. Subtotal: $${item.subtotal}</div>`;
-    });
-    var total = factura.reduce((acc, item) => acc + item.subtotal, 0);
-    detalles.innerHTML += `<strong>Total: $${total}</strong>`;
-}
+    var facturaBody = document.getElementById('facturaBody');
+    var facturaTotal = document.getElementById('facturaTotal');
 
+    facturaBody.innerHTML = ''; // Limpia la tabla antes de agregar nuevos elementos
+    factura.forEach(item => {
+        let row = `<tr>
+            <td>${item.producto}</td>
+            <td>${item.cantidad}</td>
+            <td>$${item.precioUnitario}</td>
+            <td>$${item.subtotal}</td>
+        </tr>`;
+        facturaBody.innerHTML += row;
+    });
+
+    var total = factura.reduce((acc, item) => acc + item.subtotal, 0);
+    facturaTotal.textContent = `$${total}`;
+}
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     cargarProductosParaFactura();
+    // Asegúrate de que todos los elementos están inicializados correctamente.
 });
 
 </script>

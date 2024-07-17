@@ -1,42 +1,14 @@
-<script>
-    function buscarProducto() {
-        var textoBusqueda = document.getElementById('buscarProductoInput').value.trim().toLowerCase();
-        var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-        var productosFiltrados = productos.filter(producto => 
-            producto.codigo.toLowerCase().includes(textoBusqueda) || 
-            producto.nombre.toLowerCase().includes(textoBusqueda)
-        );
-
-        var listaProductos = document.getElementById('listaProductos');
-        listaProductos.innerHTML = '';
-
-        if (productosFiltrados.length === 0) {
-            listaProductos.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
-        } else {
-            productosFiltrados.forEach(producto => {
-                var item = document.createElement('button');
-                item.classList.add('list-group-item', 'list-group-item-action');
-                item.textContent = `${producto.nombre} - ${producto.codigo}`;
-                item.onclick = () => cargarProducto(producto);
-                listaProductos.appendChild(item);
-            });
-        }
-
-        document.getElementById('buscarProductoInput').value = '';
-    }
-
-    function cargarProducto(producto) {
-        document.getElementById('codigoProducto').value = producto.codigo;
-        document.getElementById('nombreProducto').value = producto.nombre;
-        document.getElementById('descripcionProducto').value = producto.descripcion;
-        document.getElementById('categoriaProducto').value = producto.categoria;
-        document.getElementById('precioProducto').value = producto.precio;
-        document.getElementById('unidadMedidaProducto').value = producto.unidadMedida;
-        document.getElementById('presentacionProducto').value = producto.presentacion;
-        document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
-        document.getElementById('estadoProducto').textContent = producto.isActive ? "Habilitado" : "Deshabilitado";
-
-        document.getElementById('infoProducto').style.display = 'block';
-        document.getElementById('listaProductos').style.display = 'none';
-    }
-</script>
+productos.filter(producto => producto.nombre.toLowerCase().includes(texto))
+    .forEach(producto => {
+        var item = document.createElement('div');
+        item.classList.add('list-group-item', 'list-group-item-action');
+        item.textContent = producto.nombre + ' - Precio: ' + producto.precio;
+        item.style.cursor = 'pointer';
+        item.onclick = function() {
+            document.getElementById('productoFactura').value = producto.nombre; // nombre del producto para mostrar
+            document.getElementById('productoFacturaCodigo').value = producto.codigo; // campo oculto o alternativo para el código
+            document.getElementById('listaSugerenciasProducto').innerHTML = ''; // Limpia las sugerencias
+            document.getElementById('listaSugerenciasProducto').style.display = 'none'; // Oculta la lista de sugerencias
+        };
+        document.getElementById('listaSugerenciasProducto').appendChild(item);
+    });
