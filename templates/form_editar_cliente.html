@@ -96,10 +96,10 @@
   </ul>
   <div class="container mt-5">
     <label for="buscarCedula" class="form-label">Cédula del Cliente:</label>
-    <input type="text" class="form-control" id="buscarCedula">
+    <input type="text"  placeholder="Ingrese cédula del cliente para mostrar" class="form-control" id="buscarCedula">
     <button onclick="buscarYEditarCliente()" class="btn btn-primary mt-2">Buscar</button>
 </div>
-    <div class="container mt-5">
+    <div id="datosCliente" class="container mt-5 hidden">
         <h2>Editar Cliente</h2>
         <form action="/update-cliente" method="post">
             <div class="mb-3">
@@ -179,6 +179,7 @@
         var cliente = clientes.find(cliente => cliente.cedula === cedula);
     
         if (cliente) {
+            document.getElementById('datosCliente').classList.remove('hidden');
             document.getElementById('nombreCliente').value = cliente.nombre;
             document.getElementById('apellidoCliente').value = cliente.apellido;
             document.getElementById('cedulaCliente').value = cliente.cedula;
