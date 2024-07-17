@@ -100,6 +100,11 @@
     var direccion = document.getElementById('direccionVendedor').value;
     var email = document.getElementById('emailVendedor').value;
 
+    if (nombre === "" || apellido === "" || cedula === "" || telefono === "" || direccion === "" || email === "") {
+        alert("Por favor complete todos los campos antes de guardar.");
+        return; // Detiene la función si algún campo está vacío
+    }
+
     // Crear objeto vendedor
     var vendedor = {
         nombre: nombre,
