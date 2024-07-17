@@ -103,7 +103,7 @@
 </div>
 <div id="datosProducto" class="container mt-5 hidden">
     <!-- Formulario para mostrar y editar detalles del producto -->
-    <h2>Editar producto Producto</h2>
+    <h2>Editar producto</h2>
     <form id="formeditarProducto">
         <div class="mb-3">
             <label for="codigoProducto" class="form-label">Código</label>
@@ -143,6 +143,11 @@
             <label for="cantidadStockProducto" class="form-label">Cantidad en Stock</label>
             <input type="number" class="form-control" id="cantidadStockProducto" required>
         </div>
+        <div class="mb-3">
+            <label for="estadoProducto" class="form-label">Estado</label>
+            <input type="text" class="form-control" id="estadoProducto" required readonly>
+        </div>
+        
 
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-primary" onclick="guardarProductoEditado()">Guardar Cambios</button>
@@ -164,14 +169,6 @@
             <button type="button" class="btn btn-danger" onclick="eliminarProducto()">Eliminar Producto</button>
         </div>
     </form>
-    
-    
-    <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
-        Cambios guardados correctamente.
-    </div>
-
-   
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
        function buscarProducto() {
@@ -213,6 +210,7 @@
             document.getElementById('unidadMedidaProducto').value = producto.unidadMedida;
             document.getElementById('presentacionProducto').value = producto.presentacion;
             document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
+            document.getElementById('estadoProducto').value = producto.isActive ? "Habilitado" : "Deshabilitado";  // Asegura que se muestra el estado correcto
         }
         </script>
     <script>
@@ -240,20 +238,18 @@
     }
 }
     </script>
-        
-   
     
       <script>
         function toggleEstadoProducto() {
-    var codigo = document.getElementById('codigoProducto').value; // Asegúrate de tener un campo para ingresar el código.
+    var codigo = document.getElementById('codigoProducto').value;
     var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-    var producto = productos.find(p => p.codigo === codigo);
+    var index = productos.findIndex(p => p.codigo === codigo);
 
-    if (producto) {
-        producto.habilitado = !producto.habilitado;  // Cambia el estado de habilitado a deshabilitado y viceversa.
+    if (index !== -1) {
+        productos[index].isActive = !productos[index].isActive;
         localStorage.setItem('Productos', JSON.stringify(productos));
-        alert(producto.habilitado ? 'Producto habilitado.' : 'Producto deshabilitado.');
-        actualizarEstadoVisual(producto.habilitado); // Actualiza la interfaz para reflejar el cambio de estado.
+        alert(productos[index].isActive ? 'Producto habilitado.' : 'Producto deshabilitado.');
+        document.getElementById('estadoProducto').value = productos[index].isActive ? "Habilitado" : "Deshabilitado";  // Asegura que el input muestra el estado actualizado
     } else {
         alert('Producto no encontrado.');
     }
@@ -271,26 +267,37 @@ function actualizarEstadoVisual(isActive) {
       <script>
         function eliminarProducto() {
     var codigo = document.getElementById('codigoProducto').value;
-    if (!codigo) {
-        alert("Por favor ingrese el código del producto que desea eliminar.");
-        return;
-    }
+    var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+    var index = productos.findIndex(p => p.codigo === codigo);
 
-    var confirmacion = confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.");
-    if (confirmacion) {
-        var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-        var nuevosProductos = productos.filter(producto => producto.codigo !== codigo);
-
-        if (productos.length !== nuevosProductos.length) {
-            localStorage.setItem('Productos', JSON.stringify(nuevosProductos));
+    if (index !== -1) {
+        var confirmacion = confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.");
+        if (confirmacion) {
+            productos.splice(index, 1);
+            localStorage.setItem('Productos', JSON.stringify(productos));
             alert('Producto eliminado.');
-            // Opcionalmente, limpia el formulario o redirige al usuario
-        } else {
-            alert('No se encontró un producto con ese código.');
+            limpiarFormularioProducto();  // Limpia el formulario después de eliminar el producto
         }
+    } else {
+        alert('Producto no encontrado.');
     }
 }
 
+
+    </script>
+    <script>
+        function limpiarFormularioProducto() {
+            document.getElementById('codigoProducto').value = '';
+            document.getElementById('nombreProducto').value = '';
+            document.getElementById('descripcionProducto').value = '';
+            document.getElementById('categoriaProducto').value = '';
+            document.getElementById('precioProducto').value = '';
+            document.getElementById('unidadMedidaProducto').value = '';
+            document.getElementById('presentacionProducto').value = '';
+            document.getElementById('cantidadStockProducto').value = '';
+            document.getElementById('estadoProducto').value = '';  // Asegúrate de limpiar también el estado
+        }
+        
     </script>
      <script>
         function cerrarSesion() {
