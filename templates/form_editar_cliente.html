@@ -215,6 +215,7 @@
             
             localStorage.setItem('clientes', JSON.stringify(clientes));
             alert('Cambios guardados correctamente');
+            limpiarformulario();
         } else {
             alert('Error al guardar los cambios');
         }
@@ -222,14 +223,15 @@
     
       </script>
       <script>
-        function limpiarCampos() {
-    
-    var inputs = document.querySelectorAll('.container input');
-    inputs.forEach(input => {
-        input.value = '';  
-    });
-}
+        function limpiarformulario() {
+    document.getElementById('nombreCliente').value = '';
+    document.getElementById('apellidoCliente').value = '';
+    document.getElementById('cedulaCliente').value = '';
+    document.getElementById('telefonoCliente').value = '';
+    document.getElementById('direccionCliente').value = '';
+    document.getElementById('emailCliente').value = '';
 
+}
       </script>
       <script>
         function toggleEstadoCliente() {
@@ -258,28 +260,28 @@ function actualizarEstadoVisual(isActive) {
       </script>
       <script>
         function eliminarCliente() {
-    var cedula = document.getElementById('buscarCedula').value;
-    if (!cedula) {
-        alert("Por favor ingrese la cédula del cliente que desea eliminar.");
-        return; 
-    }
-
-    var confirmacion = confirm("¿Estás seguro de que deseas eliminar este cliente? Esta acción no se puede deshacer.");
-    if (confirmacion) {
-        var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-        var nuevosClientes = clientes.filter(cliente => cliente.cedula !== cedula);
-
-        if (clientes.length !== nuevosClientes.length) {
-            localStorage.setItem('clientes', JSON.stringify(nuevosClientes));
-            limpiarCampos();  
-            alert('Cliente eliminado.');
-        } else {
-            alert('No se encontró un cliente con esa cédula.');
+            var cedula = document.getElementById('buscarCedula').value;
+            if (!cedula) {
+                alert("Por favor ingrese la cédula del cliente que desea eliminar.");
+                return;
+            }
+    
+            var confirmacion = confirm("¿Estás seguro de que deseas eliminar este cliente? Esta acción no se puede deshacer.");
+            if (confirmacion) {
+                var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+                var nuevosClientes = clientes.filter(cliente => cliente.cedula !== cedula);
+    
+                if (clientes.length !== nuevosClientes.length) {
+                    localStorage.setItem('clientes', JSON.stringify(nuevosClientes));
+                    limpiarformulario();  // Limpia los campos después de eliminar el cliente
+                    alert('Cliente eliminado.');
+                } else {
+                    alert('No se encontró un cliente con esa cédula.');
+                }
+            }
         }
-    }
-}
-
-      </script>
+    </script>
+    
 
     <footer>
     <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
