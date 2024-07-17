@@ -99,14 +99,6 @@
     <input type="text" class="form-control" id="buscarCedula">
     <button onclick="buscarYEditarCliente()" class="btn btn-primary mt-2">Buscar</button>
 </div>
-
-  <script>
-        function cerrarSesion() {
-            localStorage.clear();  
-            sessionStorage.clear(); 
-            window.location.href = 'index.html';
-        }
-  </script>
     <div class="container mt-5">
         <h2>Editar Cliente</h2>
         <form action="/update-cliente" method="post">
@@ -281,6 +273,13 @@ function actualizarEstadoVisual(isActive) {
             }
         }
     </script>
+     <script>
+        function cerrarSesion() {
+            localStorage.clear();  
+            sessionStorage.clear(); 
+            window.location.href = 'index.html';
+        }
+  </script>
     
 
     <footer>

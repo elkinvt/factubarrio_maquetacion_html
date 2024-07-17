@@ -93,18 +93,8 @@
         </ul>
     </li>
    
-  </ul>
+  </ul>  
   
-</script>
-
-    
-  <script>
-        function cerrarSesion() {
-            localStorage.clear();  
-            sessionStorage.clear(); 
-            window.location.href = 'index.html';
-        }
-  </script>
         <div class="container mt-5">
              <h2>Buscar vendedor por Cédula</h2>
             <input type="text" id="cedulaBuscar" placeholder="Ingrese cédula del vendedor" class="form-control">
@@ -190,6 +180,13 @@
     }
     
         </script>
+        <script>
+            function cerrarSesion() {
+                localStorage.clear();  
+                sessionStorage.clear(); 
+                window.location.href = 'index.html';
+            }
+      </script>
      
     <footer>
      <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>

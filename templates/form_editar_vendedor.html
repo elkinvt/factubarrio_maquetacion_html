@@ -100,13 +100,7 @@
     <button onclick="buscarYEditarVendedor()" class="btn btn-primary mt-2">Buscar</button>
 </div>
 
-  <script>
-        function cerrarSesion() {
-            localStorage.clear();  
-            sessionStorage.clear(); 
-            window.location.href = 'index.html';
-        }
-  </script>
+ 
     <div class="container mt-5">
         <h2>Editar Vendedor</h2>
         <form action="/update-Vendedor" method="post">
@@ -265,6 +259,13 @@
             }
         }
     </script>
+     <script>
+        function cerrarSesion() {
+            localStorage.clear();  
+            sessionStorage.clear(); 
+            window.location.href = 'index.html';
+        }
+  </script>
     
     
 
