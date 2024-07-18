@@ -143,23 +143,28 @@
             }
         }
     }
-
     function guardarUsuario() {
-        var nombreUsuario = document.getElementById('nombreUsuario').value;
-        var contrasenaUsuario = document.getElementById('contrasenaUsuario').value;
-        var cedula = document.getElementById('cedulaVendedor').value;
-        var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-        var vendedor = vendedores.find(v => v.cedula === cedula);
+    var nombreUsuario = document.getElementById('nombreUsuario').value.trim();
+    var contrasenaUsuario = document.getElementById('contrasenaUsuario').value.trim();
+    var cedula = document.getElementById('cedulaVendedor').value.trim();
+    var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+    var vendedor = vendedores.find(v => v.cedula === cedula);
 
-        if (vendedor) {
-            vendedor.username = nombreUsuario;
-            vendedor.password = contrasenaUsuario;
-            localStorage.setItem('Vendedores', JSON.stringify(vendedores));
-            alert('Usuario guardado con éxito!');
-        } else {
-            alert('No se encontró un vendedor con la cédula proporcionada.');
-        }
+    // Verificar si los campos están llenos
+    if (!nombreUsuario || !contrasenaUsuario) {
+        alert('Por favor, ingrese un nombre de usuario y una contraseña.');
+        return; // Detener la función si los campos de nombre de usuario y contraseña están vacíos
     }
+
+    if (vendedor) {
+        vendedor.username = nombreUsuario;
+        vendedor.password = contrasenaUsuario;
+        localStorage.setItem('Vendedores', JSON.stringify(vendedores));
+        alert('Usuario guardado con éxito!');
+    } else {
+        alert('No se encontró un vendedor con la cédula proporcionada.');
+    }
+}
 </script>
 
 
