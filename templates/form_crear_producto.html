@@ -117,11 +117,28 @@
                 <label for="unidadMedidaProducto" class="form-label">Unidad de Medida</label>
                 <select class="form-select" id="unidadMedidaProducto" required>
                     <option value="">Seleccione una unidad</option>
-                    <option value="kg">Kilogramos</option>
-                    <option value="lt">Litros</option>
-                    <option value="un">Unidades</option>
-                    <option value="m">Metros</option>
+                    <optgroup label="Peso">
+                        <option value="kg">Kilogramos (kg)</option>
+                        <option value="g">Gramos (g)</option>
+                        <option value="mg">Miligramos (mg)</option>
+                    </optgroup>
+                    <optgroup label="Volumen">
+                        <option value="lt">Litros (lt)</option>
+                        <option value="ml">Mililitros (ml)</option> <!-- Confirma que esta opción está correctamente escrita y seleccionable -->
+                        <option value="m3">Metros cúbicos (m³)</option>
+                    </optgroup>
+                    <optgroup label="Longitud">
+                        <option value="m">Metros (m)</option>
+                        <option value="cm">Centímetros (cm)</option>
+                        <option value="mm">Milímetros (mm)</option>
+                    </optgroup>
+                    <optgroup label="Unidades">
+                        <option value="un">Unidades (un)</option>
+                        <option value="paq">Paquetes (paq)</option>
+                    </optgroup>
                 </select>
+                
+                
             </div>
             <div class="mb-3">
                 <label for="presentacionProducto" class="form-label">Presentación</label>
@@ -136,47 +153,47 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
     <script>
-        function guardarProducto() {
-            var codigo = document.getElementById('codigoProducto').value.trim();
-            var nombre = document.getElementById('nombreProducto').value.trim();
-            var descripcion = document.getElementById('descripcionProducto').value.trim();
-            var categoria = document.getElementById('categoriaProducto').value.trim();
-            var precio = parseFloat(document.getElementById('precioProducto').value);
-            var unidadMedida = document.getElementById('unidadMedidaProducto').value;
-            var presentacion = document.getElementById('presentacionProducto').value.trim();
-            var cantidadStock = parseInt(document.getElementById('cantidadStockProducto').value);
-            var isActive = true;
-    
-            if (!codigo || !nombre || !descripcion || !categoria || isNaN(precio) || !unidadMedida || !presentacion || isNaN(cantidadStock)) {
-                alert("Por favor complete todos los campos correctamente.");
-                return;
-            }
-    
-            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-            if (productos.some(p => p.codigo === codigo)) {
-                alert("Un producto con este código ya existe.");
-                return;
-            }
-    
-            var producto = {
-                codigo: codigo,
-                nombre: nombre,
-                descripcion: descripcion,
-                categoria: categoria,
-                precio: precio,
-                unidadMedida: unidadMedida,
-                presentacion: presentacion,
-                cantidadStock: cantidadStock,
-                isActive: isActive
-            };
-    
-            productos.push(producto);
-            localStorage.setItem('Productos', JSON.stringify(productos));
-    
-            alert("Producto guardado con éxito!");
-    
-            document.getElementById('formCrearProducto').reset(); // Asegura que el formulario se limpie después de guardar
-        }
+       function guardarProducto() {
+    var codigo = document.getElementById('codigoProducto').value.trim();
+    var nombre = document.getElementById('nombreProducto').value.trim();
+    var descripcion = document.getElementById('descripcionProducto').value.trim();
+    var categoria = document.getElementById('categoriaProducto').value.trim();
+    var precio = parseFloat(document.getElementById('precioProducto').value);
+    var unidadMedida = document.getElementById('unidadMedidaProducto').value;
+    var presentacion = document.getElementById('presentacionProducto').value.trim();
+    var cantidadStock = parseInt(document.getElementById('cantidadStockProducto').value);
+    var isActive = true;
+
+    if (!codigo || !nombre || !descripcion || !categoria || isNaN(precio) || !unidadMedida || !presentacion || isNaN(cantidadStock)) {
+        alert("Por favor complete todos los campos correctamente.");
+        return;
+    }
+
+    var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+    if (productos.some(producto => producto.codigo === codigo)) {
+        alert("Un producto con este código ya existe.");
+        return;
+    }
+
+    var producto = {
+        codigo: codigo,
+        nombre: nombre,
+        descripcion: descripcion,
+        categoria: categoria,
+        precio: precio,
+        unidadMedida: unidadMedida,
+        presentacion: presentacion,
+        cantidadStock: cantidadStock,
+        isActive: isActive
+    };
+
+    productos.push(producto);
+    localStorage.setItem('Productos', JSON.stringify(productos));
+    alert("Producto guardado con éxito!");
+    document.getElementById('formCrearProducto').reset(); // Limpiar el formulario después de guardar
+}
+
+
     </script>
     
         <script>
