@@ -84,6 +84,15 @@
             <label for="nombreCliente" class="form-label">Nombre del Cliente</label>
             <input type="text" class="form-control" id="nombreCliente" required>
         </div>
+        <div class="mb-3">
+            <label for="vendedorFactura" class="form-label">Vendedor</label>
+            <select class="form-control" id="vendedorFactura">
+                <!-- Suponiendo que tienes un array de vendedores cargados en el sistema -->
+                <option value="">Seleccione un vendedor</option>
+                <!-- Opciones de vendedores aquí -->
+            </select>
+        </div>
+        
         
         
         <div class="mb-3">
@@ -232,14 +241,21 @@ function mostrarDetallesFactura() {
 
 </script>
 <script>
- function pagarFactura() {
+function pagarFactura() {
     if (factura.length === 0) {
         alert("No hay productos en la factura para pagar.");
         return;
     }
 
+    let vendedorSeleccionado = document.getElementById('vendedorFactura').value;
+    if (!vendedorSeleccionado) {
+        alert("Por favor, seleccione un vendedor.");
+        return;
+    }
+
+    // Continúa con el proceso de pago como antes
     let montoPago = prompt("Ingrese el monto con el que va a pagar:");
-    if (!montoPago) return; // Si el usuario no ingresa nada, cancelar el pago
+    if (!montoPago) return;
 
     montoPago = parseFloat(montoPago);
     let totalFactura = factura.reduce((acc, item) => acc + item.subtotal, 0);
@@ -251,16 +267,13 @@ function mostrarDetallesFactura() {
 
     let cambio = montoPago - totalFactura;
 
-    let now = new Date();
-    let fecha = now.toISOString().slice(0, 10); // YYYY-MM-DD
-    let hora = now.toTimeString().split(' ')[0]; // HH:MM:SS
-
     let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
     let nuevaFactura = {
         id: 'F' + (facturas.length + 1).toString().padStart(3, '0'),
-        fecha: fecha,
-        hora: hora,
+        fecha: new Date().toISOString().slice(0, 10),
+        hora: new Date().toTimeString().split(' ')[0],
         cliente: document.getElementById('nombreCliente').value,
+        vendedor: vendedorSeleccionado,
         items: factura,
         total: totalFactura,
         montoPagado: montoPago,
@@ -271,8 +284,10 @@ function mostrarDetallesFactura() {
     localStorage.setItem('Facturas', JSON.stringify(facturas));
 
     alert(`Factura pagada con éxito! El cambio a devolver es: $${cambio.toFixed(2)}`);
-    limpiarCamposFactura(); // Limpia los campos después de pagar
+    limpiarCamposFactura();
 }
+
+
 
 
 function anularFactura() {
@@ -331,9 +346,28 @@ function anularFactura() {
 
      </script>
      <script>
-        console.log(JSON.parse(localStorage.getItem('Clientes')));
+        document.addEventListener('DOMContentLoaded', function() {
+    cargarVendedores();
+});
+
+function cargarVendedores() {
+    let vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+    let selectorVendedor = document.getElementById('vendedorFactura');
+    selectorVendedor.innerHTML = '<option value="">Seleccione un vendedor</option>'; // Opción predeterminada
+
+    vendedores.forEach(vendedor => {
+        let opcion = document.createElement('option');
+        // Combinamos el nombre y apellido para mostrarlo y usarlo como valor
+        opcion.value = vendedor.nombre + " " + vendedor.apellido;
+        opcion.textContent = vendedor.nombre + " " + vendedor.apellido;
+        selectorVendedor.appendChild(opcion);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', cargarVendedores);
 
      </script>
+     
 
  
      
