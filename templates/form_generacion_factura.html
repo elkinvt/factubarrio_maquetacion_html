@@ -18,20 +18,7 @@
             flex-direction: column;
             padding-top: 5px; 
         }
-        .cerrar-sesion {
-            position: fixed;
-            top: 5px;
-            right: 10px;
-            z-index: 1000;
-        }
-        footer {
-            margin-top: auto;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.0);
-            color: white;
-            padding: 5px 0;
-            text-align: right;
-        }
+        
         .mx-auto {
             font-size: 100px;
             font-weight: bold;
@@ -89,6 +76,16 @@
   <div class="container mt-5">
     <h2>Generar Factura</h2>
     <form id="formFactura">
+        <div class="mb-3">
+            <label for="cedulaCliente" class="form-label">Cédula del Cliente</label>
+            <input type="text" class="form-control" id="cedulaCliente" required>
+        </div>
+        <div class="mb-3">
+            <label for="nombreCliente" class="form-label">Nombre del Cliente</label>
+            <input type="text" class="form-control" id="nombreCliente" required>
+        </div>
+        
+        
         <div class="mb-3">
             <input type="hidden" id="productoFacturaCodigo" value="">  <!-- Campo oculto para el código del producto -->
             <input type="text" id="productoFactura" placeholder="Escribe el nombre del producto" class="form-control">
@@ -235,26 +232,26 @@ function mostrarDetallesFactura() {
 
 </script>
 <script>
-   function pagarFactura() {
-  if (factura.length === 0) {
-    alert("No hay productos en la factura para pagar.");
-    return;
-  }
-  
-  let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
-  let nuevaFactura = {
-    id: 'F' + (facturas.length + 1).toString().padStart(3, '0'), // Genera un ID único
-    fecha: new Date().toISOString().slice(0, 10), // Fecha actual en formato YYYY-MM-DD
-    cliente: "Nombre del Cliente", // Asegúrate de tener esta información
-    items: factura,
-    total: factura.reduce((acc, item) => acc + item.subtotal, 0)
-  };
+  function pagarFactura() {
+    if (factura.length === 0) {
+        alert("No hay productos en la factura para pagar.");
+        return;
+    }
 
-  facturas.push(nuevaFactura);
-  localStorage.setItem('Facturas', JSON.stringify(facturas));
+    let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
+    let nuevaFactura = {
+        id: 'F' + (facturas.length + 1).toString().padStart(3, '0'),
+        fecha: new Date().toISOString().slice(0, 10),
+        cliente: document.getElementById('nombreCliente').value, // Usar el nombre del cliente desde el campo
+        items: factura,
+        total: factura.reduce((acc, item) => acc + item.subtotal, 0)
+    };
+
+    facturas.push(nuevaFactura);
+    localStorage.setItem('Facturas', JSON.stringify(facturas));
   
-  alert("Factura pagada con éxito!");
-  limpiarCamposFactura(); // Limpia los campos después de pagar
+    alert("Factura pagada con éxito!");
+    limpiarCamposFactura(); // Limpia los campos después de pagar
 }
 
 function anularFactura() {
@@ -292,16 +289,32 @@ function anularFactura() {
 
 
 </script>
-  <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer>
-  <script>
-        function cerrarSesion() {
-            localStorage.clear();  
-            sessionStorage.clear(); 
-            window.location.href = 'index.html';
+
+<script>
+   document.getElementById('cedulaCliente').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();  // Previene la acción por defecto del enter, que puede ser enviar el formulario
+
+        let cedulaIngresada = this.value.trim();
+        let clientes = JSON.parse(localStorage.getItem('clientes')) || [];  // Asegúrate de usar 'clientes' en minúsculas
+        let clienteEncontrado = clientes.find(cliente => cliente.cedula === cedulaIngresada);
+
+        if (clienteEncontrado) {
+            document.getElementById('nombreCliente').value = clienteEncontrado.nombre + ' ' + clienteEncontrado.apellido; // Muestra el nombre completo
+        } else {
+            document.getElementById('nombreCliente').value = ''; // Limpiar el campo nombre si no se encuentra la cédula
         }
-  </script>
-        
+    }
+});
+
+
+     </script>
+     <script>
+        console.log(JSON.parse(localStorage.getItem('Clientes')));
+
+     </script>
+
+ 
+     
 </body>
 </html>

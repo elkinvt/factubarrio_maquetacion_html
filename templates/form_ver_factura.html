@@ -88,15 +88,53 @@
   </ul>
   <div class="container mt-5">
     <h2>Consultar Facturas por Fecha</h2>
-    <input type="date" id="fechaConsulta" class="form-control mb-2">
+    <input type="date" id="fechaConsulta" class="form-control mb-3">
     <button class="btn btn-primary" onclick="buscarFacturasPorFecha()">Buscar Facturas</button>
-    <div id="listaFacturas">
-      <!-- Las facturas se cargarán aquí -->
-    </div>
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>ID Factura</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Detalles</th>
+        </tr>
+      </thead>
+      <tbody id="listaFacturas">
+        <!-- Las facturas filtradas se mostrarán aquí -->
+      </tbody>
+    </table>
   </div>
-  
-  
-  
+  <script>
+    function buscarFacturasPorFecha() {
+  let fechaIngresada = document.getElementById('fechaConsulta').value;
+  let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
+  let contenedor = document.getElementById('listaFacturas');
+  contenedor.innerHTML = ''; // Limpia contenido anterior
+
+  let facturasFiltradas = facturas.filter(factura => factura.fecha === fechaIngresada);
+
+  if (facturasFiltradas.length > 0) {
+    facturasFiltradas.forEach(factura => {
+      contenedor.innerHTML += `
+        <tr>
+          <td>${factura.id}</td>
+          <td>${factura.fecha}</td>
+          <td>$${factura.total}</td>
+          <td><button class="btn btn-info btn-sm" onclick="mostrarDetallesFactura('${factura.id}')">Ver Detalles</button></td>
+        </tr>
+      `;
+    });
+  } else {
+    contenedor.innerHTML = '<tr><td colspan="4" class="text-center">No se encontraron facturas para la fecha seleccionada.</td></tr>';
+  }
+}
+
+function mostrarDetallesFactura(idFactura) {
+  // Aquí puedes agregar una función para mostrar más detalles sobre una factura específica
+  alert('Mostrar detalles de la factura ' + idFactura);
+}
+
+  </script>
   <script>
   function cargarFacturas() {
     let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
@@ -108,7 +146,7 @@
     });
   }
   
-  document.addEventListener('DOMContentLoaded', cargarFacturas);
+  
   </script>
   <footer>
     <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
@@ -120,24 +158,7 @@
             window.location.href = 'index.html';
         }
   </script>
-  <script>
-    function buscarFacturasPorFecha() {
-  let fechaIngresada = document.getElementById('fechaConsulta').value;
-  let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
-  let contenedor = document.getElementById('listaFacturas');
-  contenedor.innerHTML = ''; // Limpia contenido anterior
-
-  let facturasFiltradas = facturas.filter(factura => factura.fecha === fechaIngresada);
-
-  if (facturasFiltradas.length > 0) {
-    facturasFiltradas.forEach((factura, index) => {
-      contenedor.innerHTML += `<div>Factura ${factura.id} - ${factura.fecha} - Total: $${factura.total}</div>`;
-    });
-  } else {
-    contenedor.innerHTML = '<p>No se encontraron facturas para la fecha seleccionada.</p>';
-  }
-}
-  </script>
+  
         
 </body>
 </html>

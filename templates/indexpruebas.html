@@ -1,54 +1,22 @@
-<div id="facturaDetalle"></div>
+function pagarFactura() {
+    if (factura.length === 0) {
+        alert("No hay productos en la factura para pagar.");
+        return;
+    }
 
-<script>
-function mostrarFactura() {
-    let factura = {
-        id: "F001",
-        fecha: "2024-07-18",
-        cliente: "Nombre del Cliente",
-        items: [
-            { producto: "Producto 1", cantidad: 2, precioUnitario: 10, subtotal: 20 },
-            { producto: "Producto 2", cantidad: 1, precioUnitario: 5, subtotal: 5 }
-        ],
-        total: 25
+    let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
+    let nuevaFactura = {
+        id: 'F' + (facturas.length + 1).toString().padStart(3, '0'),
+        fecha: new Date().toISOString().slice(0, 10),
+        cliente: document.getElementById('nombreCliente').value, // Usar el nombre del cliente desde el campo
+        items: factura,
+        total: factura.reduce((acc, item) => acc + item.subtotal, 0)
     };
 
-    let contenido = `<div>
-        <h2>Factura ID: ${factura.id}</h2>
-        <p>Fecha: ${factura.fecha}</p>
-        <p>Cliente: ${factura.cliente}</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>`;
-    
-    factura.items.forEach(item => {
-        contenido += `<tr>
-            <td>${item.producto}</td>
-            <td>${item.cantidad}</td>
-            <td>$${item.precioUnitario}</td>
-            <td>$${item.subtotal}</td>
-        </tr>`;
-    });
-
-    contenido += `</tbody>
-        <tfoot>
-            <tr>
-                <th colspan="3">Total</th>
-                <th>$${factura.total}</th>
-            </tr>
-        </tfoot>
-        </table>
-    </div>`;
-
-    document.getElementById('facturaDetalle').innerHTML = contenido;
+    facturas.push(nuevaFactura);
+    localStorage.setItem('Facturas', JSON.stringify(facturas));
+  
+    alert("Factura pagada con éxito!");
+    limpiarCamposFactura(); // Limpia los campos después de pagar
 }
 
-document.addEventListener('DOMContentLoaded', mostrarFactura);
-</script>
