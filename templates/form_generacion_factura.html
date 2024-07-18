@@ -173,23 +173,37 @@ document.addEventListener('DOMContentLoaded', cargarProductosParaFactura);
     var factura = [];
 
     function agregarProductoAFactura() {
-    var codigo = document.getElementById('productoFacturaCodigo').value; // Asegúrate de usar el código
+    var codigo = document.getElementById('productoFacturaCodigo').value;
     var cantidad = parseInt(document.getElementById('cantidadFactura').value);
-    var producto = JSON.parse(localStorage.getItem('Productos')).find(p => p.codigo === codigo);
+    var productos = JSON.parse(localStorage.getItem('Productos'));
+    var producto = productos.find(p => p.codigo === codigo);
 
-    if (!producto) {
-        alert("Por favor, seleccione un producto válido.");
+    if (!producto.isActive) { 
+        alert("Este producto está deshabilitado.");
         return;
     }
 
-    var subtotal = producto.precio * cantidad;
 
+
+    if (!producto || cantidad > producto.cantidadStock) {
+        alert("No hay suficiente stock del producto o el producto no existe.");
+        return;
+    }
+
+    // Reservar stock
+    producto.cantidadStock -= cantidad;
+
+    var subtotal = producto.precio * cantidad;
     factura.push({
+        codigo: producto.codigo,
         producto: producto.nombre,
         cantidad: cantidad,
         precioUnitario: producto.precio,
         subtotal: subtotal
     });
+
+    // Guardar los cambios en localStorage
+    localStorage.setItem('Productos', JSON.stringify(productos));
 
     mostrarDetallesFactura();
 }
@@ -238,6 +252,19 @@ function anularFactura() {
         alert("No hay productos en la factura para anular.");
         return;
     }
+
+    var productos = JSON.parse(localStorage.getItem('Productos')); // Obtiene los productos actuales de localStorage
+
+    // Devolver el stock de cada producto en la factura
+    factura.forEach(item => {
+        var producto = productos.find(p => p.codigo === item.codigo);
+        if (producto) {
+            producto.cantidadStock += item.cantidad; // Devuelve el stock
+        }
+    });
+
+    localStorage.setItem('Productos', JSON.stringify(productos)); // Guarda el arreglo actualizado en localStorage
+
     factura = []; // Vaciar la factura
     mostrarDetallesFactura(); // Actualizar la vista de detalles de factura
     alert("Factura anulada con éxito.");
