@@ -1,23 +1,54 @@
-function agregarProductoAFactura() {
-    var codigo = document.getElementById('productoFacturaCodigo').value; // Asegúrate de usar el código
-    var cantidad = parseInt(document.getElementById('cantidadFactura').value);
-    var producto = JSON.parse(localStorage.getItem('Productos')).find(p => p.codigo === codigo);
+<div id="facturaDetalle"></div>
 
-    // Verificar si el producto está habilitado
-    if (!producto.isActive) { // Asegúrate de usar el nombre correcto de la propiedad
-        alert("Este producto está deshabilitado.");
-        return;
-    }
+<script>
+function mostrarFactura() {
+    let factura = {
+        id: "F001",
+        fecha: "2024-07-18",
+        cliente: "Nombre del Cliente",
+        items: [
+            { producto: "Producto 1", cantidad: 2, precioUnitario: 10, subtotal: 20 },
+            { producto: "Producto 2", cantidad: 1, precioUnitario: 5, subtotal: 5 }
+        ],
+        total: 25
+    };
 
-    var subtotal = producto.precio * cantidad;
-
-    factura.push({
-        codigo: producto.codigo,
-        producto: producto.nombre,
-        cantidad: cantidad,
-        precioUnitario: producto.precio,
-        subtotal: subtotal
+    let contenido = `<div>
+        <h2>Factura ID: ${factura.id}</h2>
+        <p>Fecha: ${factura.fecha}</p>
+        <p>Cliente: ${factura.cliente}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>`;
+    
+    factura.items.forEach(item => {
+        contenido += `<tr>
+            <td>${item.producto}</td>
+            <td>${item.cantidad}</td>
+            <td>$${item.precioUnitario}</td>
+            <td>$${item.subtotal}</td>
+        </tr>`;
     });
 
-    mostrarDetallesFactura();
+    contenido += `</tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3">Total</th>
+                <th>$${factura.total}</th>
+            </tr>
+        </tfoot>
+        </table>
+    </div>`;
+
+    document.getElementById('facturaDetalle').innerHTML = contenido;
 }
+
+document.addEventListener('DOMContentLoaded', mostrarFactura);
+</script>

@@ -235,16 +235,26 @@ function mostrarDetallesFactura() {
 
 </script>
 <script>
-    function pagarFactura() {
-    if (factura.length === 0) {
-        alert("No hay productos en la factura para pagar.");
-        return;
-    }
-    // Aquí podrías agregar código para procesar el pago, como guardar la factura en una base de datos
+   function pagarFactura() {
+  if (factura.length === 0) {
+    alert("No hay productos en la factura para pagar.");
+    return;
+  }
+  
+  let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
+  let nuevaFactura = {
+    id: 'F' + (facturas.length + 1).toString().padStart(3, '0'), // Genera un ID único
+    fecha: new Date().toISOString().slice(0, 10), // Fecha actual en formato YYYY-MM-DD
+    cliente: "Nombre del Cliente", // Asegúrate de tener esta información
+    items: factura,
+    total: factura.reduce((acc, item) => acc + item.subtotal, 0)
+  };
 
-    alert("Factura pagada con éxito!");
-    
-    limpiarCamposFactura();  // Limpia los campos después de pagar
+  facturas.push(nuevaFactura);
+  localStorage.setItem('Facturas', JSON.stringify(facturas));
+  
+  alert("Factura pagada con éxito!");
+  limpiarCamposFactura(); // Limpia los campos después de pagar
 }
 
 function anularFactura() {
