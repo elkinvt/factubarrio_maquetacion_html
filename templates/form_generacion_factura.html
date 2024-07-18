@@ -99,6 +99,7 @@
             <input type="number" class="form-control" id="cantidadFactura" required>
         </div>
         <button type="button" class="btn btn-primary" onclick="agregarProductoAFactura()">Agregar a Factura</button>
+        
     </form>
     <div id="detallesFactura" class="mt-4">
         <!-- Aquí se mostrarán los detalles de la factura -->
@@ -125,6 +126,11 @@
         </tfoot>
     </table>
 </div>
+<div class="d-flex justify-content-center mb-3">
+    <button type="button" class="btn btn-success" onclick="pagarFactura()" style="margin-right: 20px;">Pagar Factura</button>
+    <button type="button" class="btn btn-danger" onclick="anularFactura()">Anular Factura</button>
+</div>
+
 
 <script>
     function cargarProductosParaFactura() {
@@ -212,6 +218,41 @@ function mostrarDetallesFactura() {
     cargarProductosParaFactura();
     // Asegúrate de que todos los elementos están inicializados correctamente.
 });
+
+</script>
+<script>
+    function pagarFactura() {
+    if (factura.length === 0) {
+        alert("No hay productos en la factura para pagar.");
+        return;
+    }
+    // Aquí podrías agregar código para procesar el pago, como guardar la factura en una base de datos
+
+    alert("Factura pagada con éxito!");
+    
+    limpiarCamposFactura();  // Limpia los campos después de pagar
+}
+
+function anularFactura() {
+    if (factura.length === 0) {
+        alert("No hay productos en la factura para anular.");
+        return;
+    }
+    factura = []; // Vaciar la factura
+    mostrarDetallesFactura(); // Actualizar la vista de detalles de factura
+    alert("Factura anulada con éxito.");
+    limpiarCamposFactura();  // Limpia los campos después de anular
+}
+
+</script>
+<script>
+    function limpiarCamposFactura() {
+    document.getElementById('productoFactura').value = '';
+    document.getElementById('cantidadFactura').value = '';
+    factura = [];  // Reinicia el arreglo de factura
+    mostrarDetallesFactura();  // Actualiza la tabla para mostrar que está vacía
+}
+
 
 </script>
   <footer>
