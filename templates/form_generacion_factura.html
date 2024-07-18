@@ -212,6 +212,9 @@ document.addEventListener('DOMContentLoaded', cargarProductosParaFactura);
     localStorage.setItem('Productos', JSON.stringify(productos));
 
     mostrarDetallesFactura();
+
+    document.getElementById('productoFactura').value = ''; // Suponiendo que tienes un campo para el nombre del producto
+    document.getElementById('cantidadFactura').value = ''; // Limpiar la cantidad
 }
 
 function mostrarDetallesFactura() {
