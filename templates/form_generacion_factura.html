@@ -317,11 +317,20 @@ function anularFactura() {
 </script>
 <script>
     function limpiarCamposFactura() {
+    // Limpieza de los campos de producto
     document.getElementById('productoFactura').value = '';
     document.getElementById('cantidadFactura').value = '';
     factura = [];  // Reinicia el arreglo de factura
     mostrarDetallesFactura();  // Actualiza la tabla para mostrar que está vacía
+
+    // Limpieza de los campos del cliente
+    document.getElementById('cedulaCliente').value = '';
+    document.getElementById('nombreCliente').value = '';
+
+    // Limpieza del selector de vendedores
+    document.getElementById('vendedorFactura').selectedIndex = 0;  // Establece el selector en la posición inicial
 }
+
 
 
 </script>
