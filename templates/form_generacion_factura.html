@@ -232,17 +232,15 @@ function mostrarDetallesFactura() {
 
 </script>
 <script>
-  function pagarFactura() {
+ function pagarFactura() {
     if (factura.length === 0) {
         alert("No hay productos en la factura para pagar.");
         return;
     }
 
-    // Solicitar el monto con el que el cliente va a pagar
     let montoPago = prompt("Ingrese el monto con el que va a pagar:");
     if (!montoPago) return; // Si el usuario no ingresa nada, cancelar el pago
 
-    // Convertir a número y validar que sea suficiente para cubrir la factura
     montoPago = parseFloat(montoPago);
     let totalFactura = factura.reduce((acc, item) => acc + item.subtotal, 0);
 
@@ -251,24 +249,31 @@ function mostrarDetallesFactura() {
         return;
     }
 
-    // Calcular el cambio a devolver
     let cambio = montoPago - totalFactura;
+
+    let now = new Date();
+    let fecha = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    let hora = now.toTimeString().split(' ')[0]; // HH:MM:SS
 
     let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
     let nuevaFactura = {
         id: 'F' + (facturas.length + 1).toString().padStart(3, '0'),
-        fecha: new Date().toISOString().slice(0, 10),
+        fecha: fecha,
+        hora: hora,
         cliente: document.getElementById('nombreCliente').value,
         items: factura,
-        total: totalFactura
+        total: totalFactura,
+        montoPagado: montoPago,
+        cambio: cambio
     };
 
     facturas.push(nuevaFactura);
     localStorage.setItem('Facturas', JSON.stringify(facturas));
-  
+
     alert(`Factura pagada con éxito! El cambio a devolver es: $${cambio.toFixed(2)}`);
     limpiarCamposFactura(); // Limpia los campos después de pagar
 }
+
 
 function anularFactura() {
     if (factura.length === 0) {
