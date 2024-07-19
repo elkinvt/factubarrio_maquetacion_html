@@ -127,9 +127,13 @@
                 <label for="emailCliente" class="form-label">Email</label>
                 <input type="email" class="form-control" id="emailCliente" name="emailCliente" required>
             </div>
-            </form>
+            <div class="mb-3">
+                <label for="estadoCliente" class="form-label">Estado del Cliente</label>
+                <input type="text" class="form-control" id="estadoCliente" name="estadoCliente" readonly>
+            </div>
             
-
+            
+            
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
             </div>
@@ -182,7 +186,7 @@
                 document.getElementById('telefonoCliente').value = cliente.telefono;
                 document.getElementById('direccionCliente').value = cliente.direccion;
                 document.getElementById('emailCliente').value = cliente.email;
-                document.getElementById('clienteActivo').checked = cliente.isActive;
+                document.getElementById('estadoCliente').value = cliente.isActive ? "Activo" : "Inactivo";
                 document.getElementById('datosCliente').style.display = 'block';
             } else {
                 alert('Cliente no encontrado');

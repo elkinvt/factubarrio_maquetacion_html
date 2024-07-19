@@ -124,7 +124,7 @@
                 <input type="text" class="form-control" id="direccionVendedor" name="direccionVendedor" required>
             </div>
             <div class="mb-3">
-                <label for="emailvendeor" class="form-label">Email</label>
+                <label for="emailVendedor" class="form-label">Email</label>
                 <input type="email" class="form-control" id="emailVendedor" name="emailVendedor" required>
             </div>
             </form>
@@ -220,9 +220,49 @@
         }
 
     </script>
-        
-            
+    
     <script>
+        function eliminarVendedor() {
+            var cedula = document.getElementById('cedulaVendedor').value;
+            var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+            var index = vendedores.findIndex(v => v.cedula === cedula);
+
+            if (index !== -1) {
+                // Suponiendo que la cédula se use como ID del vendedor en las ventas
+                archivarVentasVendedor(cedula);
+
+                var confirmacion = confirm("¿Estás seguro de que deseas eliminar este vendedor? Esta acción no se puede deshacer, pero las ventas históricas se mantendrán.");
+                if (confirmacion) {
+                    // Eliminar el vendedor del array de vendedores
+                    vendedores.splice(index, 1);
+                    localStorage.setItem('Vendedores', JSON.stringify(vendedores));
+                    alert('Vendedor eliminado, pero su historial de ventas ha sido archivado.');
+                    limpiarformulario();  // Asegúrate de que esta función esté definida para limpiar el formulario después de eliminar
+                    document.getElementById('buscarCedula').value = ''; // Limpiar campo de búsqueda
+                }
+            } else {
+                alert('Vendedor no encontrado.');
+            }
+        }
+
+        // Función que archiva las ventas antes de eliminar el vendedor
+        function archivarVentasVendedor(cedulaVendedor) {
+            var ventas = JSON.parse(localStorage.getItem('Ventas')) || [];
+            var historialVentas = JSON.parse(localStorage.getItem('HistorialVentas')) || [];
+    
+            // Filtrar las ventas que corresponden al vendedor
+            var ventasDelVendedor = ventas.filter(venta => venta.idVendedor === cedulaVendedor);
+    
+            // Agregar estas ventas al historial
+            historialVentas.push(...ventasDelVendedor);
+            localStorage.setItem('HistorialVentas', JSON.stringify(historialVentas));
+    
+            // Remover las ventas del array original
+            var ventasActualizadas = ventas.filter(venta => venta.idVendedor !== cedulaVendedor);
+            localStorage.setItem('Ventas', JSON.stringify(ventasActualizadas));
+        }
+
+    
         function limpiarformulario() {
             document.getElementById('nombreVendedor').value = '';
             document.getElementById('apellidoVendedor').value = '';
@@ -232,73 +272,7 @@
             document.getElementById('emailVendedor').value = '';
         }
     </script>
-
-    <script>
-        function archivarVentasVendedor(idVendedor) {
-    var ventas = JSON.parse(localStorage.getItem('Ventas')) || [];
-    var historialVentas = JSON.parse(localStorage.getItem('HistorialVentas')) || [];
     
-    // Filtrar las ventas que corresponden al vendedor
-    var ventasDelVendedor = ventas.filter(venta => venta.idVendedor === idVendedor);
-    
-    // Agregar estas ventas al historial
-    historialVentas.push(...ventasDelVendedor);
-    localStorage.setItem('HistorialVentas', JSON.stringify(historialVentas));
-    
-    // Remover las ventas del array original
-    var ventasActualizadas = ventas.filter(venta => venta.idVendedor !== idVendedor);
-    localStorage.setItem('Ventas', JSON.stringify(ventasActualizadas));
-}
-
-    </script>
-      
-    <script>
-        function eliminarVendedor() {
-    var cedula = document.getElementById('cedulaVendedor').value;
-    var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-    var index = vendedores.findIndex(v => v.cedula === cedula);
-
-    if (index !== -1) {
-        // Suponiendo que la cédula se use como ID del vendedor en las ventas
-        archivarVentasVendedor(cedula);
-
-        var confirmacion = confirm("¿Estás seguro de que deseas eliminar este vendedor? Esta acción no se puede deshacer, pero las ventas históricas se mantendrán.");
-        if (confirmacion) {
-            // Eliminar el vendedor del array de vendedores
-            vendedores.splice(index, 1);
-            localStorage.setItem('Vendedores', JSON.stringify(vendedores));
-            alert('Vendedor eliminado, pero su historial de ventas ha sido archivado.');
-            limpiarFormularioVendedor();  // Asegúrate de que esta función esté definida para limpiar el formulario después de eliminar
-        }
-    } else {
-        alert('Vendedor no encontrado.');
-    }
-}
-
-// Función para limpiar el formulario después de eliminar el vendedor
-function limpiarFormularioVendedor() {
-    document.getElementById('cedulaVendedor').value = '';
-    // Limpia otros campos del formulario si existen
-}
-
-// Función que archiva las ventas antes de eliminar el vendedor
-function archivarVentasVendedor(cedulaVendedor) {
-    var ventas = JSON.parse(localStorage.getItem('Ventas')) || [];
-    var historialVentas = JSON.parse(localStorage.getItem('HistorialVentas')) || [];
-    
-    // Filtrar las ventas que corresponden al vendedor
-    var ventasDelVendedor = ventas.filter(venta => venta.idVendedor === cedulaVendedor);
-    
-    // Agregar estas ventas al historial
-    historialVentas.push(...ventasDelVendedor);
-    localStorage.setItem('HistorialVentas', JSON.stringify(historialVentas));
-    
-    // Remover las ventas del array original
-    var ventasActualizadas = ventas.filter(venta => venta.idVendedor !== cedulaVendedor);
-    localStorage.setItem('Ventas', JSON.stringify(ventasActualizadas));
-}
-
-    </script>
     <script>
         function cerrarSesion() {
             localStorage.clear();  
