@@ -197,75 +197,78 @@
     </script>
     
 
-        <script>
-            function guardarCambios() {
-                var cedula = document.getElementById('buscarCedula').value;
-                var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-                var indice = vendedores.findIndex(vendedor => vendedor.cedula === cedula);
-        
-                if (indice !== -1) {
-                    vendedores[indice].nombre = document.getElementById('nombreVendedor').value;
-                    vendedores[indice].apellido = document.getElementById('apellidoVendedor').value;
-                    vendedores[indice].telefono = document.getElementById('telefonoVendedor').value;
-                    vendedores[indice].direccion = document.getElementById('direccionVendedor').value;
-                    vendedores[indice].email = document.getElementById('emailVendedor').value;
-        
-                    localStorage.setItem('Vendedores', JSON.stringify(vendedores));
-                    alert('Cambios guardados correctamente');
-                    limpiarformulario();  // Llama a la función para limpiar el formulario después de guardar los cambios
-                } else {
-                    alert('Error al guardar los cambios: Vendedor no encontrado.');
-                }
+    <script>
+        function guardarCambios() {
+            var cedula = document.getElementById('buscarCedula').value;
+            var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+            var indice = vendedores.findIndex(vendedor => vendedor.cedula === cedula);
+
+            if (indice !== -1) {
+                vendedores[indice].nombre = document.getElementById('nombreVendedor').value;
+                vendedores[indice].apellido = document.getElementById('apellidoVendedor').value;
+                vendedores[indice].telefono = document.getElementById('telefonoVendedor').value;
+                vendedores[indice].direccion = document.getElementById('direccionVendedor').value;
+                vendedores[indice].email = document.getElementById('emailVendedor').value;
+
+                localStorage.setItem('Vendedores', JSON.stringify(vendedores));
+                alert('Cambios guardados correctamente');
+                limpiarformulario();
+                document.getElementById('buscarCedula').value = ''; // Limpiar campo de búsqueda
+            } else {
+                alert('Error al guardar los cambios: Vendedor no encontrado.');
             }
-        </script>
+        }
+
+    </script>
         
             
-        <script>
-            function limpiarformulario() {
-                document.getElementById('nombreVendedor').value = '';
-                document.getElementById('apellidoVendedor').value = '';
-                document.getElementById('cedulaVendedor').value = '';
-                document.getElementById('telefonoVendedor').value = '';
-                document.getElementById('direccionVendedor').value = '';
-                document.getElementById('emailVendedor').value = '';
-            }
-        </script>
+    <script>
+        function limpiarformulario() {
+            document.getElementById('nombreVendedor').value = '';
+            document.getElementById('apellidoVendedor').value = '';
+            document.getElementById('cedulaVendedor').value = '';
+            document.getElementById('telefonoVendedor').value = '';
+            document.getElementById('direccionVendedor').value = '';
+            document.getElementById('emailVendedor').value = '';
+        }
+    </script>
       
-        <script>
-            function eliminarVendedor() {
-             var cedula = document.getElementById('buscarCedula').value;
-             if (!cedula) {
-                    alert("Por favor ingrese la cédula del Vendedor que desea eliminar.");
-                    return;
-                }
+    <script>
+        function eliminarVendedor() {
+            var cedula = document.getElementById('buscarCedula').value;
+            if (!cedula) {
+                alert("Por favor ingrese la cédula del Vendedor que desea eliminar.");
+                return;
+            }
     
-                var confirmacion = confirm("¿Estás seguro de que deseas eliminar este Vendedor? Esta acción no se puede deshacer.");
-                if (confirmacion) {
-                    var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-                    var historialVendedores = JSON.parse(localStorage.getItem('HistorialVendedores')) || [];
-                    var indice = Vendedores.findIndex(v => v.cedula === cedula);
+            var confirmacion = confirm("¿Estás seguro de que deseas eliminar este Vendedor? Esta acción no se puede deshacer.");
+            if (confirmacion) {
+                var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+                var historialVendedores = JSON.parse(localStorage.getItem('HistorialVendedores')) || [];
+                var indice = Vendedores.findIndex(v => v.cedula === cedula);
     
-                    if (indice !== -1) {
-                        historialVendedores.push(Vendedores[indice]);  // Agrega el vendedor al historial antes de eliminarlo
-                        localStorage.setItem('HistorialVendedores', JSON.stringify(historialVendedores));
+                if (indice !== -1) {
+                    historialVendedores.push(Vendedores[indice]);  // Agrega el vendedor al historial antes de eliminarlo
+                    localStorage.setItem('HistorialVendedores', JSON.stringify(historialVendedores));
     
-                        Vendedores.splice(indice, 1);
-                        localStorage.setItem('Vendedores', JSON.stringify(Vendedores));
-                        alert('Vendedor eliminado, pero su historial ha sido guardado.');
-                        limpiarformulario();  // Asegúrate de que esta función esté correctamente referenciada
-                    } else {
-                        alert('No se encontró un Vendedor con esa cédula.');
-                    }
+                    Vendedores.splice(indice, 1);
+                    localStorage.setItem('Vendedores', JSON.stringify(Vendedores));
+                    alert('Vendedor eliminado, pero su historial ha sido guardado.');
+                    limpiarformulario();  // Asegúrate de que esta función esté correctamente referenciada
+                    document.getElementById('buscarCedula').value = ''; // Limpiar campo de búsqueda
+                } else {
+                    alert('No se encontró un Vendedor con esa cédula.');
                 }
             }
-        </script>
-        <script>
-            function cerrarSesion() {
-                localStorage.clear();  
-                sessionStorage.clear(); 
-                 window.location.href = 'index.html';
-             }
-        </script>
+        }
+    </script>
+    <script>
+        function cerrarSesion() {
+            localStorage.clear();  
+            sessionStorage.clear(); 
+            window.location.href = 'index.html';
+        }
+    </script>
     <footer>
         <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
     </footer> 
