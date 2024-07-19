@@ -100,7 +100,7 @@
             <button onclick="buscarYEditarVendedor()" class="btn btn-primary mt-2">Buscar</button>
     </div>
 
-    <div id="datosVendedor" class="container mt-5 hidden">
+    <div id="datosVendedor" class="container mt-5 ">
          <h2>Editar Vendedor</h2>
         <form action="/update-Vendedor" method="post">
             <div class="mb-3">
@@ -178,21 +178,20 @@
             document.getElementById('telefonoVendedor').value = '';
             document.getElementById('direccionVendedor').value = '';
             document.getElementById('emailVendedor').value = '';
-            document.getElementById('VendedorActivo').checked = false;
+            
     
             if (vendedorEncontrado) {
-                document.getElementById('datosVendedor').classList.remove('hidden');
+                document.getElementById('datosVendedor').classList.remove();
                 document.getElementById('nombreVendedor').value = vendedorEncontrado.nombre;
                 document.getElementById('apellidoVendedor').value = vendedorEncontrado.apellido;
                 document.getElementById('cedulaVendedor').value = vendedorEncontrado.cedula;
                 document.getElementById('telefonoVendedor').value = vendedorEncontrado.telefono;
                 document.getElementById('direccionVendedor').value = vendedorEncontrado.direccion;
                 document.getElementById('emailVendedor').value = vendedorEncontrado.email;
-                document.getElementById('VendedorActivo').checked = vendedorEncontrado.isActive;
                 document.getElementById('datosVendedor').style.display = 'block';
             } else {
                 alert('Vendedor no encontrado');
-                document.getElementById('datosVendedor').style.display = 'none';
+                document.getElementById('datosVendedor');
             }
         }
     </script>

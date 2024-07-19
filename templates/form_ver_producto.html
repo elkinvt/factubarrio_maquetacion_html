@@ -103,7 +103,7 @@
         <div id="listaProductos" class="list-group mt-3"></div>
     </div>
 
-    <div  id="infoProducto" class="container mt-5" style="display: none;">
+    <div  id="infoProducto" class="container mt-5">
         <h2>Informacion del producto</h2>
         <form id="formCrearProducto">
             <div class="mb-3">
@@ -128,7 +128,7 @@
             </div>
             <div class="mb-3">
                 <label for="unidadMedidaProducto" class="form-label">Unidad de Medida</label>
-                <select class="form-select" id="unidadMedidaProducto" required>
+                <select class="form-select" id="unidadMedidaProducto" required disabled>
                     <option value="">Seleccione una unidad</option>
                     <optgroup label="Peso">
                         <option value="kg">Kilogramos (kg)</option>
@@ -171,7 +171,9 @@
 
     <script>
         function buscarProducto() {
-            var textoBusqueda = document.getElementById('buscarProductoInput').value.trim().toLowerCase();
+            var textoBusqueda = document.getElementById('buscarProductoInput').value.trim().toLowerCase(); // Obtener el valor antes de limpiar
+            document.getElementById('buscarProductoInput').value = '';  // Limpiar el campo de búsqueda después de obtener el valor
+    
             var productos = JSON.parse(localStorage.getItem('Productos')) || [];
             var productosFiltrados = productos.filter(producto => 
                 producto.codigo.toLowerCase().includes(textoBusqueda) || 
@@ -180,50 +182,45 @@
 
             var listaProductos = document.getElementById('listaProductos');
             listaProductos.innerHTML = '';
+            listaProductos.style.display = 'block'; // Asegúrate de mostrar la lista cada vez que buscas
 
             if (productosFiltrados.length === 0) {
                 listaProductos.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
-            } else {
+             } else {
                 productosFiltrados.forEach(producto => {
                     var item = document.createElement('button');
                     item.classList.add('list-group-item', 'list-group-item-action');
                     item.textContent = `${producto.nombre} - ${producto.codigo}`;
                     item.onclick = () => cargarProducto(producto);
                     listaProductos.appendChild(item);
-                    });
+                });
             }
-            document.getElementById('buscarProductoInput').value = '';
-    
-            // Limpiar el campo de búsqueda cada vez que se realiza una búsqueda
-            document.getElementById('buscarProductoInput').value = '';
         }
+
+    
         function cargarProducto(producto) {
+            // Setear valores en los campos de producto
             document.getElementById('codigoProducto').value = producto.codigo;
             document.getElementById('nombreProducto').value = producto.nombre;
             document.getElementById('descripcionProducto').value = producto.descripcion;
             document.getElementById('categoriaProducto').value = producto.categoria;
             document.getElementById('precioProducto').value = producto.precio;
-
+            document.getElementById('presentacionProducto').value = producto.presentacion;
+            document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
+            document.getElementById('estadoProducto').value = producto.isActive ? "Habilitado" : "Deshabilitado";
+    
             var selectUnidadMedida = document.getElementById('unidadMedidaProducto');
-            console.log("Intentando seleccionar:", producto.unidadMedida);
-            console.log("Opciones disponibles:", Array.from(selectUnidadMedida.options).map(opt => opt.value)); // Muestra todas las opciones disponibles
-
             if (Array.from(selectUnidadMedida.options).some(option => option.value === producto.unidadMedida)) {
                 selectUnidadMedida.value = producto.unidadMedida;
             } else {
                 console.error("La unidad de medida del producto no está definida en las opciones del select");
             }
-
-            document.getElementById('presentacionProducto').value = producto.presentacion;
-            document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
-            document.getElementById('estadoProducto').value = producto.isActive ? "Habilitado" : "Deshabilitado";
-
-            // Mostrar los detalles del producto y ocultar la lista de búsqueda
+    
+            // Mostrar los detalles del producto
             document.getElementById('infoProducto').style.display = 'block';
-            document.getElementById('listaProductos').style.display = 'none';
         }
-
     </script>
+    
     <script>
         function cerrarSesion() {
             localStorage.clear();  

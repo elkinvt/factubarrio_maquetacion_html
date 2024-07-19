@@ -96,12 +96,12 @@
   </ul>
   <div class="container mt-5">
     <h2>Buscar Producto</h2>
-    <input type="text" id="buscarCodigoProducto" class="form-control mt-2" placeholder="Ingrese código del producto">
+    <input type="text" id="buscarCodigoProducto" class="form-control mt-2" placeholder="Ingrese código del producto y/o">
     <input type="text" id="buscarNombreProducto" class="form-control mt-2" placeholder="Ingrese nombre del producto">
     <button onclick="buscarProducto()" class="btn btn-primary mt-3">Buscar</button>
     <div id="listaProductos" class="list-group mt-3"></div>
 </div>
-<div id="datosProducto" class="container mt-5 hidden">
+<div id="datosProducto" class="container mt-5 ">
     <!-- Formulario para mostrar y editar detalles del producto -->
     <h2>Editar producto</h2>
     <form id="formeditarProducto">
@@ -187,34 +187,34 @@
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-       function buscarProducto() {
-        var codigo = document.getElementById('buscarCodigoProducto').value.trim().toLowerCase();
-        var nombre = document.getElementById('buscarNombreProducto').value.trim().toLowerCase();
-        var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+        function buscarProducto() {
+            var codigo = document.getElementById('buscarCodigoProducto').value.trim().toLowerCase();
+            var nombre = document.getElementById('buscarNombreProducto').value.trim().toLowerCase();
+            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
     
-        var resultados = productos.filter(producto => 
-            (codigo && producto.codigo.toLowerCase().includes(codigo)) ||
-            (nombre && producto.nombre.toLowerCase().includes(nombre))
-        );
+            var resultados = productos.filter(producto => 
+                (codigo && producto.codigo.toLowerCase().includes(codigo)) ||
+                (nombre && producto.nombre.toLowerCase().includes(nombre))
+            );
     
-        var listaProductos = document.getElementById('listaProductos');
-        listaProductos.innerHTML = ''; // Limpiar lista anterior
+            var listaProductos = document.getElementById('listaProductos');
+            listaProductos.innerHTML = ''; // Limpiar lista anterior
     
-        if (resultados.length === 0) {
-            listaProductos.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
-        } else {
-            resultados.forEach(producto => {
-                var item = document.createElement('button');
-                item.classList.add('list-group-item', 'list-group-item-action');
-                item.textContent = `${producto.nombre} - ${producto.codigo}`;
-                item.onclick = () => cargarProductoEnFormulario(producto);
-                listaProductos.appendChild(item);
+            if (resultados.length === 0) {
+                listaProductos.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
+            } else {
+                resultados.forEach(producto => {
+                    var item = document.createElement('button');
+                    item.classList.add('list-group-item', 'list-group-item-action');
+                    item.textContent = `${producto.nombre} - ${producto.codigo}`;
+                    item.onclick = () => cargarProductoEnFormulario(producto);
+                    listaProductos.appendChild(item);
 
-                document.getElementById('buscarCodigoProducto').value = '';
-    document.getElementById('buscarNombreProducto').value = '';
-            });
+                    document.getElementById('buscarCodigoProducto').value = '';
+                    document.getElementById('buscarNombreProducto').value = '';
+                 });
+             }
         }
-    }
     
         function cargarProductoEnFormulario(producto) {
             document.getElementById('datosProducto').classList.remove('hidden');
@@ -228,76 +228,79 @@
             document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
             document.getElementById('estadoProducto').value = producto.isActive ? "Habilitado" : "Deshabilitado";  // Asegura que se muestra el estado correcto
         }
-        </script>
-    <script>
-         function guardarProductoEditado() {
-        var codigo = document.getElementById('codigoProducto').value;
-        var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-        var index = productos.findIndex(p => p.codigo === codigo);
 
-    if (index !== -1) {
-        productos[index] = {
-            codigo: codigo,
-            nombre: document.getElementById('nombreProducto').value,
-            descripcion: document.getElementById('descripcionProducto').value,
-            categoria: document.getElementById('categoriaProducto').value,
-            precio: parseFloat(document.getElementById('precioProducto').value),
-            unidadMedida: document.getElementById('unidadMedidaProducto').value,
-            presentacion: document.getElementById('presentacionProducto').value,
-            cantidadStock: parseInt(document.getElementById('cantidadStockProducto').value)
-        };
-
-        localStorage.setItem('Productos', JSON.stringify(productos));
-        alert('Producto actualizado correctamente.');
-    } else {
-        alert('Error: Producto no encontrado.');
-    }
-}
     </script>
-    
-      <script>
-        function toggleEstadoProducto() {
-    var codigo = document.getElementById('codigoProducto').value;
-    var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-    var index = productos.findIndex(p => p.codigo === codigo);
 
-    if (index !== -1) {
-        productos[index].isActive = !productos[index].isActive;
-        localStorage.setItem('Productos', JSON.stringify(productos));
-        alert(productos[index].isActive ? 'Producto habilitado.' : 'Producto deshabilitado.');
-        document.getElementById('estadoProducto').value = productos[index].isActive ? "Habilitado" : "Deshabilitado";  // Asegura que el input muestra el estado actualizado
-    } else {
-        alert('Producto no encontrado.');
-    }
-}
+    <script>
+        function guardarProductoEditado() {
+            var codigo = document.getElementById('codigoProducto').value;
+            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+            var index = productos.findIndex(p => p.codigo === codigo);
 
-function actualizarEstadoVisual(isActive) {
-    var checkbox = document.getElementById('clienteActivo');
-    if (checkbox) {
-        checkbox.checked = isActive;
-    }
-}
+            if (index !== -1) {
+                productos[index] = {
+                codigo: codigo,
+                nombre: document.getElementById('nombreProducto').value,
+                descripcion: document.getElementById('descripcionProducto').value,
+                categoria: document.getElementById('categoriaProducto').value,
+                precio: parseFloat(document.getElementById('precioProducto').value),
+                unidadMedida: document.getElementById('unidadMedidaProducto').value,
+                presentacion: document.getElementById('presentacionProducto').value,
+                cantidadStock: parseInt(document.getElementById('cantidadStockProducto').value)
+                };
 
-    
-      </script>
-      <script>
-        function eliminarProducto() {
-    var codigo = document.getElementById('codigoProducto').value;
-    var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-    var index = productos.findIndex(p => p.codigo === codigo);
-
-    if (index !== -1) {
-        var confirmacion = confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.");
-        if (confirmacion) {
-            productos.splice(index, 1);
-            localStorage.setItem('Productos', JSON.stringify(productos));
-            alert('Producto eliminado.');
-            limpiarFormularioProducto();  // Limpia el formulario después de eliminar el producto
+                localStorage.setItem('Productos', JSON.stringify(productos));
+                alert('Producto actualizado correctamente.');
+            } else {
+                 alert('Error: Producto no encontrado.');
+            }
         }
-    } else {
-        alert('Producto no encontrado.');
-    }
-}
+    </script>
+
+    <script>
+        function toggleEstadoProducto() {
+            var codigo = document.getElementById('codigoProducto').value;
+            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+            var index = productos.findIndex(p => p.codigo === codigo);
+
+            if (index !== -1) {
+                productos[index].isActive = !productos[index].isActive;
+                localStorage.setItem('Productos', JSON.stringify(productos));
+                alert(productos[index].isActive ? 'Producto habilitado.' : 'Producto deshabilitado.');
+                document.getElementById('estadoProducto').value = productos[index].isActive ? "Habilitado" : "Deshabilitado";  // Asegura que el input muestra el estado actualizado
+            } else {
+                alert('Producto no encontrado.');
+            }
+        }
+
+        function actualizarEstadoVisual(isActive) {
+            var checkbox = document.getElementById('clienteActivo');
+            if (checkbox) {
+                checkbox.checked = isActive;
+            }
+        }
+
+    
+    </script>
+
+    <script>
+        function eliminarProducto() {
+            var codigo = document.getElementById('codigoProducto').value;
+            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+            var index = productos.findIndex(p => p.codigo === codigo);
+
+            if (index !== -1) {
+                var confirmacion = confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.");
+                if (confirmacion) {
+                    productos.splice(index, 1);
+                    localStorage.setItem('Productos', JSON.stringify(productos));
+                    alert('Producto eliminado.');
+                    limpiarFormularioProducto();  // Limpia el formulario después de eliminar el producto
+                }
+            } else {
+                alert('Producto no encontrado.');
+            }
+        }
 
 
     </script>
@@ -315,13 +318,14 @@ function actualizarEstadoVisual(isActive) {
         }
         
     </script>
-     <script>
+
+    <script>
         function cerrarSesion() {
             localStorage.clear();  
             sessionStorage.clear(); 
             window.location.href = 'index.html';
         }
-  </script>
+    </script>
     
 
     <footer>

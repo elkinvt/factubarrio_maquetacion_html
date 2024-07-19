@@ -101,7 +101,7 @@
         <button type="button" class="btn btn-primary mt-3" onclick="buscarVendedor()">Buscar</button>
     </div>
 
-    <div  id="infoVendedor" class="container mt-5" style="display: none;">
+    <div  id="infoVendedor" class="container mt-5">
         <h3>Información del Vendedor</h3>
         <form>
             <div class="mb-3">
@@ -171,7 +171,6 @@
                 
                 infoVendedor.style.display = 'block'; // Asegúrate de que este estilo inicialmente esté en 'none'
             } else {
-                infoVendedor.style.display = 'none'; // Oculta el formulario si no se encuentra el vendedor
                 alert("No se encontró un vendedor con esa cédula.");
             }
         }

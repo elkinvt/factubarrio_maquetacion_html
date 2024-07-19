@@ -1,39 +1,32 @@
-<script>
-    function cargarProducto(producto) {
-        // Establece los valores en los campos de formulario
-        document.getElementById('codigoProducto').value = producto.codigo;
-        document.getElementById('nombreProducto').value = producto.nombre;
-        document.getElementById('descripcionProducto').value = producto.descripcion;
-        document.getElementById('categoriaProducto').value = producto.categoria;
-        document.getElementById('precioProducto').value = producto.precio;
-    
-        // Establecer la unidad de medida seleccionada
-        var selectUnidadMedida = document.getElementById('unidadMedidaProducto');
-        selectUnidadMedida.value = producto.unidadMedida;
-    
-        document.getElementById('presentacionProducto').value = producto.presentacion;
-        document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
-        document.getElementById('estadoProducto').checked = producto.isActive;
-    
-        // Mostrar los detalles del producto y ocultar la lista de búsqueda
-        document.getElementById('infoProducto').style.display = 'block';  // Asegúrate de que este elemento exista en tu HTML
-        document.getElementById('listaProductos').style.display = 'none';
+function buscarCliente() {
+    var cedula = document.getElementById('cedulaBuscar').value.trim();
+    if (!cedula) {
+        alert("Por favor, ingrese la cédula del Cliente antes de buscar.");
+        return;
     }
-</script>
-function cargarProducto(producto) {
-    document.getElementById('codigoProducto').value = producto.codigo;
-    document.getElementById('nombreProducto').value = producto.nombre;
-    document.getElementById('descripcionProducto').value = producto.descripcion;
-    document.getElementById('categoriaProducto').value = producto.categoria;
-    document.getElementById('precioProducto').value = producto.precio;
-    document.getElementById('unidadMedidaProducto').value = producto.unidadMedida;
-    document.getElementById('presentacionProducto').value = producto.presentacion;
-    document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
-    document.getElementById('estadoProducto').value = producto.isActive ? "Habilitado" : "Deshabilitado";
 
-    document.getElementById('infoProducto').style.display = 'block';
-    document.getElementById('listaProductos').style.display = 'none';
+    var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    var clienteEncontrado = clientes.find(cliente => cliente.cedula === cedula);
 
-    // Opcionalmente, ocultar la lista una vez seleccionado un producto
-    document.getElementById('listaProductos').style.display = 'none';
+    if (clienteEncontrado) {
+        document.getElementById('clienteNombre').value = clienteEncontrado.nombre;
+        document.getElementById('clienteApellido').value = clienteEncontrado.apellido;
+        document.getElementById('clienteCedula').value = clienteEncontrado.cedula;
+        document.getElementById('clienteTelefono').value = clienteEncontrado.telefono;
+        document.getElementById('clienteDireccion').value = clienteEncontrado.direccion;
+        document.getElementById('clienteEmail').value = clienteEncontrado.email;
+        // Aquí podrías también actualizar un checkbox o un indicador de estado si fuera necesario
+    } else {
+        alert('No se encontró un cliente con esa cédula.');
+        limpiarCampos();  // Limpia los campos si no se encuentra el cliente
+    }
+}
+
+function limpiarCampos() {
+    document.getElementById('clienteNombre').value = '';
+    document.getElementById('clienteApellido').value = '';
+    document.getElementById('clienteCedula').value = '';
+    document.getElementById('clienteTelefono').value = '';
+    document.getElementById('clienteDireccion').value = '';
+    document.getElementById('clienteEmail').value = '';
 }

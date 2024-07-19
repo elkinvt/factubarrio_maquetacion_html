@@ -94,82 +94,87 @@
         </li>
    
     </ul>
-        <div class="container mt-5">
-             <h2>Buscar Cliente por Cédula</h2>
-            <input type="text" id="cedulaBuscar" placeholder="Ingrese cédula del cliente" class="form-control">
-             <button type="button" class="btn btn-primary mt-3" onclick="buscarCliente()">Buscar</button>
-        </div>
-        <div id="resultadoBusqueda" class="container mt-5"></div>
+    <div class="container mt-5">
+        <h2>Buscar Cliente por Cédula</h2>
+        <input type="text" id="cedulaBuscar" placeholder="Ingrese cédula del cliente" class="form-control">
+        <button type="button" class="btn btn-primary mt-3" onclick="buscarCliente()">Buscar</button>
+    </div>
+    <div id="resultadoBusqueda" class="container mt-5"></div>
 
-        <div class="cliente-info mt-5 hidden">
-            <h3>Información del Cliente</h3>
-            <form>
-                <div class="mb-3">
-                    <label>Nombre</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Apellidos</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Cédula</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Teléfono</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Dirección</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Email</label>
-                    <input type="email" class="form-control">
-                </div>
-            </form>
-        </div>
+    <div class="container mt-5">
+        <h3>Información del Cliente</h3>
+        <form>
+            <div class="mb-3">
+                <label>Nombre</label>
+                <input type="text" class="form-control" id="clienteNombre">
+            </div>
+            <div class="mb-3">
+                <label>Apellidos</label>
+                <input type="text" class="form-control" id="clienteApellido">
+            </div>
+            <div class="mb-3">
+                <label>Cédula</label>
+                <input type="text" class="form-control" id="clienteCedula">
+            </div>
+            <div class="mb-3">
+                <label>Teléfono</label>
+                <input type="text" class="form-control" id="clienteTelefono">
+            </div>
+            <div class="mb-3">
+                <label>Dirección</label>
+                <input type="text" class="form-control" id="clienteDireccion">
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" class="form-control" id="clienteEmail">
+            </div>
+            <div class="mb-3">
+                <label>Estado</label>
+                <input type="text" class="form-control" id="clienteEstado" readonly>
+            </div>
+                
+                
+        </form>
+    </div>
+        
     
     
     <script>
-        function buscarCliente() {
-            var cedula = document.getElementById('cedulaBuscar').value;
-            if (!cedula) {  // Verifica si el campo 'cedulaBuscar' está vacío
+       function buscarCliente() {
+            var cedula = document.getElementById('cedulaBuscar').value.trim();
+                if (!cedula) {
                 alert("Por favor, ingrese la cédula del Cliente antes de buscar.");
-                return;  // Detiene la ejecución de la función si el campo está vacío
+                return;
             }
+
             var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
             var clienteEncontrado = clientes.find(cliente => cliente.cedula === cedula);
-    
-            var divResultado = document.getElementById('resultadoBusqueda');
-            divResultado.innerHTML = ''; 
-    
+
             if (clienteEncontrado) {
-                var infoCliente = `
-                    <h4>Información del Cliente:</h4>
-                    <div class="cliente-datos px-5">
-                        <label>Nombre:</label>
-                        <input type="text" class="form-control mb-2" value="${clienteEncontrado.nombre}" readonly>
-                        <label>Apellidos:</label>
-                        <input type="text" class="form-control mb-2" value="${clienteEncontrado.apellido}" readonly>
-                        <label>Cédula:</label>
-                        <input type="text" class="form-control mb-2" value="${clienteEncontrado.cedula}" readonly>
-                        <label>Teléfono:</label>
-                        <input type="text" class="form-control mb-2" value="${clienteEncontrado.telefono}" readonly>
-                        <label>Dirección:</label>
-                        <input type="text" class="form-control mb-2" value="${clienteEncontrado.direccion}" readonly>
-                        <label>Email:</label>
-                        <input type="email" class="form-control mb-2" value="${clienteEncontrado.email}" readonly>
-                        <label>Estado:</label>
-                        <input type="text" class="form-control mb-2" value="${clienteEncontrado.isActive ? 'Activo' : 'Bloqueado'}" readonly>
-                    </div>
-            `;
-                divResultado.innerHTML = infoCliente;
+                // Actualizar campos de texto
+                document.getElementById('clienteNombre').value = clienteEncontrado.nombre;
+                document.getElementById('clienteApellido').value = clienteEncontrado.apellido;
+                document.getElementById('clienteCedula').value = clienteEncontrado.cedula;
+                document.getElementById('clienteTelefono').value = clienteEncontrado.telefono;
+                document.getElementById('clienteDireccion').value = clienteEncontrado.direccion;
+                document.getElementById('clienteEmail').value = clienteEncontrado.email;
+                document.getElementById('clienteEstado').value = clienteEncontrado.isActive ? 'Habilitado' : 'Deshabilitado'; // Estado como texto
             } else {
-            divResultado.innerHTML = '<p>No se encontró un cliente con esa cédula.</p>';
+                alert('No se encontró un cliente con esa cédula.');
+                limpiarCampos();  // Limpia los campos si no se encuentra el cliente
             }
         }
+
+
+        function limpiarCampos() {
+            document.getElementById('clienteNombre').value = '';
+            document.getElementById('clienteApellido').value = '';
+            document.getElementById('clienteCedula').value = '';
+            document.getElementById('clienteTelefono').value = '';
+            document.getElementById('clienteDireccion').value = '';
+            document.getElementById('clienteEmail').value = '';
+        }
+
     </script>
         
     <script>
