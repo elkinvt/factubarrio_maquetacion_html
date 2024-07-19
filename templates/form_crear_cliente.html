@@ -56,8 +56,8 @@
             <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
             <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
             <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
@@ -65,30 +65,30 @@
             <li><a class="dropdown-item" href="form_editar_vendedor.html
                 ">editar Vendedor</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
             <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
             <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
             <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
             <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
             <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
             <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
         </ul>
-    </li>
+     </li>
   </ul>
     <div class="container mt-5">
         <h2>Registrar Cliente</h2>
@@ -124,54 +124,54 @@
     
     <script>
         function guardarCliente() {
-    var nombre = document.getElementById('nombreCliente').value;
-    var apellido = document.getElementById('apellidoCliente').value;
-    var cedula = document.getElementById('cedulaCliente').value;
-    var telefono = document.getElementById('telefonoCliente').value;
-    var direccion = document.getElementById('direccionCliente').value;
-    var email = document.getElementById('emailCliente').value;
-    var isActive = true; // Valor predeterminado al crear un nuevo cliente
+        var nombre = document.getElementById('nombreCliente').value;
+        var apellido = document.getElementById('apellidoCliente').value;
+        var cedula = document.getElementById('cedulaCliente').value;
+        var telefono = document.getElementById('telefonoCliente').value;
+        var direccion = document.getElementById('direccionCliente').value;
+        var email = document.getElementById('emailCliente').value;
+        var isActive = true; // Valor predeterminado al crear un nuevo cliente
 
-    if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
-        alert('Por favor, complete todos los campos antes de guardar.');
-        return; // Detiene la función si algún campo está vacío
-    }
+        if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
+            alert('Por favor, complete todos los campos antes de guardar.');
+            return; // Detiene la función si algún campo está vacío
+        }
 
-    var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    var clienteExistente = clientes.find(cliente => cliente.cedula === cedula);
+        var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+        var clienteExistente = clientes.find(cliente => cliente.cedula === cedula);
 
-    // Verificar si ya existe un cliente con la misma cédula
-    if (clienteExistente) {
-        alert('Ya existe un cliente con la cédula ' + cedula + '. Nombre: ' + clienteExistente.nombre + ' ' + clienteExistente.apellido);
-        return; // Detiene la función si ya existe un cliente con esa cédula
-    }
+        // Verificar si ya existe un cliente con la misma cédula
+        if (clienteExistente) {
+            alert('Ya existe un cliente con la cédula ' + cedula + '. Nombre: ' + clienteExistente.nombre + ' ' + clienteExistente.apellido);
+            return; // Detiene la función si ya existe un cliente con esa cédula
+        }
 
-    var cliente = {
-        nombre: nombre,
-        apellido: apellido,
-        cedula: cedula,
-        telefono: telefono,
-        direccion: direccion,
-        email: email,
-        isActive: isActive
-    };
+        var cliente = {
+            nombre: nombre,
+            apellido: apellido,
+            cedula: cedula,
+            telefono: telefono,
+            direccion: direccion,
+            email: email,
+            isActive: isActive
+        };
 
-    clientes.push(cliente);
-    localStorage.setItem('clientes', JSON.stringify(clientes));
+        clientes.push(cliente);
+        localStorage.setItem('clientes', JSON.stringify(clientes));
 
-    limpiarFormulario();  // Función que limpia el formulario después de guardar
+        limpiarFormulario();  // Función que limpia el formulario después de guardar
 
-    alert('Cliente guardado con éxito!');
-}
+        alert('Cliente guardado con éxito!');
+        }
 
-function limpiarFormulario() {
-    document.getElementById('nombreCliente').value = '';
-    document.getElementById('apellidoCliente').value = '';
-    document.getElementById('cedulaCliente').value = '';
-    document.getElementById('telefonoCliente').value = '';
-    document.getElementById('direccionCliente').value = '';
-    document.getElementById('emailCliente').value = '';
-}
+        function limpiarFormulario() {
+        document.getElementById('nombreCliente').value = '';
+        document.getElementById('apellidoCliente').value = '';
+        document.getElementById('cedulaCliente').value = '';
+        document.getElementById('telefonoCliente').value = '';
+        document.getElementById('direccionCliente').value = '';
+        document.getElementById('emailCliente').value = '';
+        }
 
      
      function limpiarFormulario() {
@@ -181,20 +181,20 @@ function limpiarFormulario() {
          document.getElementById('telefonoCliente').value = '';
          document.getElementById('direccionCliente').value = '';
          document.getElementById('emailCliente').value = '';
-     }
+        }
      
      
-     </script>
-      <script>
+    </script>
+    <script>
         function cerrarSesion() {
             localStorage.clear();  
             sessionStorage.clear(); 
             window.location.href = 'index.html';
         }
-  </script>  
+    </script>  
 
     <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer> 
+        <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </footer> 
 </body>
 </html>

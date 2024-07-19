@@ -60,45 +60,45 @@
             <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
             <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
             <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
             <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
             <li><a class="dropdown-item" href="form_editar_vendedor.html">editar Vendedor</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
             <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
             <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
             <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
             <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
             <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
             <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
         </ul>
-    </li>
+     </li>
     
-  </ul>
+    </ul>
   <div class="container mt-5">
     <label for="buscarCedula" class="form-label">Cédula del Cliente:</label>
     <input type="text"  placeholder="Ingrese cédula del cliente para mostrar" class="form-control" id="buscarCedula">
     <button onclick="buscarYEditarCliente()" class="btn btn-primary mt-2">Buscar</button>
-</div>
+  </div>
     <div id="datosCliente" class="container mt-5 hidden">
         <h2>Editar Cliente</h2>
         <form action="/update-cliente" method="post">
@@ -146,11 +146,6 @@
             </div>
             
         </form>
-        
-        <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
-            Cambios guardados correctamente.
-        </div>
-
     </div>
     <script>
         function guardarCambios() {
@@ -170,88 +165,89 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function buscarYEditarCliente() {
-        var cedula = document.getElementById('buscarCedula').value;
-        if (!cedula) {  // Verifica si el campo 'cedulaBuscar' está vacío
-        alert("Por favor, ingrese la cédula del Cliente antes de buscar.");
-        return;  // Detiene la ejecución de la función si el campo está vacío
-    }
-        var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-        var cliente = clientes.find(cliente => cliente.cedula === cedula);
+            var cedula = document.getElementById('buscarCedula').value;
+
+            if (!cedula) {  // Verifica si el campo 'cedulaBuscar' está vacío
+            alert("Por favor, ingrese la cédula del Cliente antes de buscar.");
+            return;  // Detiene la ejecución de la función si el campo está vacío
+            }
+            var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+            var cliente = clientes.find(cliente => cliente.cedula === cedula);
     
-        if (cliente) {
-            document.getElementById('datosCliente').classList.remove('hidden');
-            document.getElementById('nombreCliente').value = cliente.nombre;
-            document.getElementById('apellidoCliente').value = cliente.apellido;
-            document.getElementById('cedulaCliente').value = cliente.cedula;
-            document.getElementById('telefonoCliente').value = cliente.telefono;
-            document.getElementById('direccionCliente').value = cliente.direccion;
-            document.getElementById('emailCliente').value = cliente.email;
-            document.getElementById('clienteActivo').checked = cliente.isActive;
-            document.getElementById('datosCliente').style.display = 'block';
-        } else {
-            alert('Cliente no encontrado');
-            document.getElementById('datosCliente').style.display = 'none';
+            if (cliente) {
+                document.getElementById('datosCliente').classList.remove('hidden');
+                document.getElementById('nombreCliente').value = cliente.nombre;
+                document.getElementById('apellidoCliente').value = cliente.apellido;
+                document.getElementById('cedulaCliente').value = cliente.cedula;
+                document.getElementById('telefonoCliente').value = cliente.telefono;
+                document.getElementById('direccionCliente').value = cliente.direccion;
+                document.getElementById('emailCliente').value = cliente.email;
+                document.getElementById('clienteActivo').checked = cliente.isActive;
+                document.getElementById('datosCliente').style.display = 'block';
+            } else {
+                alert('Cliente no encontrado');
+                document.getElementById('datosCliente').style.display = 'none';
+            }
         }
-    }
     
-    function guardarCambios() {
-        var cedula = document.getElementById('buscarCedula').value;
-        var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-        var cliente = clientes.find(cliente => cliente.cedula === cedula);
+        function guardarCambios() {
+            var cedula = document.getElementById('buscarCedula').value;
+            var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+            var cliente = clientes.find(cliente => cliente.cedula === cedula);
     
-        if (cliente) {
-            cliente.nombre = document.getElementById('nombreCliente').value;
-            cliente.apellido = document.getElementById('apellidoCliente').value;
-            cliente.telefono = document.getElementById('telefonoCliente').value;
-            cliente.direccion = document.getElementById('direccionCliente').value;
-            cliente.email = document.getElementById('emailCliente').value;
+            if (cliente) {
+                cliente.nombre = document.getElementById('nombreCliente').value;
+                cliente.apellido = document.getElementById('apellidoCliente').value;
+                cliente.telefono = document.getElementById('telefonoCliente').value;
+                cliente.direccion = document.getElementById('direccionCliente').value;
+                cliente.email = document.getElementById('emailCliente').value;
             
-            localStorage.setItem('clientes', JSON.stringify(clientes));
-            alert('Cambios guardados correctamente');
-            limpiarformulario();
-        } else {
-            alert('Error al guardar los cambios');
+                localStorage.setItem('clientes', JSON.stringify(clientes));
+                alert('Cambios guardados correctamente');
+                limpiarformulario();
+            } else {
+                alert('Error al guardar los cambios');
+            }
         }
-    }
     
-      </script>
-      <script>
+    </script>
+    <script>
         function limpiarformulario() {
-    document.getElementById('nombreCliente').value = '';
-    document.getElementById('apellidoCliente').value = '';
-    document.getElementById('cedulaCliente').value = '';
-    document.getElementById('telefonoCliente').value = '';
-    document.getElementById('direccionCliente').value = '';
-    document.getElementById('emailCliente').value = '';
+            document.getElementById('nombreCliente').value = '';
+            document.getElementById('apellidoCliente').value = '';
+            document.getElementById('cedulaCliente').value = '';
+            document.getElementById('telefonoCliente').value = '';
+            document.getElementById('direccionCliente').value = '';
+            document.getElementById('emailCliente').value = '';
 
-}
-      </script>
-      <script>
+        }
+    </script>
+    <script>
         function toggleEstadoCliente() {
-    var cedula = document.getElementById('buscarCedula').value; // Asegúrate de tener un campo para ingresar la cédula.
-    var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    var cliente = clientes.find(cliente => cliente.cedula === cedula);
+            var cedula = document.getElementById('buscarCedula').value; // Asegúrate de tener un campo para ingresar la cédula.
+            var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+            var cliente = clientes.find(cliente => cliente.cedula === cedula);
 
-    if (cliente) {
-        cliente.isActive = !cliente.isActive;  // Cambia el estado de activo a inactivo y viceversa.
-        localStorage.setItem('clientes', JSON.stringify(clientes));
-        alert(cliente.isActive ? 'Cliente activado.' : 'Cliente bloqueado.');
-        actualizarEstadoVisual(cliente.isActive); // Actualiza la interfaz para reflejar el cambio de estado.
-    } else {
-        alert('Cliente no encontrado.');
-    }
-}
+            if (cliente) {
+                cliente.isActive = !cliente.isActive;  // Cambia el estado de activo a inactivo y viceversa.
+                localStorage.setItem('clientes', JSON.stringify(clientes));
+                alert(cliente.isActive ? 'Cliente activado.' : 'Cliente bloqueado.');
+                actualizarEstadoVisual(cliente.isActive); // Actualiza la interfaz para reflejar el cambio de estado.
+            } else {
+                alert('Cliente no encontrado.');
+            }
+        }
 
-function actualizarEstadoVisual(isActive) {
-    var checkbox = document.getElementById('clienteActivo');
-    if (checkbox) {
-        checkbox.checked = isActive;
-    }
-}
+        function actualizarEstadoVisual(isActive) {
+            var checkbox = document.getElementById('clienteActivo');
+                if (checkbox) {
+                checkbox.checked = isActive;
+            }
+        }
 
     
-      </script>
-      <script>
+    </script>
+    <script>
         function eliminarCliente() {
             var cedula = document.getElementById('buscarCedula').value;
             if (!cedula) {
@@ -274,17 +270,17 @@ function actualizarEstadoVisual(isActive) {
             }
         }
     </script>
-     <script>
+    <script>
         function cerrarSesion() {
             localStorage.clear();  
             sessionStorage.clear(); 
             window.location.href = 'index.html';
         }
-  </script>
+    </script>
     
 
     <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer> 
+        <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </footer> 
 </body>
 </html>

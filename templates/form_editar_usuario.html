@@ -53,153 +53,144 @@
     </div>
 
   <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
-     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownClientes" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Clientes</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownClientes">
-            <li><a class="dropdown-item" href="form_ver_cliente.html">Ver Clientes</a></li>
-            <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
-            <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
-            <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
-            <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
-            <li><a class="dropdown-item" href="form_editar_vendedor.html">editar Vendedor</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
-            <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
-            <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
-            <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
-            <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
-            <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
-            <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
-            <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
-            <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
-        </ul>
-    </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownClientes" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Clientes</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownClientes">
+                <li><a class="dropdown-item" href="form_ver_cliente.html">Ver Clientes</a></li>
+                <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
+                <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
+                <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
+                <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
+                <li><a class="dropdown-item" href="form_editar_vendedor.html">editar Vendedor</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
+                <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
+                <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
+                <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
+                <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
+                <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
+                <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
+                <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
+                <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
+            </ul>
+        </li>
     
-  </ul>
-  <div class="container mt-5">
-    <h2>Usuarios Registrados</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Cédula</th>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="usuariosTable">
-            <!-- Los usuarios se cargarán aquí -->
-        </tbody>
-    </table>
-</div>
+    </ul>
+    <div class="container mt-5">
+        <h2>Usuarios Registrados</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="usuariosTable">
+                <!-- Los usuarios se cargarán aquí -->
+            </tbody>
+        </table>
+    </div>
 
-<!-- Modal para editar usuario -->
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editUserModalLabel">Editar Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editUserForm">
-                    <div class="mb-3">
-                        <label for="editNombreUsuario" class="form-label">Nombre de Usuario</label>
-                        <input type="text" id="editNombreUsuario" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editContrasenaUsuario" class="form-label">Contraseña</label>
-                        <input type="password" id="editContrasenaUsuario" class="form-control">
-                    </div>
-                    <input type="hidden" id="editUsuarioCedula">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="guardarCambiosUsuario()">Guardar Cambios</button>
+    <!-- Modal para editar usuario -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserModalLabel">Editar Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm">
+                        <div class="mb-3">
+                         <label for="editNombreUsuario" class="form-label">Nombre de Usuario</label>
+                            <input type="text" id="editNombreUsuario" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editContrasenaUsuario" class="form-label">Contraseña</label>
+                            <input type="password" id="editContrasenaUsuario" class="form-control">
+                        </div>
+                            <input type="hidden" id="editUsuarioCedula">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="guardarCambiosUsuario()">Guardar Cambios</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-function cargarUsuarios() {
-const usuarios = JSON.parse(localStorage.getItem('Vendedores')) || [];
-const tableBody = document.getElementById('usuariosTable');
-tableBody.innerHTML = '';
+    <script>
+        function cargarUsuarios() {
+            const usuarios = JSON.parse(localStorage.getItem('Vendedores')) || [];
+            const tableBody = document.getElementById('usuariosTable');
+            tableBody.innerHTML = '';
+            usuarios.forEach(user => {
+            const row = `<tr>
+            <td>${user.cedula}</td>
+                <td>${user.nombre}</td>
+                <td><button class="btn btn-primary" onclick="mostrarModalEditar('${user.cedula}')">Editar</button></td>
+            </tr>`;
+            tableBody.innerHTML += row;
+            });
+        }
 
-usuarios.forEach(user => {
-    const row = `<tr>
-        <td>${user.cedula}</td>
-        <td>${user.nombre}</td>
-        <td><button class="btn btn-primary" onclick="mostrarModalEditar('${user.cedula}')">Editar</button></td>
-    </tr>`;
-    tableBody.innerHTML += row;
-});
-}
+        function mostrarModalEditar(cedula) {
+            const usuarios = JSON.parse(localStorage.getItem('Vendedores'));
+            const usuario = usuarios.find(u => u.cedula === cedula);
+            if (usuario) {
+                document.getElementById('editNombreUsuario').value = usuario.username || '';
+                document.getElementById('editContrasenaUsuario').value = usuario.password || '';
+                document.getElementById('editUsuarioCedula').value = usuario.cedula;
+                var myModal = new bootstrap.Modal(document.getElementById('editUserModal'));
+                myModal.show();
+            }
+        }
 
-function mostrarModalEditar(cedula) {
-const usuarios = JSON.parse(localStorage.getItem('Vendedores'));
-const usuario = usuarios.find(u => u.cedula === cedula);
-if (usuario) {
-    document.getElementById('editNombreUsuario').value = usuario.username || '';
-    document.getElementById('editContrasenaUsuario').value = usuario.password || '';
-    document.getElementById('editUsuarioCedula').value = usuario.cedula;
-    var myModal = new bootstrap.Modal(document.getElementById('editUserModal'));
-    myModal.show();
-}
-}
+        function guardarCambiosUsuario() {
+            const cedula = document.getElementById('editUsuarioCedula').value;
+            const username = document.getElementById('editNombreUsuario').value;
+            const password = document.getElementById('editContrasenaUsuario').value;
+            const usuarios = JSON.parse(localStorage.getItem('Vendedores'));
+            const index = usuarios.findIndex(u => u.cedula === cedula);
 
-function guardarCambiosUsuario() {
-const cedula = document.getElementById('editUsuarioCedula').value;
-const username = document.getElementById('editNombreUsuario').value;
-const password = document.getElementById('editContrasenaUsuario').value;
-const usuarios = JSON.parse(localStorage.getItem('Vendedores'));
-const index = usuarios.findIndex(u => u.cedula === cedula);
+            if (index !== -1) {
+                usuarios[index].username = username;
+                usuarios[index].password = password;
+                localStorage.setItem('Vendedores', JSON.stringify(usuarios));
+                alert('Usuario actualizado con éxito');
+            }
+        }
 
-if (index !== -1) {
-    usuarios[index].username = username;
-    usuarios[index].password = password;
-    localStorage.setItem('Vendedores', JSON.stringify(usuarios));
-    alert('Usuario actualizado con éxito');
-}
-}
-
-document.addEventListener('DOMContentLoaded', cargarUsuarios);
-
-
-</script>
-
-  
-    
-     <script>
+        document.addEventListener('DOMContentLoaded', cargarUsuarios);
+    </script>
+    <script>
         function cerrarSesion() {
             localStorage.clear();  
             sessionStorage.clear(); 
             window.location.href = 'index.html';
         }
-  </script>
-    
-    
-
+    </script>
     <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer> 
+        <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </footer> 
 </body>
 </html>

@@ -56,8 +56,8 @@
             <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
             <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
             <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
@@ -65,71 +65,71 @@
             <li><a class="dropdown-item" href="form_editar_vendedor.html
                 ">editar Vendedor</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
             <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
             <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
             <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
             <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
             <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
             <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
         </ul>
-    </li>
-  </ul>
+     </li>
+    </ul>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <div class="container mt-5">
-    <h2>Crear Usuario de Vendedor</h2>
-    <form id="formCrearUsuario">
-        <div class="mb-3">
-            <label for="cedulaVendedor" class="form-label">Cédula del Vendedor</label>
-            <input type="text" placeholder="Ingrese cédula del vendedor y precione enter"  class="form-control" id="cedulaVendedor" required onkeypress="cargarDatosVendedor(event)">
-        </div>
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" disabled>
-        </div>
-        <div class="mb-3">
-            <label for="apellido" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="apellido" disabled>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" disabled>
-        </div>
-        <div class="mb-3">
-            <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
-            <input type="text" class="form-control" id="nombreUsuario" required>
-        </div>
-        <div class="mb-3">
-            <label for="contrasenaUsuario" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="contrasenaUsuario" required>
-        </div>
-        <button type="button" class="btn btn-primary" onclick="guardarUsuario()">Guardar Usuario</button>
-    </form>
-</div>
+    <div class="container mt-5">
+        <h2>Crear Usuario de Vendedor</h2>
+         <form id="formCrearUsuario">
+            <div class="mb-3">
+                <label for="cedulaVendedor" class="form-label">Cédula del Vendedor</label>
+                <input type="text" placeholder="Ingrese cédula del vendedor y precione enter"  class="form-control" id="cedulaVendedor" required onkeypress="cargarDatosVendedor(event)">
+            </div>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="text" class="form-control" id="apellido" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
+                <input type="text" class="form-control" id="nombreUsuario" required>
+            </div>
+            <div class="mb-3">
+                <label for="contrasenaUsuario" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="contrasenaUsuario" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="guardarUsuario()">Guardar Usuario</button>
+        </form>
+    </div>
 
-<script>
-    function cargarDatosVendedor(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();  // Prevenir el comportamiento por defecto de enviar el formulario
-            var cedula = document.getElementById('cedulaVendedor').value;
-            var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-            var vendedor = vendedores.find(v => v.cedula === cedula);
+    <script>
+        function cargarDatosVendedor(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();  // Prevenir el comportamiento por defecto de enviar el formulario
+                var cedula = document.getElementById('cedulaVendedor').value;
+                var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+                var vendedor = vendedores.find(v => v.cedula === cedula);
 
             if (vendedor) {
                 document.getElementById('nombre').value = vendedor.nombre;
@@ -141,43 +141,43 @@
             } else {
                 alert('No se encontró un vendedor con esa cédula');
             }
+            }
         }
-    }
-    function guardarUsuario() {
-    var nombreUsuario = document.getElementById('nombreUsuario').value.trim();
-    var contrasenaUsuario = document.getElementById('contrasenaUsuario').value.trim();
-    var cedula = document.getElementById('cedulaVendedor').value.trim();
+        function guardarUsuario() {
+            var nombreUsuario = document.getElementById('nombreUsuario').value.trim();
+            var contrasenaUsuario = document.getElementById('contrasenaUsuario').value.trim();
+            var cedula = document.getElementById('cedulaVendedor').value.trim();
 
-    if (!nombreUsuario || !contrasenaUsuario) {
-        alert('Por favor, ingrese un nombre de usuario y una contraseña.');
-        return; // Detener la función si los campos de nombre de usuario y contraseña están vacíos
-    }
+            if (!nombreUsuario || !contrasenaUsuario) {
+                alert('Por favor, ingrese un nombre de usuario y una contraseña.');
+                 return; // Detener la función si los campos de nombre de usuario y contraseña están vacíos
+            }
 
-    var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-    var vendedor = vendedores.find(v => v.cedula === cedula);
+            var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+            var vendedor = vendedores.find(v => v.cedula === cedula);
 
-    // Comprobar si ya existe un usuario para este vendedor
-    if (vendedor && vendedor.username) {
-        alert('Este vendedor ya tiene un usuario asignado.');
-        return; // Detiene la función si el vendedor ya tiene usuario
-    }
+            // Comprobar si ya existe un usuario para este vendedor
+            if (vendedor && vendedor.username) {
+            alert('Este vendedor ya tiene un usuario asignado.');
+            return; // Detiene la función si el vendedor ya tiene usuario
+            }
 
-    // Asignar nombre de usuario y contraseña al vendedor
-    if (vendedor) {
-        vendedor.username = nombreUsuario;
-        vendedor.password = contrasenaUsuario;
-        localStorage.setItem('Vendedores', JSON.stringify(vendedores));
-        alert('Usuario guardado con éxito!');
-    } else {
-        alert('No se encontró un vendedor con la cédula proporcionada.');
-    }
-}
+            // Asignar nombre de usuario y contraseña al vendedor
+            if (vendedor) {
+            vendedor.username = nombreUsuario;
+            vendedor.password = contrasenaUsuario;
+            localStorage.setItem('Vendedores', JSON.stringify(vendedores));
+            alert('Usuario guardado con éxito!');
+            } else {
+                alert('No se encontró un vendedor con la cédula proporcionada.');
+            }
+        }
 
-</script>
+    </script>
 
 
     <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer> 
+        <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </footer> 
 </body>
 </html>

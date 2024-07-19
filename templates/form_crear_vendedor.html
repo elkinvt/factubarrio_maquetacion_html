@@ -56,40 +56,40 @@
             <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
             <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
             <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
             <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
             <li><a class="dropdown-item" href="form_editar_vendedor.html">editar Vendedor</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
             <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
             <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
             <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
             <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
             <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
             <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
         </ul>
-    </li>
+     </li>
     
-  </ul>
+    </ul>
     <div class="container mt-5">
         <h2>Registrar vendedor</h2>
         <form action="/submit-Vendedor" method="post">
@@ -124,67 +124,67 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
     <script>
         function guardarVendedor() {
-    var nombre = document.getElementById('nombreVendedor').value;
-    var apellido = document.getElementById('apellidoVendedor').value;
-    var cedula = document.getElementById('cedulaVendedor').value;
-    var telefono = document.getElementById('telefonoVendedor').value;
-    var direccion = document.getElementById('direccionVendedor').value;
-    var email = document.getElementById('emailVendedor').value;
+            var nombre = document.getElementById('nombreVendedor').value;
+            var apellido = document.getElementById('apellidoVendedor').value;
+            var cedula = document.getElementById('cedulaVendedor').value;
+            var telefono = document.getElementById('telefonoVendedor').value;
+            var direccion = document.getElementById('direccionVendedor').value;
+            var email = document.getElementById('emailVendedor').value;
 
-    if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
-        alert('Por favor, complete todos los campos antes de guardar.');
-        return; // Detiene la función si algún campo está vacío
-    }
+            if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
+                alert('Por favor, complete todos los campos antes de guardar.');
+                return; // Detiene la función si algún campo está vacío
+            }
 
-    var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-    var vendedorExistente = vendedores.find(v => v.cedula === cedula);
+            var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+            var vendedorExistente = vendedores.find(v => v.cedula === cedula);
 
-    // Verificar si ya existe un vendedor con la misma cédula
-    if (vendedorExistente) {
-        alert('Ya existe un vendedor con la cédula ' + cedula + '. Nombre: ' + vendedorExistente.nombre);
-        return; // Detiene la función si ya existe un vendedor con esa cédula
-    }
+            // Verificar si ya existe un vendedor con la misma cédula
+            if (vendedorExistente) {
+                alert('Ya existe un vendedor con la cédula ' + cedula + '. Nombre: ' + vendedorExistente.nombre);
+                return; // Detiene la función si ya existe un vendedor con esa cédula
+            }
 
-    // Crear un nuevo objeto de vendedor si no existe
-    var nuevoVendedor = {
-        nombre: nombre,
-        apellido: apellido,
-        cedula: cedula,
-        telefono: telefono,
-        direccion: direccion,
-        email: email
-    };
+            // Crear un nuevo objeto de vendedor si no existe
+            var nuevoVendedor = {
+                nombre: nombre,
+                apellido: apellido,
+                cedula: cedula,
+                telefono: telefono,
+                direccion: direccion,
+                email: email
+            };
 
-    vendedores.push(nuevoVendedor);
-    localStorage.setItem('Vendedores', JSON.stringify(vendedores));
-    alert('Vendedor guardado con éxito!');
+            vendedores.push(nuevoVendedor);
+            localStorage.setItem('Vendedores', JSON.stringify(vendedores));
+            alert('Vendedor guardado con éxito!');
 
-    limpiarFormulario();
-}
+            limpiarFormulario();
+        }
 
 
     
     
-    function limpiarFormulario() {
-        document.getElementById('nombreVendedor').value = '';
-        document.getElementById('apellidoVendedor').value = '';
-        document.getElementById('cedulaVendedor').value = '';
-        document.getElementById('telefonoVendedor').value = '';
-        document.getElementById('direccionVendedor').value = '';
-        document.getElementById('emailVendedor').value = '';
-    }
+        function limpiarFormulario() {
+            document.getElementById('nombreVendedor').value = '';
+            document.getElementById('apellidoVendedor').value = '';
+            document.getElementById('cedulaVendedor').value = '';
+            document.getElementById('telefonoVendedor').value = '';
+            document.getElementById('direccionVendedor').value = '';
+            document.getElementById('emailVendedor').value = '';
+        }
     
     
     </script>
-      <script>
-            function cerrarSesion() {
-                localStorage.clear();  
-                sessionStorage.clear(); 
-                window.location.href = 'index.html';
-            }
-      </script> 
+    <script>
+        function cerrarSesion() {
+            localStorage.clear();  
+            sessionStorage.clear(); 
+            window.location.href = 'index.html';
+        }
+    </script> 
     <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer> 
+        <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </footer> 
 </body>
 </html>

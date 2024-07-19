@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         body {
@@ -53,56 +54,54 @@
     </div>
 
   <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
-     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownClientes" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Clientes</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownClientes">
-            <li><a class="dropdown-item" href="form_ver_cliente.html">Ver Clientes</a></li>
-            <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
-            <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
-            <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
-            <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
-            <li><a class="dropdown-item" href="form_editar_vendedor.html">editar Vendedor</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
-            <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
-            <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
-            <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
-            <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
-            <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
-        </ul>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
-            <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
-            <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
-            <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
-        </ul>
-    </li>
-    
-  </ul>
-  <div class="container mt-5">
-    <label for="buscarCedula" class="form-label">Cédula del Vendedor:</label>
-    <input type="text"  placeholder="Ingrese cédula del vendedor para mostrar" class="form-control" id="buscarCedula">
-    <button onclick="buscarYEditarVendedor()" class="btn btn-primary mt-2">Buscar</button>
-</div>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownClientes" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Clientes</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownClientes">
+                <li><a class="dropdown-item" href="form_ver_cliente.html">Ver Clientes</a></li>
+                <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
+                <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
+                <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
+                <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
+                <li><a class="dropdown-item" href="form_editar_vendedor.html">editar Vendedor</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
+                <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
+                <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
+                <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
+                <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
+                <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
+                <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
+                <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
+                <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
+            </ul>
+        </li>  
+    </ul>
+    <div class="container mt-5">
+            <label for="buscarCedula" class="form-label">Cédula del Vendedor:</label>
+            <input type="text"  placeholder="Ingrese cédula del vendedor para mostrar" class="form-control" id="buscarCedula">
+            <button onclick="buscarYEditarVendedor()" class="btn btn-primary mt-2">Buscar</button>
+    </div>
 
- 
     <div id="datosVendedor" class="container mt-5 hidden">
-        <h2>Editar Vendedor</h2>
+         <h2>Editar Vendedor</h2>
         <form action="/update-Vendedor" method="post">
             <div class="mb-3">
                 <label for="nombreVendedor" class="form-label">Nombre</label>
@@ -147,39 +146,40 @@
             </div>
             
         </form>
-        
-        <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
-            Cambios guardados correctamente.
-        </div>
-
     </div>
     <script>
         function guardarCambios() {
-           
-            console.log('Guardando cambios...');
+           console.log('Guardando cambios...');
     
-           
-            document.getElementById('successMessage').style.display = 'block';
+           document.getElementById('successMessage').style.display = 'block';
     
-           
-            setTimeout(function() {
+           setTimeout(function() {
                 document.getElementById('successMessage').style.display = 'none';
             }, 5000); 
         }
     </script>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         function buscarYEditarVendedor() {
             var cedula = document.getElementById('buscarCedula').value;
-            if (!cedula) { // Verifica si el campo 'cedulaBuscar' está vacío
+            if (!cedula) {
                 alert("Por favor, ingrese la cédula del Vendedor antes de buscar.");
                 return; // Detiene la ejecución de la función si el campo está vacío
             }
         
             var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
             var vendedorEncontrado = vendedores.find(v => v.cedula === cedula);
-        
+    
+            // Limpiar campos antes de setear nuevos valores o decidir ocultarlos
+            document.getElementById('nombreVendedor').value = '';
+            document.getElementById('apellidoVendedor').value = '';
+            document.getElementById('cedulaVendedor').value = '';
+            document.getElementById('telefonoVendedor').value = '';
+            document.getElementById('direccionVendedor').value = '';
+            document.getElementById('emailVendedor').value = '';
+            document.getElementById('VendedorActivo').checked = false;
+    
             if (vendedorEncontrado) {
                 document.getElementById('datosVendedor').classList.remove('hidden');
                 document.getElementById('nombreVendedor').value = vendedorEncontrado.nombre;
@@ -195,8 +195,9 @@
                 document.getElementById('datosVendedor').style.display = 'none';
             }
         }
-        </script>
-        
+    </script>
+    
+
         <script>
             function guardarCambios() {
                 var cedula = document.getElementById('buscarCedula').value;
@@ -220,58 +221,54 @@
         </script>
         
             
-      <script>
-        function limpiarformulario() {
-    document.getElementById('nombreVendedor').value = '';
-    document.getElementById('apellidoVendedor').value = '';
-    document.getElementById('cedulaVendedor').value = '';
-    document.getElementById('telefonoVendedor').value = '';
-    document.getElementById('direccionVendedor').value = '';
-    document.getElementById('emailVendedor').value = '';
-}
-
-      </script>
-      
-      <script>
-        function eliminarVendedor() {
-            var cedula = document.getElementById('buscarCedula').value;
-            if (!cedula) {
-                alert("Por favor ingrese la cédula del Vendedor que desea eliminar.");
-                return;
+        <script>
+            function limpiarformulario() {
+                document.getElementById('nombreVendedor').value = '';
+                document.getElementById('apellidoVendedor').value = '';
+                document.getElementById('cedulaVendedor').value = '';
+                document.getElementById('telefonoVendedor').value = '';
+                document.getElementById('direccionVendedor').value = '';
+                document.getElementById('emailVendedor').value = '';
             }
+        </script>
+      
+        <script>
+            function eliminarVendedor() {
+             var cedula = document.getElementById('buscarCedula').value;
+             if (!cedula) {
+                    alert("Por favor ingrese la cédula del Vendedor que desea eliminar.");
+                    return;
+                }
     
-            var confirmacion = confirm("¿Estás seguro de que deseas eliminar este Vendedor? Esta acción no se puede deshacer.");
-            if (confirmacion) {
-                var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-                var historialVendedores = JSON.parse(localStorage.getItem('HistorialVendedores')) || [];
-                var indice = Vendedores.findIndex(v => v.cedula === cedula);
+                var confirmacion = confirm("¿Estás seguro de que deseas eliminar este Vendedor? Esta acción no se puede deshacer.");
+                if (confirmacion) {
+                    var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+                    var historialVendedores = JSON.parse(localStorage.getItem('HistorialVendedores')) || [];
+                    var indice = Vendedores.findIndex(v => v.cedula === cedula);
     
-                if (indice !== -1) {
-                    historialVendedores.push(Vendedores[indice]);  // Agrega el vendedor al historial antes de eliminarlo
-                    localStorage.setItem('HistorialVendedores', JSON.stringify(historialVendedores));
+                    if (indice !== -1) {
+                        historialVendedores.push(Vendedores[indice]);  // Agrega el vendedor al historial antes de eliminarlo
+                        localStorage.setItem('HistorialVendedores', JSON.stringify(historialVendedores));
     
-                    Vendedores.splice(indice, 1);
-                    localStorage.setItem('Vendedores', JSON.stringify(Vendedores));
-                    alert('Vendedor eliminado, pero su historial ha sido guardado.');
-                    limpiarformulario();  // Asegúrate de que esta función esté correctamente referenciada
-                } else {
-                    alert('No se encontró un Vendedor con esa cédula.');
+                        Vendedores.splice(indice, 1);
+                        localStorage.setItem('Vendedores', JSON.stringify(Vendedores));
+                        alert('Vendedor eliminado, pero su historial ha sido guardado.');
+                        limpiarformulario();  // Asegúrate de que esta función esté correctamente referenciada
+                    } else {
+                        alert('No se encontró un Vendedor con esa cédula.');
+                    }
                 }
             }
-        }
-    </script>
-     <script>
-        function cerrarSesion() {
-            localStorage.clear();  
-            sessionStorage.clear(); 
-            window.location.href = 'index.html';
-        }
-  </script>
-    
-    
-
+        </script>
+        <script>
+            function cerrarSesion() {
+                localStorage.clear();  
+                sessionStorage.clear(); 
+                 window.location.href = 'index.html';
+             }
+        </script>
     <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer> 
+        <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </footer> 
 </body>
 </html>

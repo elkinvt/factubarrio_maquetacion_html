@@ -56,40 +56,39 @@
             <li><a class="dropdown-item" href="form_crear_cliente.html">crear Cliente</a></li>
             <li><a class="dropdown-item" href="form_editar_cliente.html">Editar Cliente</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownVendedores" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vendedores</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownVendedores">
             <li><a class="dropdown-item" href="form_ver_vendedor.html">Ver Vendedores</a></li>
             <li><a class="dropdown-item" href="form_crear_vendedor.html">crear Vendedor</a></li>
             <li><a class="dropdown-item" href="form_editar_vendedor.html">editar Vendedor</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownProductos" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Productos</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
             <li><a class="dropdown-item" href="form_ver_producto.html">Ver Productos</a></li>
             <li><a class="dropdown-item" href="form_crear_producto.html">crear Producto</a></li>
             <li><a class="dropdown-item" href="form_editar_producto.html">editar producto</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Facturas</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_factura.html">Ver Facturas</a></li>
             <li><a class="dropdown-item" href="form_generacion_factura.html">generar Factura</a></li>
         </ul>
-    </li>
-    <li class="nav-item dropdown">
+     </li>
+     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="dropdownFacturas" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">usuario</a>
         <ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
             <li><a class="dropdown-item" href="form_ver_usuario.html">Ver usuarios</a></li>
             <li><a class="dropdown-item" href="form_crear_usuario.html">crear usuario</a></li>
             <li><a class="dropdown-item" href="form_editar_usuario.html">editar usuario</a></li>
         </ul>
-    </li>
-    
-  </ul>
+     </li>
+ </ul>
     <div class="container mt-5">
         <h2>Registrar Producto</h2>
         <form id="formCrearProducto">
@@ -154,57 +153,59 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  
     <script>
        function guardarProducto() {
-    var codigo = document.getElementById('codigoProducto').value.trim();
-    var nombre = document.getElementById('nombreProducto').value.trim();
-    var descripcion = document.getElementById('descripcionProducto').value.trim();
-    var categoria = document.getElementById('categoriaProducto').value.trim();
-    var precio = parseFloat(document.getElementById('precioProducto').value);
-    var unidadMedida = document.getElementById('unidadMedidaProducto').value;
-    var presentacion = document.getElementById('presentacionProducto').value.trim();
-    var cantidadStock = parseInt(document.getElementById('cantidadStockProducto').value);
-    var isActive = true;
+            var codigo = document.getElementById('codigoProducto').value.trim();
+            var nombre = document.getElementById('nombreProducto').value.trim();
+            var descripcion = document.getElementById('descripcionProducto').value.trim();
+            var categoria = document.getElementById('categoriaProducto').value.trim();
+            var precio = parseFloat(document.getElementById('precioProducto').value);
+            var unidadMedida = document.getElementById('unidadMedidaProducto').value;
+            var presentacion = document.getElementById('presentacionProducto').value.trim();
+            var cantidadStock = parseInt(document.getElementById('cantidadStockProducto').value);
+            var isActive = true;
 
-    if (!codigo || !nombre || !descripcion || !categoria || isNaN(precio) || !unidadMedida || !presentacion || isNaN(cantidadStock)) {
-        alert("Por favor complete todos los campos correctamente.");
-        return;
-    }
+            if (!codigo || !nombre || !descripcion || !categoria || isNaN(precio) || !unidadMedida || !presentacion || isNaN(cantidadStock)) {
+                alert("Por favor complete todos los campos correctamente.");
+                 return;
+            }
 
-    var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-    if (productos.some(producto => producto.codigo === codigo)) {
-        alert("Un producto con este código ya existe.");
-        return;
-    }
+            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
 
-    var producto = {
-        codigo: codigo,
-        nombre: nombre,
-        descripcion: descripcion,
-        categoria: categoria,
-        precio: precio,
-        unidadMedida: unidadMedida,
-        presentacion: presentacion,
-        cantidadStock: cantidadStock,
-        isActive: isActive
-    };
+            if (productos.some(producto => producto.codigo === codigo)) {
+                alert("Un producto con este código ya existe.");
+                return;
+            }
 
-    productos.push(producto);
-    localStorage.setItem('Productos', JSON.stringify(productos));
-    alert("Producto guardado con éxito!");
-    document.getElementById('formCrearProducto').reset(); // Limpiar el formulario después de guardar
-}
+            var producto = {
+                codigo: codigo,
+                nombre: nombre,
+                descripcion: descripcion,
+                categoria: categoria,
+                precio: precio,
+                unidadMedida: unidadMedida,
+                presentacion: presentacion,
+                cantidadStock: cantidadStock,
+                isActive: isActive
+            };
+
+            productos.push(producto);
+            localStorage.setItem('Productos', JSON.stringify(productos));
+            alert("Producto guardado con éxito!");
+            document.getElementById('formCrearProducto').reset(); // Limpiar el formulario después de guardar
+        }
 
 
     </script>
     
-        <script>
-            function cerrarSesion() {
-                localStorage.clear();  
-                sessionStorage.clear(); 
-                window.location.href = 'index.html';
-            }
-      </script>
+    <script>
+        function cerrarSesion() {
+            localStorage.clear();  
+            sessionStorage.clear(); 
+            window.location.href = 'index.html';
+        }
+    </script>
+
     <footer>
-    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
-  </footer> 
+        <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </footer> 
 </body>
 </html>
