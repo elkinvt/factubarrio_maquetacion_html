@@ -1,32 +1,20 @@
-function buscarCliente() {
-    var cedula = document.getElementById('cedulaBuscar').value.trim();
-    if (!cedula) {
-        alert("Por favor, ingrese la cédula del Cliente antes de buscar.");
-        return;
-    }
+function eliminarVendedor(cedula) {
+    var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+    var vendedor = vendedores.find(v => v.cedula === cedula);
 
-    var clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    var clienteEncontrado = clientes.find(cliente => cliente.cedula === cedula);
+    if (vendedor) {
+        // Archivar primero las ventas del vendedor
+        archivarVentasVendedor(vendedor.id);
 
-    if (clienteEncontrado) {
-        document.getElementById('clienteNombre').value = clienteEncontrado.nombre;
-        document.getElementById('clienteApellido').value = clienteEncontrado.apellido;
-        document.getElementById('clienteCedula').value = clienteEncontrado.cedula;
-        document.getElementById('clienteTelefono').value = clienteEncontrado.telefono;
-        document.getElementById('clienteDireccion').value = clienteEncontrado.direccion;
-        document.getElementById('clienteEmail').value = clienteEncontrado.email;
-        // Aquí podrías también actualizar un checkbox o un indicador de estado si fuera necesario
+        // Confirmación antes de eliminar
+        var confirmacion = confirm("¿Estás seguro de que deseas eliminar este vendedor?");
+        if (confirmacion) {
+            // Eliminar vendedor
+            vendedores = vendedores.filter(v => v.cedula !== cedula);
+            localStorage.setItem('Vendedores', JSON.stringify(vendedores));
+            alert('Vendedor eliminado correctamente.');
+        }
     } else {
-        alert('No se encontró un cliente con esa cédula.');
-        limpiarCampos();  // Limpia los campos si no se encuentra el cliente
+        alert('Vendedor no encontrado.');
     }
-}
-
-function limpiarCampos() {
-    document.getElementById('clienteNombre').value = '';
-    document.getElementById('clienteApellido').value = '';
-    document.getElementById('clienteCedula').value = '';
-    document.getElementById('clienteTelefono').value = '';
-    document.getElementById('clienteDireccion').value = '';
-    document.getElementById('clienteEmail').value = '';
 }
