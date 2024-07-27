@@ -18,6 +18,7 @@
             flex-direction: column;
             padding-top: 5px; 
         }
+        
         .cerrar-sesion {
             position: fixed;
             top: 5px;
@@ -41,23 +42,41 @@
         .hidden {
             display: none;
         }
+        
         .form-control-sm {
-            width: 100%;
-            max-width: 300px; /* Puedes ajustar el tamaño máximo según tus necesidades */
+            width: 100%;        /* Utiliza todo el ancho del contenedor */
+            max-width: 300px;   /* Mantiene un ancho máximo para evitar estiramiento */
+            margin: auto;       /* Centra el control dentro de su contenedor */
         }
+        
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            margin-top: 20px;
+            margin: 0 auto; /* Centrado horizontal */
             width: 100%;
             max-width: 600px;
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease-in-out; /* Suaviza la transición de visibilidad */
         }
+
+        /* Para controlar la visibilidad sin alterar el layout */
+        .info-vendedor {
+            visibility: hidden; /* Inicialmente oculto */
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s linear;
+        }
+
+        .info-vendedor.visible {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s 0s, opacity 0.3s linear;
+        }
+
     </style>
     <style>
         .factubarrio {
@@ -195,10 +214,10 @@
                 alert("Por favor, seleccione el tipo y número de documento antes de buscar.");
                 return;
             }
-    
+
             var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-            var vendedorEncontrado = vendedores.find(vendedor => vendedor.tipoDocumento === tipoDocumento && vendedor.numeroDocumento === numeroDocumento && !vendedor.isDeleted);
-    
+            var vendedorEncontrado = vendedores.find(v => v.tipoDocumento === tipoDocumento && v.numeroDocumento === numeroDocumento && !v.isDeleted);
+
             if (vendedorEncontrado) {
                 document.getElementById('nombreVendedor').value = vendedorEncontrado.nombre;
                 document.getElementById('apellidoVendedor').value = vendedorEncontrado.apellido;
@@ -206,13 +225,13 @@
                 document.getElementById('telefonoVendedor').value = vendedorEncontrado.telefono;
                 document.getElementById('direccionVendedor').value = vendedorEncontrado.direccion;
                 document.getElementById('emailVendedor').value = vendedorEncontrado.email;
-                document.getElementById('infoVendedor').style.display = 'block'; // Asegúrate de que este estilo inicialmente esté en 'none'
+                document.getElementById('infoVendedor').classList.add('visible');
             } else {
+                document.getElementById('infoVendedor').classList.remove('visible');
                 alert("No se encontró un vendedor con ese tipo y número de documento.");
             }
         }
     </script>
-    
     
     <script>
         function cerrarSesion() {
@@ -225,5 +244,6 @@
     <footer>
      <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
     </footer> 
+    
 </body>
 </html>
