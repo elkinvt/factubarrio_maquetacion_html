@@ -8,17 +8,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <style>
+        
         body {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Esto asegura que todo el contenido esté centrado horizontalmente */
+            justify-content: flex-start; /* Esto comienza a alinear el contenido desde la parte superior */
+            min-height: 100vh;
             background-image: url('LOGO.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding-top: 5px; 
+            padding-top: 5px;
         }
+
+        
         .cerrar-sesion {
             position: fixed;
             top: 5px;
@@ -49,16 +54,18 @@
         .container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            margin-top: 20px;
+            align-items: center; /* Alinea horizontalmente al centro */
+            justify-content: center; /* Alinea verticalmente al centro */
+            margin: 0 auto; /* Alineamiento horizontal si el display flex no es suficiente */
             width: 100%;
-            max-width: 600px;
+            max-width: 600px; /* O cualquier ancho máximo que prefieras */
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
+
+        
 
     </style>
     <style>
@@ -195,52 +202,51 @@
         }
     </script>
 
-    <script>
-        function buscarProducto() {
-            var textoBusqueda = document.getElementById('buscarProductoInput').value.trim().toLowerCase();
-            document.getElementById('buscarProductoInput').value = '';
+<script>
+   function buscarProducto() {
+        var textoBusqueda = document.getElementById('buscarProductoInput').value.trim().toLowerCase();
+        document.getElementById('buscarProductoInput').value = '';
+        var productos = JSON.parse(localStorage.getItem('Productos')) || [];
+        var productosFiltrados = productos.filter(producto => 
+        (producto.codigo.toLowerCase().includes(textoBusqueda) || 
+         producto.nombre.toLowerCase().includes(textoBusqueda)) &&
+        !producto.isDeleted);
 
-            var productos = JSON.parse(localStorage.getItem('Productos')) || [];
-            var productosFiltrados = productos.filter(producto =>
-            (producto.codigo.toLowerCase().includes(textoBusqueda) || 
-            producto.nombre.toLowerCase().includes(textoBusqueda)) &&
-            !producto.isDeleted // Filtrar fuera los productos eliminados
-            );
+        var listaProductos = document.getElementById('listaProductos');
+        listaProductos.innerHTML = '';
+        listaProductos.style.display = productosFiltrados.length > 0 ? 'block' : 'none';
 
-            var listaProductos = document.getElementById('listaProductos');
-            listaProductos.innerHTML = '';
-            listaProductos.style.display = 'block';
-
-            if (productosFiltrados.length === 0) {
-                listaProductos.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
-            } else {
-                productosFiltrados.forEach(producto => {
-                    var item = document.createElement('button');
-                    item.classList.add('list-group-item', 'list-group-item-action');
-                    item.textContent = `${producto.nombre} - ${producto.codigo}`;
-                    item.onclick = () => cargarProducto(producto);
-                    listaProductos.appendChild(item);
-                });
-            }
+        if (productosFiltrados.length === 0) {
+            listaProductos.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
+        } else {
+            productosFiltrados.forEach(producto => {
+                var item = document.createElement('button');
+                item.classList.add('list-group-item', 'list-group-item-action');
+                item.textContent = `${producto.nombre} - ${producto.codigo}`;
+                item.onclick = () => cargarProducto(producto);
+                listaProductos.appendChild(item);
+            });
         }
+    }
 
-    
-        function cargarProducto(producto) {
-            document.getElementById('codigoProducto').value = producto.codigo;
-            document.getElementById('nombreProducto').value = producto.nombre;
-            document.getElementById('descripcionProducto').value = producto.descripcion;
-            document.getElementById('categoriaProducto').value = producto.categoria;
-            document.getElementById('precioProducto').value = producto.precio;
-            document.getElementById('presentacionProducto').value = producto.presentacion;
-            document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
-            document.getElementById('estadoProducto').value = producto.isActive ? "Habilitado" : "Deshabilitado";
-            document.getElementById('unidadMedidaProducto').value = producto.unidadMedida;  // Actualizar este campo como texto
+    function cargarProducto(producto) {
+        document.getElementById('codigoProducto').value = producto.codigo;
+        document.getElementById('nombreProducto').value = producto.nombre;
+        document.getElementById('descripcionProducto').value = producto.descripcion;
+        document.getElementById('categoriaProducto').value = producto.categoria;
+        document.getElementById('precioProducto').value = producto.precio;
+        document.getElementById('presentacionProducto').value = producto.presentacion;
+        document.getElementById('cantidadStockProducto').value = producto.cantidadStock;
+        document.getElementById('estadoProducto').value = producto.isActive ? "Habilitado" : "Deshabilitado";
+        document.getElementById('unidadMedidaProducto').value = producto.unidadMedida;
+        // Asegúrate de que el formulario de detalles siempre se muestra correctamente
+        document.getElementById('infoProducto').style.visibility = 'hidden'; // Inicialmente
+// Y cuando necesites mostrarlo
+document.getElementById('infoProducto').style.visibility = 'visible';
 
-            // Mostrar los detalles del producto
-            document.getElementById('infoProducto').style.display = 'block';
-        }
+    }
+</script>
 
-    </script>
     
     <script>
         function cerrarSesion() {
