@@ -130,7 +130,23 @@
     </ul>
     <div class="container mt-5">
         <h2>Registrar vendedor</h2>
-        <form id="formCrearUsuario" onsubmit="guardarVendedor(event)">
+        <form id="formCrearVendedor" onsubmit="guardarVendedor(event)">
+            <div class="mb-3">
+                <label for="tipoDocumentoVendedor" class="form-label">Tipo de Documento:</label>
+                <select class="form-control form-control-sm" id="tipoDocumentoVendedor" required>
+                    <option value="">Seleccione un tipo</option>
+                    <option value="CC">Cédula de Ciudadanía</option>
+                    <option value="TI">Tarjeta de Identidad</option>
+                    <option value="CE">Cédula de Extranjería</option>
+                    <option value="PA">Pasaporte</option>
+                    <option value="NIT">NIT</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="numeroDocumentoVendedor" class="form-label">Número de Documento:</label>
+                <input type="text" class="form-control form-control-sm" id="numeroDocumentoVendedor" name="numeroDocumentoVendedor" required>
+            </div>
+            
             <div class="mb-3">
                 <label for="nombreVendedor" class="form-label">Nombre</label>
                 <input type="text" class="form-control form-control-sm" id="nombreVendedor" name="nombreVendedor" required>
@@ -138,10 +154,6 @@
             <div class="mb-3">
                 <label for="apellidoVendedor" class="form-label">Apellidos</label>
                 <input type="text" class="form-control form-control-sm" id="apellidoVendedor" name="apellidoVendedor" required>
-            </div>
-            <div class="mb-3">
-                <label for="cedulaVendedor" class="form-label">Cédula</label>
-                <input type="text" class="form-control form-control-sm" id="cedulaVendedor" name="cedulaVendedor" required>
             </div>
             <div class="mb-3">
                 <label for="telefonoVendedor" class="form-label">Teléfono</label>
@@ -155,69 +167,64 @@
                 <label for="emailVendedor" class="form-label">Email</label>
                 <input type="email" class="form-control form-control-sm" id="emailVendedor" name="emailVendedor" required>
             </div>
-            <button type="submit" class="btn btn-primary" onclick="guardarVendedor()">Guardar vendedor</button>
-
+            <button type="submit" class="btn btn-primary">Guardar vendedor</button>
         </form>
     </div>
-    
     <script>
         function guardarVendedor(event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            var nombre = document.getElementById('nombreVendedor').value;
-            var apellido = document.getElementById('apellidoVendedor').value;
-            var cedula = document.getElementById('cedulaVendedor').value;
-            var telefono = document.getElementById('telefonoVendedor').value;
-            var direccion = document.getElementById('direccionVendedor').value;
-            var email = document.getElementById('emailVendedor').value;
+    var tipoDocumento = document.getElementById('tipoDocumentoVendedor').value;
+    var numeroDocumento = document.getElementById('numeroDocumentoVendedor').value; // Actualizado a numeroDocumentoVendedor
+    var nombre = document.getElementById('nombreVendedor').value;
+    var apellido = document.getElementById('apellidoVendedor').value;
+    var telefono = document.getElementById('telefonoVendedor').value;
+    var direccion = document.getElementById('direccionVendedor').value;
+    var email = document.getElementById('emailVendedor').value;
 
-            if (!nombre || !apellido || !cedula || !telefono || !direccion || !email) {
-                alert('Por favor, complete todos los campos antes de guardar.');
-                return; // Detiene la función si algún campo está vacío
-            }
+    if (!tipoDocumento || !numeroDocumento || !nombre || !apellido || !telefono || !direccion || !email) {
+        alert('Por favor, complete todos los campos antes de guardar.');
+        return;
+    }
 
-            var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-            var vendedorExistente = vendedores.find(v => v.cedula === cedula);
+    var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+    var vendedorExistente = vendedores.find(v => v.numeroDocumento === numeroDocumento && v.tipoDocumento === tipoDocumento);
 
-            // Verificar si ya existe un vendedor con la misma cédula
-            if (vendedorExistente) {
-                alert('Ya existe un vendedor con la cédula ' + cedula + '. Nombre: ' + vendedorExistente.nombre);
-                return; // Detiene la función si ya existe un vendedor con esa cédula
-            }
+    if (vendedorExistente) {
+        alert('Ya existe un vendedor con el documento ' + tipoDocumento + ' ' + numeroDocumento + '.');
+        return;
+    }
 
-            // Crear un nuevo objeto de vendedor si no existe
-            var nuevoVendedor = {
-                nombre: nombre,
-                apellido: apellido,
-                cedula: cedula,
-                telefono: telefono,
-                direccion: direccion,
-                email: email,
-                isDeleted: false  // Nuevo campo para indicar si el vendedor ha sido eliminado
-            };
+    var nuevoVendedor = {
+        tipoDocumento: tipoDocumento,
+        numeroDocumento: numeroDocumento, // Actualizado para usar el campo correcto
+        nombre: nombre,
+        apellido: apellido,
+        telefono: telefono,
+        direccion: direccion,
+        email: email,
+        isDeleted: false
+    };
 
+    vendedores.push(nuevoVendedor);
+    localStorage.setItem('Vendedores', JSON.stringify(vendedores));
+    alert('Vendedor guardado con éxito!');
 
-            vendedores.push(nuevoVendedor);
-            localStorage.setItem('Vendedores', JSON.stringify(vendedores));
-            alert('Vendedor guardado con éxito!');
+    limpiarFormulario();
+}
 
-            limpiarFormulario();
-        }
+function limpiarFormulario() {
+    document.getElementById('tipoDocumentoVendedor').selectedIndex = 0;
+    document.getElementById('numeroDocumentoVendedor').value = ''; // Actualizado a numeroDocumentoVendedor
+    document.getElementById('nombreVendedor').value = '';
+    document.getElementById('apellidoVendedor').value = '';
+    document.getElementById('telefonoVendedor').value = '';
+    document.getElementById('direccionVendedor').value = '';
+    document.getElementById('emailVendedor').value = '';
+}
 
-
-    
-    
-        function limpiarFormulario() {
-            document.getElementById('nombreVendedor').value = '';
-            document.getElementById('apellidoVendedor').value = '';
-            document.getElementById('cedulaVendedor').value = '';
-            document.getElementById('telefonoVendedor').value = '';
-            document.getElementById('direccionVendedor').value = '';
-            document.getElementById('emailVendedor').value = '';
-        }
-    
-    
     </script>
+    
     <script>
         function cerrarSesion() {
             localStorage.clear();  
