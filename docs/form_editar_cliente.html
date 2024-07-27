@@ -42,9 +42,16 @@
         .hidden {
             display: none;
         }
+        .form-label {
+            display: block; /* Asegura que la etiqueta ocupe su propia línea */
+            width: 100%;    /* Alinea las etiquetas consistentemente */
+            text-align: center; /* Asegura que el texto de las etiquetas esté alineado a la izquierda */
+        }
+
         .form-control-sm {
-            width: 100%;
-            max-width: 300px; /* Puedes ajustar el tamaño máximo según tus necesidades */
+            width: 100%;        /* Utiliza todo el ancho del contenedor */
+            max-width: 300px;   /* Mantiene un ancho máximo para evitar estiramiento */
+            margin: auto;       /* Centra el control dentro de su contenedor */
         }
         .container {
             display: flex;
@@ -58,6 +65,12 @@
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .container h2 {
+            text-align: center;  /* Asegura que el título esté siempre centrado. */
+            width: 100%;         /* Ocupa todo el ancho del contenedor para evitar movimientos horizontales. */
+            margin-top: 10px;    /* Espacio uniforme en la parte superior. */
+            margin-bottom: 20px; /* Espacio uniforme debajo antes de los formularios o contenido. */
         }
     </style>
     <style>
