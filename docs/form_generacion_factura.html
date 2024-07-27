@@ -84,6 +84,29 @@
             }
         }
     </style>
+     <script>
+           // Definición de las funciones fuera de cualquier manejador de eventos para ámbito global
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();  // Prevenir que el formulario se envíe automáticamente.
+                // Comprobar si el campo activo es 'numeroDocumento'
+                if (document.activeElement.id === "numeroDocumento") {
+                    buscarCliente();  // Ejecutar función de búsqueda de cliente
+                }
+            }
+        }
+
+        function handleEnterPress(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();  // Prevenir que el formulario se envíe automáticamente.
+                // Comprobar si el campo activo es 'cantidadFactura'
+                if (document.activeElement.id === "cantidadFactura") {
+                    agregarProductoAFactura();  // Llamada a la función que maneja la adición del producto a la factura.
+                }
+            }
+        }
+
+    </script>
     
 </head>
 <body>
@@ -132,15 +155,24 @@
             </ul>
         </li>
     </ul>
+   
     <div class="container mt-5">
         <h2>Generar Factura</h2>
         <form id="formFactura">
-            <div class="mb-3">
-                <label for="cedulaCliente" class="form-label">Cédula del Cliente</label>
-                <input type="text" placeholder="Digita el número de cédula y da enter o clic en buscar" class="form-control form-control-sm mb-2" id="cedulaCliente" required>
-                <button type="button" class="btn btn-primary form-control-sm" onclick="buscarClientePorCedula()">Buscar</button>
+            <div class="container mt-5">
+                <label for="tipoDocumento" class="form-label">Tipo de Documento:</label>
+                <select class="form-control form-control-sm" id="tipoDocumento">
+                    <option value="CC">Cédula de Ciudadanía</option>
+                    <option value="TI">Tarjeta de Identidad</option>
+                    <option value="CE">Cédula de Extranjería</option>
+                    <option value="PA">Pasaporte</option>
+                    <option value="RC">Registro Civil</option>
+                    <option value="NIT">NIT</option>
+                </select>
+                <label for="numeroDocumento" class="form-label">Número de Documento:</label>
+                <input type="text" placeholder="Ingrese número del documento para mostrar" class="form-control form-control-sm" id="numeroDocumento" onkeypress="handleKeyPress(event)">
+                <button onclick="buscarCliente()" class="btn btn-primary mt-2">Buscar</button>
             </div>
-            
             <div class="mb-3">
                 <label for="nombreCliente" class="form-label">Nombre del Cliente</label>
                 <input type="text" class="form-control form-control-sm" id="nombreCliente" required>
@@ -148,24 +180,20 @@
             <div class="mb-3">
                 <label for="vendedorFactura" class="form-label">Vendedor</label>
                 <select class="form-control form-control-sm" id="vendedorFactura">
-                    <!-- Suponiendo que tienes un array de vendedores cargados en el sistema -->
                     <option value="">Seleccione un vendedor</option>
                     <!-- Opciones de vendedores aquí -->
                 </select>
             </div>
-        
             <div class="mb-3">
-                <input type="hidden" id="productoFacturaCodigo" value="">  <!-- Campo oculto para el código del producto -->
+                <input type="hidden" id="productoFacturaCodigo" value=""> <!-- Campo oculto para el código del producto -->
                 <input type="text" id="productoFactura" placeholder="Escribe el nombre del producto" class="form-control form-control-sm">
                 <div id="listaSugerenciasProducto" class="list-group" style="position: absolute; z-index: 1000;"></div>
             </div>
             <div class="mb-3">
                 <label for="cantidadFactura" class="form-label">Cantidad</label>
                 <input type="number" placeholder="Escribe la cantidad del producto" class="form-control form-control-sm" id="cantidadFactura" required onkeypress="handleEnterPress(event)">
-
             </div>
             <button type="button" class="btn btn-primary form-control-sm" onclick="agregarProductoAFactura()">Agregar a Factura</button>
-        
         </form>
         <div id="detallesFactura" class="mt-4">
             <!-- Aquí se mostrarán los detalles de la factura -->
@@ -197,151 +225,135 @@
         <button type="button" class="btn btn-success form-control-sm" onclick="pagarFactura()" style="margin-right: 20px;">Pagar Factura</button>
         <button type="button" class="btn btn-danger form-control-sm" onclick="anularFactura()">Anular Factura</button>
     </div>
-
-
+    
     <script>
+        function buscarCliente() {
+            let tipoDocumento = document.getElementById('tipoDocumento').value;
+            let numeroDocumento = document.getElementById('numeroDocumento').value.trim();
+            if (!tipoDocumento || !numeroDocumento) {
+                alert("Por favor, complete el tipo y número de documento antes de buscar.");
+                return;
+            }
+            try {
+                let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+                let clienteEncontrado = clientes.find(cliente =>
+                    cliente.tipoDocumento === tipoDocumento &&
+                    cliente.numeroDocumento === numeroDocumento &&
+                    !cliente.isDeleted && cliente.isActive
+                );
+                if (clienteEncontrado) {
+                    document.getElementById('nombreCliente').value = clienteEncontrado.nombre;
+                } else {
+                    alert('Cliente no encontrado con el tipo y número de documento especificados.');
+                    limpiarCamposCliente();
+                }
+            } catch (e) {
+                console.error("Error al acceder a los datos del cliente", e);
+                alert("Error al procesar los datos de los clientes.");
+            }
+        }
+    
+        function limpiarCamposCliente() {
+            document.getElementById('nombreCliente').value = '';
+        }
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', cargarProductosParaFactura);
+    
+        var factura = []; // Asegurarse de que la factura está disponible globalmente
+    
         function cargarProductosParaFactura() {
             const inputProducto = document.getElementById('productoFactura');
             inputProducto.addEventListener('input', manejarInputProducto);
         }
-
+    
         function manejarInputProducto() {
             const texto = this.value.toLowerCase();
             const productos = cargarProductos();
             const listaSugerencias = document.getElementById('listaSugerenciasProducto');
             actualizarSugerencias(texto, productos, listaSugerencias);
         }
-
+    
         function cargarProductos() {
             const todosLosProductos = JSON.parse(localStorage.getItem('Productos')) || [];
-            // Filtra para incluir solo productos que no están eliminados y están activos
             return todosLosProductos.filter(producto => !producto.isDeleted && producto.isActive);
         }
 
+    
         function actualizarSugerencias(texto, productos, listaSugerencias) {
             limpiarElemento(listaSugerencias);
-
             if (texto.length > 0) {
-                const productosFiltrados = filtrarProductosPorTexto(productos, texto);
+                const productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(texto));
                 if (productosFiltrados.length > 0) {
-                 mostrarSugerencias(productosFiltrados, listaSugerencias);
+                    mostrarSugerencias(productosFiltrados, listaSugerencias);
+                } else {
+                    listaSugerencias.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
+                }
             } else {
-                listaSugerencias.innerHTML = '<div class="list-group-item">No se encontraron productos.</div>';
-                ocultarElemento(listaSugerencias); // Puede optar por mostrar un mensaje en lugar de ocultar la lista
-            }
-            } else {
-            ocultarElemento(listaSugerencias);
+                ocultarElemento(listaSugerencias);
             }
         }
-
-        function filtrarProductosPorTexto(productos, texto) {
-            return productos.filter(producto => producto.nombre.toLowerCase().includes(texto));
-        }
-
+    
         function mostrarSugerencias(productos, listaSugerencias) {
             productos.forEach(producto => {
-            const item = crearItemSugerencia(producto);
-            listaSugerencias.appendChild(item);
+                const item = document.createElement('div');
+                item.className = 'list-group-item list-group-item-action';
+                item.textContent = `${producto.nombre} - Precio: ${producto.precio}`;
+                item.onclick = () => {
+                    document.getElementById('productoFactura').value = producto.nombre;
+                    document.getElementById('productoFacturaCodigo').value = producto.codigo;
+                    limpiarElemento(listaSugerencias);
+                };
+                listaSugerencias.appendChild(item);
             });
             listaSugerencias.style.display = 'block';
         }
-
-        function crearItemSugerencia(producto) {
-            const item = document.createElement('div');
-            item.classList.add('list-group-item', 'list-group-item-action');
-            item.textContent = `${producto.nombre} - Precio: ${producto.precio}`;
-            item.style.cursor = 'pointer';
-            item.onclick = () => seleccionarProducto(producto);
-        return item;
-        }
-
-        function seleccionarProducto(producto) {
-            const inputProducto = document.getElementById('productoFactura');
-            const listaSugerencias = document.getElementById('listaSugerenciasProducto');
-            inputProducto.value = producto.nombre;
-            document.getElementById('productoFacturaCodigo').value = producto.codigo;
-            limpiarElemento(listaSugerencias);
-            ocultarElemento(listaSugerencias);
-        }
-
+    
         function limpiarElemento(elemento) {
             elemento.innerHTML = '';
         }
-
-        function ocultarElemento(elemento) {
-             elemento.style.display = 'none';
-        }
-
-        document.addEventListener('DOMContentLoaded', cargarProductosParaFactura);
-
-    </script>
     
-
-    <script>
-        var factura = [];
+        function ocultarElemento(elemento) {
+            elemento.style.display = 'none';
+        }
     
         function agregarProductoAFactura() {
+            console.log("Iniciando agregarProductoAFactura");
             var codigo = document.getElementById('productoFacturaCodigo').value;
+            console.log("Codigo del producto: ", codigo);
             var cantidadInput = document.getElementById('cantidadFactura');
             var cantidad = parseInt(cantidadInput.value);
+            console.log("Cantidad: ", cantidad);
             var productos = JSON.parse(localStorage.getItem('Productos'));
-            var producto = productos.find(p => p.codigo === codigo && !p.isDeleted);
-    
-            // Validaciones antes de proceder a añadir el producto a la factura
-            if (!codigo || isNaN(cantidad) || cantidad <= 0) {
+            console.log("Productos cargados: ", productos);
+            var producto = productos.find(p => p.codigo === codigo && !p.isDeleted && p.isActive);
+
+            if (!codigo || isNaN(cantidad) || cantidad <= 0 || !producto) {
                 alert("Por favor, verifica que has seleccionado un producto y has introducido una cantidad válida.");
                 return;
             }
-    
-            if (!producto) {
-                alert("El producto no existe o ha sido eliminado.");
-                return;
-            }
-    
-            if (!producto.isActive) {
-                alert("Este producto está deshabilitado.");
-                return;
-            }
-    
+
             if (cantidad > producto.cantidadStock) {
                 alert("No hay suficiente stock del producto.");
                 return;
             }
-    
-            // Reservar stock
+
             producto.cantidadStock -= cantidad;
             var subtotal = producto.precio * cantidad;
-            factura.push({
-                codigo: producto.codigo,
-                producto: producto.nombre,
-                cantidad: cantidad,
-                precioUnitario: producto.precio,
-                subtotal: subtotal
-            });
-    
-            // Guardar los cambios en localStorage
+            factura.push({ codigo: producto.codigo, producto: producto.nombre, cantidad: cantidad, precioUnitario: producto.precio, subtotal: subtotal });
+            console.log("Factura después de añadir producto: ", factura);
             localStorage.setItem('Productos', JSON.stringify(productos));
-    
+
             mostrarDetallesFactura();
-    
-            // Limpiar los campos de entrada después de añadir el producto exitosamente
-            document.getElementById('productoFactura').value = '';
-            document.getElementById('productoFacturaCodigo').value = '';
-            cantidadInput.value = '';
-        }
-        function handleEnterPress(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();  // Previene el envío del formulario
-                agregarProductoAFactura();  // Llama a la función para agregar el producto
-            }
         }
 
     
         function mostrarDetallesFactura() {
+            console.log("Actualizando detalles de factura");
             var facturaBody = document.getElementById('facturaBody');
             var facturaTotal = document.getElementById('facturaTotal');
-    
-            facturaBody.innerHTML = ''; // Limpia la tabla antes de agregar nuevos elementos
+            facturaBody.innerHTML = '';
             var total = 0;
             factura.forEach((item, index) => {
                 let row = `<tr>
@@ -354,207 +366,179 @@
                 facturaBody.innerHTML += row;
                 total += item.subtotal;
             });
-    
             facturaTotal.textContent = `$${total}`;
         }
-    
-    </script>
-    
-    <script>
-        function mostrarDetallesFactura() {
-            var facturaBody = document.getElementById('facturaBody');
-            var facturaTotal = document.getElementById('facturaTotal');
-    
-            facturaBody.innerHTML = ''; // Limpia la tabla antes de agregar nuevos elementos
-            factura.forEach((item, index) => {
-                let row = `<tr>
-                    <td>${item.producto}</td>
-                    <td>${item.cantidad}</td>
-                    <td>$${item.precioUnitario}</td>
-                    <td>$${item.subtotal}</td>
-                    <td><button onclick="eliminarProductoDeFactura(${index})" class="btn btn-danger btn-sm">Eliminar</button></td>
-                </tr>`;
-                facturaBody.innerHTML += row;
-            });
-    
-            var total = factura.reduce((acc, item) => acc + item.subtotal, 0);
-            facturaTotal.textContent = `$${total}`;
-        }
-    
         function eliminarProductoDeFactura(index) {
-            // Confirmación para evitar eliminación accidental
-            if (!confirm('¿Estás seguro de que deseas eliminar este producto de la factura?')) {
-                return; // Salir si el usuario cancela la operación
-            }
-
-            let productoEliminado = factura[index]; // Guarda el producto a eliminar para referencia
-            factura.splice(index, 1); // Elimina el producto del array de factura
-
-            // Cargar productos desde el almacenamiento local
-            let productos = JSON.parse(localStorage.getItem('Productos')) || [];
-
-            // Encontrar el producto específico y devolver la cantidad al stock
+            let productoEliminado = factura[index];
+            factura.splice(index, 1);
+            let productos = JSON.parse(localStorage.getItem('Productos'));
             let producto = productos.find(p => p.codigo === productoEliminado.codigo);
             if (producto) {
-                producto.cantidadStock += productoEliminado.cantidad; // Devuelve la cantidad al stock
-                localStorage.setItem('Productos', JSON.stringify(productos)); // Guardar los productos actualizados en el almacenamiento local
+                producto.cantidadStock += productoEliminado.cantidad;
+                localStorage.setItem('Productos', JSON.stringify(productos));
+            }
+            mostrarDetallesFactura();
+        }
+        function validarProductosEnFactura() {
+            if (factura.length === 0) {
+                alert("La factura está vacía. Agrega productos antes de pagar.");
+                return false;
             }
 
-            mostrarDetallesFactura(); // Actualiza la tabla de detalles de factura para reflejar la eliminación
+            // Suponemos que cada producto en la factura debe estar activo y no eliminado para ser válido
+            let productosInvalidos = factura.some(item => {
+                let producto = JSON.parse(localStorage.getItem('Productos')).find(p => p.codigo === item.codigo);
+                return producto.isDeleted || !producto.isActive;
+            });
+
+            if (productosInvalidos) {
+                alert("Algunos productos en la factura ya no están disponibles. Por favor, revisa tu selección.");
+                return false;
+            }
+
+            return true;
         }
+
+
     </script>
     
-    
-    
-
     <script>
+        document.addEventListener('DOMContentLoaded', cargarVendedores);
+    
+        function cargarVendedores() {
+            let vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+            let selectorVendedor = document.getElementById('vendedorFactura');
+            selectorVendedor.innerHTML = '<option value="">Seleccione un vendedor</option>';
+            vendedores.filter(v => !v.isDeleted).forEach(vendedor => {
+                let opcion = document.createElement('option');
+                opcion.value = `${vendedor.nombre} ${vendedor.apellido}`;
+                opcion.textContent = `${vendedor.nombre} ${vendedor.apellido}`;
+                selectorVendedor.appendChild(opcion);
+            });
+        }
+        function validarSeleccionDeVendedor() {
+            let vendedorSeleccionado = document.getElementById('vendedorFactura').value;
+            if (!vendedorSeleccionado || vendedorSeleccionado === "") {
+                alert("Por favor, seleccione un vendedor antes de proceder con el pago.");
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+    
+    <script>
+        var factura = [];  // Asegúrate de que la factura está globalmente disponible
+    
         document.addEventListener('DOMContentLoaded', function() {
-            cargarProductosParaFactura();
-            cargarClientes();  // Ejemplo de cargar clientes
-            cargarVendedores();  // Ejemplo de cargar vendedores
-            inicializarUI();  // Ejemplo de una función que configura elementos de la interfaz de usuario
+            cargarVendedores();  // Asegura que los vendedores estén cargados
         });
-    </script>
-    
-
-    <script>
-        var factura = [];
     
         function pagarFactura() {
-            if (!validarProductosEnFactura()) return;
-            if (!validarSeleccionDeVendedor()) return;
+            if (!validarProductosEnFactura()) {
+                alert("No se puede proceder con el pago, revisa los productos.");
+                return;
+            }
+            if (!validarSeleccionDeVendedor()) {
+                alert("Selecciona un vendedor válido.");
+                return;
+            }
     
             let montoPago = obtenerMontoPago();
-            if (montoPago === null) return;
+            if (montoPago === null) {
+                alert("Se ha cancelado el pago o el monto no es válido.");
+                return;
+            }
     
             procesarPago(montoPago);
         }
     
-        function validarProductosEnFactura() {
-            if (factura.length === 0) {
-                alert("No hay productos en la factura para pagar.");
-                return false;
-            }
-            let productos = JSON.parse(localStorage.getItem('Productos')) || [];
-            let todosProductosValidos = factura.every(item => {
-                let producto = productos.find(p => p.codigo === item.codigo);
-                return producto && !producto.isDeleted && producto.isActive;
-            });
-    
-            if (!todosProductosValidos) {
-                alert("Algunos productos en la factura ya no están disponibles o han sido eliminados.");
-                return false;
-            }
-            return true;
-        }
-    
-        function validarSeleccionDeVendedor() {
-            let vendedorSeleccionado = document.getElementById('vendedorFactura').value;
-            let vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-    
-            // Descomponer el nombre seleccionado en nombre y apellido, asumiendo que se ha almacenado como "Nombre Apellido"
-            let partes = vendedorSeleccionado.split(" ");
-            let nombre = partes.slice(0, -1).join(" ");  // Todo excepto el último elemento
-            let apellido = partes[partes.length - 1];  // Último elemento
-
-            // Buscar vendedor por nombre y apellido
-            let vendedor = vendedores.find(v => v.nombre === nombre && v.apellido === apellido && !v.isDeleted);
-
-            if (!vendedor) {
-                alert("Por favor, seleccione un vendedor válido.");
-                return false;
-            }
-            return true;
-        }
-
         function obtenerMontoPago() {
-            let montoPago = prompt("Ingrese el monto con el que va a pagar:");
-                if (!montoPago || isNaN(parseFloat(montoPago))) {
-                alert("Debe ingresar un monto válido.");
-                return null;
-            }
-            return parseFloat(montoPago);
+            let monto = prompt("Ingrese el monto con el que va a pagar:");
+            return monto && !isNaN(parseFloat(monto)) ? parseFloat(monto) : null;
         }
-
+    
         function procesarPago(montoPago) {
-            let totalFactura = factura.reduce((acc, item) => acc + item.subtotal, 0);
-                if (montoPago < totalFactura) {
-                alert("El monto ingresado es insuficiente para pagar la factura.");
+            let totalFactura = factura.reduce((total, item) => total + item.subtotal, 0);
+            if (montoPago < totalFactura) {
+                alert("El monto ingresado ($" + montoPago + ") es insuficiente para cubrir el total de la factura ($" + totalFactura + ").");
                 return;
             }
-
+    
             let cambio = montoPago - totalFactura;
-            if (guardarFactura(montoPago, totalFactura, cambio)) {
-                alert(`Factura pagada con éxito! El cambio a devolver es: $${cambio.toFixed(2)}`);
-                limpiarCamposFactura();
-            }
+            guardarFactura(montoPago, totalFactura, cambio);
+            alert(`Factura pagada con éxito! El cambio a devolver es: $${cambio.toFixed(2)}.`);
+            limpiarCamposFactura();
         }
-
+    
         function guardarFactura(montoPago, totalFactura, cambio) {
             let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
-            let selectorVendedor = document.getElementById('vendedorFactura');
-            let nombreVendedor = selectorVendedor.options[selectorVendedor.selectedIndex].text;  // Obtiene el texto del vendedor seleccionado, que debería ser el nombre completo
-
             let nuevaFactura = {
                 id: 'F' + (facturas.length + 1).toString().padStart(3, '0'),
                 fecha: new Date().toISOString().slice(0, 10),
                 hora: new Date().toTimeString().split(' ')[0],
                 cliente: document.getElementById('nombreCliente').value,
-                vendedor: nombreVendedor,  // Guardar el nombre completo del vendedor obtenido del selector
+                vendedor: document.getElementById('vendedorFactura').value,
                 items: factura,
                 total: totalFactura,
                 montoPagado: montoPago,
                 cambio: cambio
             };
-
             facturas.push(nuevaFactura);
             localStorage.setItem('Facturas', JSON.stringify(facturas));
-            return true;
+            factura = []; // Limpia la factura actual para nuevos usos
         }
+    </script>
+    
 
-        
+    
+    <script>
         function anularFactura() {
-            // Primero valida que hay productos en la factura
             if (factura.length === 0) {
                 alert("No hay productos en la factura para anular.");
-                return;  // Salir de la función si no hay productos para anular
+                return;
             }
 
-            // Recupera y actualiza el stock de los productos
+            // Confirmación antes de anular
+            if (!confirm("¿Está seguro de que desea anular esta factura?")) {
+                return;  // Si el usuario no confirma, salir de la función
+            }
+
             var productos = JSON.parse(localStorage.getItem('Productos'));
             devolverStock(productos);
-
-            // Anuncia el éxito de la operación
             alert("Factura anulada con éxito.");
-
-            // Limpia los campos para reiniciar la entrada de datos
             limpiarCamposFactura();
         }
 
         function devolverStock(productos) {
+            // Recargar los productos para evitar conflictos de sobreescritura
+            productos = JSON.parse(localStorage.getItem('Productos')) || [];
             factura.forEach(item => {
             var producto = productos.find(p => p.codigo === item.codigo && !p.isDeleted && p.isActive);
             if (producto) {
-                producto.cantidadStock += item.cantidad;  // Devuelve la cantidad al stock
+                producto.cantidadStock += item.cantidad;
+                } else {
+                    console.log("Producto no encontrado o inactivo: ", item.codigo);
                 }
             });
             localStorage.setItem('Productos', JSON.stringify(productos));
-            factura = []; // Asegúrate de vaciar la factura después de actualizar el stock
+            factura = []; // Limpieza de la factura actual
         }
-
     </script>
-    
+
+
     <script>
+    
         function limpiarCamposFactura() {
-            // Limpieza de los campos de producto
+            // Limpieza de los campos relacionados con el producto
             document.getElementById('productoFactura').value = '';
             document.getElementById('cantidadFactura').value = '';
-            document.getElementById('cantidadFactura').disabled = false; // Asegurarse de habilitar el campo cantidad
+            document.getElementById('productoFacturaCodigo').value = '';  // Asegúrate de limpiar el campo oculto del código del producto
 
-            // Limpieza de los campos del cliente
-            document.getElementById('cedulaCliente').value = '';
+            // Limpieza de los campos relacionados con el cliente
+            document.getElementById('tipoDocumento').selectedIndex = 0;  // Reinicia el selector de tipo de documento al primer ítem
+            document.getElementById('numeroDocumento').value = '';
             document.getElementById('nombreCliente').value = '';
-            document.getElementById('nombreCliente').disabled = false; // Habilitar nuevamente el campo de nombre del cliente
 
             // Limpieza del selector de vendedores
             document.getElementById('vendedorFactura').selectedIndex = 0;
@@ -563,87 +547,10 @@
             document.getElementById('facturaBody').innerHTML = '';
             document.getElementById('facturaTotal').textContent = '$0';
 
-            // Reiniciar el arreglo de factura
+            // Restablecimiento del arreglo de factura
             factura = [];
-
-            // Actualizar la tabla para mostrar que está vacía
-            mostrarDetallesFactura();
         }
 
-    </script>
-    
-
-    <script>
-        // Event listener para manejar el ingreso de cédula
-        document.getElementById('cedulaCliente').addEventListener('keypress', manejarTeclaPresionada);
-    
-        function manejarTeclaPresionada(event) {
-            // Actuar solo cuando se presione Enter
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Previene la acción por defecto de enviar el formulario
-                buscarClientePorCedula();
-            }
-        }
-    
-        function buscarClientePorCedula() {
-            let cedulaIngresada = document.getElementById('cedulaCliente').value.trim();
-            let clientes = cargarClientes();
-            let clienteEncontrado = encontrarCliente(clientes, cedulaIngresada);
-            actualizarCampoNombre(clienteEncontrado);
-        }
-    
-        function cargarClientes() {
-            const todosLosClientes = JSON.parse(localStorage.getItem('clientes')) || [];
-            // Filtra para incluir sólo clientes que no están eliminados y están activos
-            return todosLosClientes.filter(cliente => !cliente.isDeleted && cliente.isActive);
-        }
-    
-        function encontrarCliente(clientes, cedula) {
-            return clientes.find(cliente => cliente.cedula === cedula);
-        }
-    
-        function actualizarCampoNombre(clienteEncontrado) {
-            let campoNombre = document.getElementById('nombreCliente');
-            if (clienteEncontrado) {
-                // Si se encuentra el cliente, mostrar el nombre completo
-                campoNombre.value = `${clienteEncontrado.nombre} ${clienteEncontrado.apellido}`;
-            } else {
-                // Limpiar el campo nombre si no se encuentra la cédula
-                campoNombre.value = '';
-                alert('Cliente no encontrado o no está activo');
-            }
-        }
-    </script>
-    
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            cargarVendedores();
-        });
-    
-        function cargarVendedores() {
-            let vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-            console.log("Vendedores cargados:", vendedores); // Depuración: Ver los vendedores cargados
-    
-            // Filtra vendedores para incluir solo aquellos que no están eliminados
-            vendedores = vendedores.filter(vendedor => !vendedor.isDeleted);
-            console.log("Vendedores filtrados (no eliminados):", vendedores); // Depuración: Ver los vendedores filtrados
-    
-            let selectorVendedor = document.getElementById('vendedorFactura');
-            selectorVendedor.innerHTML = '<option value="">Seleccione un vendedor</option>'; // Opción predeterminada
-    
-            if (vendedores.length === 0) {
-                console.log("No hay vendedores disponibles para mostrar."); // Depuración: Indicar si no hay vendedores para mostrar
-            }
-    
-            vendedores.forEach(vendedor => {
-                let opcion = document.createElement('option');
-                // Cambio para usar nombre y apellido como valor, que será utilizado en la factura
-                opcion.value = vendedor.nombre + " " + vendedor.apellido;
-                opcion.textContent = vendedor.nombre + " " + vendedor.apellido;
-                selectorVendedor.appendChild(opcion);
-            });
-        }
     </script>
     
 </body>
