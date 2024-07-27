@@ -134,10 +134,21 @@
     </ul>  
   
     <div class="container mt-5">
-        <h2>Buscar vendedor por Cédula</h2>
-        <input type="text" id="cedulaBuscar" placeholder="Ingrese cédula del vendedor" class="form-control form-control-sm" onkeypress="handleKeyPress(event)">
+        <h2>Buscar vendedor por Documento</h2>
+        <label for="tipoDocumentoBuscar" class="form-label">Tipo de Documento:</label>
+        <select class="form-control form-control-sm" id="tipoDocumentoBuscar">
+            <option value="CC">Cédula de Ciudadanía</option>
+            <option value="TI">Tarjeta de Identidad</option>
+            <option value="CE">Cédula de Extranjería</option>
+            <option value="PA">Pasaporte</option>
+            <option value="RC">Registro Civil</option>
+            <option value="NIT">NIT</option>
+        </select>
+        <label for="cedulaBuscar" class="form-label">Número de Documento:</label>
+        <input type="text" id="cedulaBuscar" placeholder="Ingrese número del documento" class="form-control form-control-sm" onkeypress="handleKeyPress(event)">
         <button type="button" class="btn btn-primary mt-3 form-control-sm" onclick="buscarVendedor()">Buscar</button>
     </div>
+    
 
     <div  id="infoVendedor" class="container mt-5">
         <h3>Información del Vendedor</h3>
@@ -168,6 +179,7 @@
             </div>
         </form>
     </div>
+   
     <script>
         function handleKeyPress(event) {
             if (event.key === "Enter") {
@@ -175,53 +187,32 @@
                 buscarVendedor();  // Llama a la función que ejecuta la búsqueda
             }
         }
-    </script>
-        
     
-    
-    <script>
-        function mostrarVendedor() {
-            var inputVendedor = document.getElementById('buscarVendedor').value.trim(); 
-            var VendedorInfo = document.querySelector('.Vendedor-info');
-    
-            if (inputVendedor === "") {
-                alert("Por favor, llenar el campo de Cédula del Vendedor antes de buscar."); 
-            } else {
-                
-                if (VendedorInfo.classList.contains('hidden')) {
-                    VendedorInfo.classList.remove('hidden');
-                }
-            }
-        }
-    </script>
-    <script>
         function buscarVendedor() {
-            var cedula = document.getElementById('cedulaBuscar').value;
-            if (!cedula) {
-                alert("Por favor, ingrese la cédula del vendedor antes de buscar.");
+            var tipoDocumento = document.getElementById('tipoDocumentoBuscar').value;
+            var numeroDocumento = document.getElementById('cedulaBuscar').value.trim();
+            if (!tipoDocumento || !numeroDocumento) {
+                alert("Por favor, seleccione el tipo y número de documento antes de buscar.");
                 return;
             }
-
-            var Vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
-            var VendedorEncontrado = Vendedores.find(vendedor => vendedor.cedula === cedula && !vendedor.isDeleted);
-
-            var infoVendedor = document.getElementById('infoVendedor'); // Asegúrate de tener este ID en tu contenedor de formulario
-
-            if (VendedorEncontrado) {
-                document.getElementById('nombreVendedor').value = VendedorEncontrado.nombre;
-                document.getElementById('apellidoVendedor').value = VendedorEncontrado.apellido;
-                document.getElementById('cedulaVendedor').value = VendedorEncontrado.cedula;
-                document.getElementById('telefonoVendedor').value = VendedorEncontrado.telefono;
-                document.getElementById('direccionVendedor').value = VendedorEncontrado.direccion;
-                document.getElementById('emailVendedor').value = VendedorEncontrado.email;
-
-                infoVendedor.style.display = 'block'; // Asegúrate de que este estilo inicialmente esté en 'none'
+    
+            var vendedores = JSON.parse(localStorage.getItem('Vendedores')) || [];
+            var vendedorEncontrado = vendedores.find(vendedor => vendedor.tipoDocumento === tipoDocumento && vendedor.numeroDocumento === numeroDocumento && !vendedor.isDeleted);
+    
+            if (vendedorEncontrado) {
+                document.getElementById('nombreVendedor').value = vendedorEncontrado.nombre;
+                document.getElementById('apellidoVendedor').value = vendedorEncontrado.apellido;
+                document.getElementById('cedulaVendedor').value = vendedorEncontrado.numeroDocumento;
+                document.getElementById('telefonoVendedor').value = vendedorEncontrado.telefono;
+                document.getElementById('direccionVendedor').value = vendedorEncontrado.direccion;
+                document.getElementById('emailVendedor').value = vendedorEncontrado.email;
+                document.getElementById('infoVendedor').style.display = 'block'; // Asegúrate de que este estilo inicialmente esté en 'none'
             } else {
-                alert("No se encontró un vendedor con esa cédula.");
+                alert("No se encontró un vendedor con ese tipo y número de documento.");
             }
         }
-
     </script>
+    
     
     <script>
         function cerrarSesion() {
