@@ -472,22 +472,25 @@
         }
     
         function guardarFactura(montoPago, totalFactura, cambio) {
-            let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
-            let nuevaFactura = {
-                id: 'F' + (facturas.length + 1).toString().padStart(3, '0'),
-                fecha: new Date().toISOString().slice(0, 10),
-                hora: new Date().toTimeString().split(' ')[0],
-                cliente: document.getElementById('nombreCliente').value,
-                vendedor: document.getElementById('vendedorFactura').value,
-                items: factura,
-                total: totalFactura,
-                montoPagado: montoPago,
-                cambio: cambio
-            };
-            facturas.push(nuevaFactura);
-            localStorage.setItem('Facturas', JSON.stringify(facturas));
-            factura = []; // Limpia la factura actual para nuevos usos
-        }
+    let facturas = JSON.parse(localStorage.getItem('Facturas')) || [];
+    let ahora = new Date();
+    let nuevaFactura = {
+        id: 'F' + (facturas.length + 1).toString().padStart(3, '0'),
+        fecha: ahora.toLocaleDateString('es-CO', {year: 'numeric', month: '2-digit', day: '2-digit'}).split('/').reverse().join('-'), // Formato YYYY-MM-DD ajustado a la zona horaria local
+        hora: ahora.getHours() + ":" + ahora.getMinutes().toString().padStart(2, '0'), // HH:mm
+        cliente: document.getElementById('nombreCliente').value,
+        vendedor: document.getElementById('vendedorFactura').value,
+        items: factura,
+        total: totalFactura,
+        montoPagado: montoPago,
+        cambio: cambio
+    };
+    facturas.push(nuevaFactura);
+    localStorage.setItem('Facturas', JSON.stringify(facturas));
+    factura = []; // Limpia la factura actual para nuevos usos
+}
+
+
     </script>
     
 
